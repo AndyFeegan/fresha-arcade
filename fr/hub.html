@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Fresha Sales Arcade — HQ</title>
+<title>Arcade Commerciale Fresha — QG</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -151,22 +151,22 @@ function updateLeaderboard(profile){
   return lb;
 }
 
-const LEVELS=[{name:"Trainee",xp:0},{name:"Rookie",xp:1000},{name:"Agent",xp:3000},{name:"Specialist",xp:6000},{name:"Expert",xp:10000},{name:"Senior Agent",xp:15000},{name:"Elite",xp:21000},{name:"Master",xp:28000},{name:"Director",xp:36000},{name:"Grandmaster",xp:45000}];
+const LEVELS=[{name:"Stagiaire",xp:0},{name:"Débutant",xp:1000},{name:"Agent",xp:3000},{name:"Spécialiste",xp:6000},{name:"Expert",xp:10000},{name:"Agent Senior",xp:15000},{name:"Élite",xp:21000},{name:"Maître",xp:28000},{name:"Directeur",xp:36000},{name:"Grand Maître",xp:45000}];
 function getLevel(xp){let l=LEVELS[0];for(const lv of LEVELS)if(xp>=lv.xp)l=lv;return l}
 function getLevelProgress(xp){const l=getLevel(xp);const i=LEVELS.indexOf(l);if(i>=LEVELS.length-1)return 1;const n=LEVELS[i+1];return(xp-l.xp)/(n.xp-l.xp)}
 function getNextLevel(xp){const l=getLevel(xp);const i=LEVELS.indexOf(l);return i<LEVELS.length-1?LEVELS[i+1]:null}
 
 const ALL_ACHIEVEMENTS=[
-  {id:'millionaire_winner',icon:'💰',title:'Millionaire!',desc:'Won Who Wants to Be a Fresha Millionaire'},
-  {id:'mill_5',icon:'🔥',title:'Halfway There',desc:'Reached Q5 in Millionaire'},
-  {id:'mill_10',icon:'🌟',title:'High Roller',desc:'Reached Q10 in Millionaire'},
-  {id:'hang_streak5',icon:'⚡',title:'Streak Master',desc:'5 correct words in a row'},
-  {id:'hang_perfect3',icon:'✨',title:'Flawless Agent',desc:'3 perfect Hangman rounds'},
-  {id:'hang_500',icon:'📚',title:'Word Wizard',desc:'500+ points in Hangman'},
-  {id:'trivia_winner',icon:'🏆',title:'Trivia Champion',desc:'Collected all 5 wedges'},
-  {id:'xp_1000',icon:'⭐',title:'Rising Star',desc:'Earned 1,000 XP total'},
-  {id:'xp_10000',icon:'🎖',title:'Elite Agent',desc:'Earned 10,000 XP total'},
-  {id:'xp_25000',icon:'👑',title:'Legendary',desc:'Earned 25,000 XP total'}
+  {id:'millionaire_winner',icon:'💰',title:'Millionnaire !',desc:'Gagné Qui Veut Gagner des Millions'},
+  {id:'mill_5',icon:'🔥',title:'Mi-chemin',desc:'Reached Q5 in Millionaire'},
+  {id:'mill_10',icon:'🌟',title:'Gros Joueur',desc:'Reached Q10 in Millionaire'},
+  {id:'hang_streak5',icon:'⚡',title:'Maître de la Série',desc:'5 correct words in a row'},
+  {id:'hang_perfect3',icon:'✨',title:'Agent Parfait',desc:'3 perfect Hangman rounds'},
+  {id:'hang_500',icon:'📚',title:'Magicien des Mots',desc:'500+ points au Pendu'},
+  {id:'trivia_winner',icon:'🏆',title:'Champion du Trivia',desc:'Collected all 5 wedges'},
+  {id:'xp_1000',icon:'⭐',title:'Étoile Montante',desc:'1 000 XP gagnés au total'},
+  {id:'xp_10000',icon:'🎖',title:'Agent Élite',desc:'10 000 XP gagnés au total'},
+  {id:'xp_25000',icon:'👑',title:'Légendaire',desc:'25 000 XP gagnés au total'}
 ];
 
 let soundOn=true;
@@ -245,12 +245,12 @@ function renderProfile(p){
 function renderGames(){
   const prog=loadProgress();
   const games=[
-    {id:'millionaire',icon:'💰',title:'Who Wants to Be a Fresha Millionaire?',desc:'15 questions, jokers et la chance de gagner 1M points.',href:'millionaire.html',
-      stat:prog.millionaire?`Played ${prog.millionaire.gamesPlayed||0} times`:'Pas encore joué'},
-    {id:'hangman',icon:'🎯',title:'Fresha Hangman',desc:'Guess the sales term. 6 mistakes and you\'re out! Streak multiplier up to x3.',href:'hangman.html',
-      stat:prog.hangman?`Best score: ${prog.hangman.bestScore||0}`:'Pas encore joué'},
-    {id:'trivia',icon:'🎲',title:'Fresha Trivia Board',desc:'Roll the dice, answer questions, collect all 5 category wedges to win.',href:'trivia-board.html',
-      stat:prog.trivia?`Wins: ${prog.trivia.wins||0}`:'Pas encore joué'}
+    {id:'millionaire',icon:'💰',title:'Qui Veut Gagner des Millions Fresha ?',desc:'15 questions, jokers et la chance de gagner 1M points.',href:'millionaire.html',
+      stat:prog.millionaire?`Joué ${prog.millionaire.gamesPlayed||0} fois`:'Pas encore joué'},
+    {id:'hangman',icon:'🎯',title:'Pendu Fresha',desc:'Devinez le terme. 6 erreurs max ! Multiplicateur de série jusqu\'à x3.',href:'hangman.html',
+      stat:prog.hangman?`Meilleur score : ${prog.hangman.bestScore||0}`:'Pas encore joué'},
+    {id:'trivia',icon:'🎲',title:'Plateau Trivia Fresha',desc:'Lancez le dé, répondez, collectez les 5 jetons pour gagner.',href:'trivia-board.html',
+      stat:prog.trivia?`Victoires : ${prog.trivia.wins||0}`:'Pas encore joué'}
   ];
 
   document.getElementById('gameCards').innerHTML=games.map(g=>`
@@ -277,7 +277,7 @@ function renderRéussites(){
 
 function renderLeaderboard(lb,profile){
   if(!lb.length){
-    document.getElementById('leaderboard').innerHTML='<div class="lb-empty">No operatives on the board yet. Play a game to claim your spot!</div>';
+    document.getElementById('leaderboard').innerHTML='<div class="lb-empty">Aucun agent au classement. Jouez pour prendre votre place !</div>';
     return;
   }
   const ranks=['🥇','🥈','🥉'];

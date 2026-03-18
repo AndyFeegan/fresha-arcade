@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Who Wants to Be a Fresha Millionaire?</title>
+<title>من سيربح المليون - فريشا</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -300,9 +300,9 @@ function showXPFloat(amount){
 
 /* ===== LEVELS ===== */
 const LEVELS = [
-  {name:"Trainee",xp:0},{name:"Rookie",xp:1000},{name:"Agent",xp:3000},{name:"Specialist",xp:6000},
-  {name:"Expert",xp:10000},{name:"Senior Agent",xp:15000},{name:"Elite",xp:21000},{name:"Master",xp:28000},
-  {name:"Director",xp:36000},{name:"Grandmaster",xp:45000}
+  {name:"متدرب",xp:0},{name:"مبتدئ",xp:1000},{name:"وكيل",xp:3000},{name:"متخصص",xp:6000},
+  {name:"خبير",xp:10000},{name:"وكيل أول",xp:15000},{name:"نخبة",xp:21000},{name:"ماجستير",xp:28000},
+  {name:"مدير",xp:36000},{name:"خبير كبير",xp:45000}
 ];
 function getLevel(xp){
   let lvl = LEVELS[0];
@@ -542,7 +542,7 @@ function timeUp(){
   const btns = document.querySelectorAll('.answer-btn');
   btns[sh.correctIdx].classList.add('correct-reveal');
   playWrong();
-  setTimeout(()=>showResult(false, "Time's up!"), 2000);
+  setTimeout(()=>showResult(false, "انتهى الوقت!"), 2000);
 }
 
 /* ANSWER SELECTION */
@@ -584,7 +584,7 @@ function selectAnswer(displayIdx){
       btns[displayIdx].classList.add('wrong-reveal');
       btns[sh.correctIdx].classList.add('correct-reveal');
       playWrong();
-      setTimeout(()=>showResult(false, "Wrong answer!"), 2000);
+      setTimeout(()=>showResult(false, "إجابة خاطئة!"), 2000);
     }
   }, 1200);
 }
@@ -687,7 +687,7 @@ function winGame(){
   state.gameOver = true;
   clearInterval(state.timerInterval);
   playMilestone();
-  showResult(true, "You've scored 1,000,000 points!");
+  showResult(true, "لقد سجلت 1,000,000 نقطة!");
   unlockAchievement('millionaire_winner','Millionaire!','Won Who Wants to Be a Fresha Millionaire');
 }
 
@@ -714,12 +714,12 @@ function showResult(won, message){
   if(answered >= 10) unlockAchievement('mill_10','High Roller','Reached question 10 in Millionaire');
 
   rs.innerHTML = `
-    <h2 class="fade-in">${won ? '🏆 CHAMPION!' : '💫 Game Over'}</h2>
+    <h2 class="fade-in">${won ? '🏆 بطل!' : '💫 انتهت اللعبة'}</h2>
     <div class="prize fade-in" style="animation-delay:0.2s">${message}</div>
     <div class="stats fade-in" style="animation-delay:0.4s">
-      <p>You walked away with: <strong>${prize}</strong></p>
-      <p>Questions answered: <strong>${answered}</strong> / 15</p>
-      <p>XP earned this game: <strong>+${state.xpEarned}</strong></p>
+      <p>غادرت بـ: <strong>${prize}</strong></p>
+      <p>الأسئلة المجاب عليها: <strong>${answered}</strong> / 15</p>
+      <p>XP المكتسبة هذه اللعبة: <strong>+${state.xpEarned}</strong></p>
     </div>
     <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center" class="fade-in" style="animation-delay:0.6s">
       <button class="btn-primary" onclick="restartGame()">العب مرة أخرى</button>

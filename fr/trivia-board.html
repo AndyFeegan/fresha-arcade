@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Fresha Trivia Board</title>
+<title>Plateau Trivia Fresha</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -237,7 +237,7 @@ function saveSettings(s){localStorage.setItem('fresha-arcade-settings',JSON.stri
 function addXP(n){if(!state.player)return;state.player.xp=(state.player.xp||0)+n;state.xpEarned+=n;saveProfile(state.player);updateTopBar();showXPFloat(n)}
 function showXPFloat(n){const el=document.createElement('div');el.className='xp-float';el.textContent='+'+n+' XP';el.style.left=(Math.random()*60+20)+'%';el.style.top='40%';document.body.appendChild(el);setTimeout(()=>el.remove(),1300)}
 
-const LEVELS=[{name:"Trainee",xp:0},{name:"Rookie",xp:1000},{name:"Agent",xp:3000},{name:"Specialist",xp:6000},{name:"Expert",xp:10000},{name:"Senior Agent",xp:15000},{name:"Elite",xp:21000},{name:"Master",xp:28000},{name:"Director",xp:36000},{name:"Grandmaster",xp:45000}];
+const LEVELS=[{name:"Stagiaire",xp:0},{name:"Débutant",xp:1000},{name:"Agent",xp:3000},{name:"Spécialiste",xp:6000},{name:"Expert",xp:10000},{name:"Agent Senior",xp:15000},{name:"Élite",xp:21000},{name:"Maître",xp:28000},{name:"Directeur",xp:36000},{name:"Grand Maître",xp:45000}];
 function getLevel(xp){let l=LEVELS[0];for(const lv of LEVELS)if(xp>=lv.xp)l=lv;return l}
 function getLevelProgress(xp){const l=getLevel(xp);const i=LEVELS.indexOf(l);if(i>=LEVELS.length-1)return 1;return(xp-l.xp)/(LEVELS[i+1].xp-l.xp)}
 
@@ -402,7 +402,7 @@ function movePlayer(steps){
 function landOnSpace(){
   const space=BOARD_SPACES[state.position];
   const catName=space.cat.name;
-  document.getElementById('infoText').textContent=`You landed on ${catName}!`;
+  document.getElementById('infoText').textContent=`Vous êtes sur ${catName}!`;
   showQuestion(catName, space.isWedge);
 }
 
@@ -439,7 +439,7 @@ function showQuestion(catName, isWedge){
       <span class="letter">${letters[displayIdx]}</span>${q.a[origIdx]}</button>`;
   });
   html+=`</div><div class="modal-result" id="modalResult"></div><div class="modal-continue hidden" id="modalContinue">
-    <button onclick="closeModal()">Continue →</button></div></div>`;
+    <button onclick="closeModal()">Continuer →</button></div></div>`;
 
   modal.innerHTML=html;
   modal.classList.remove('hidden');
@@ -456,13 +456,13 @@ function answerTrivia(selected,correct,catName,isWedge){
     playCorrect();addXP(25);
     state.correctAnswers++;
 
-    let msg='<span style="color:var(--correct)">✓ Correct!</span>';
+    let msg='<span style="color:var(--correct)">✓ Correct !<span>';
     if(isWedge && !state.wedges.has(catName)){
       state.wedges.add(catName);
       addXP(50);
       playWedge();
       updateWedgesUI();
-      msg+='<br><span style="color:var(--accent-glow)">★ Wedge earned for '+catName+'!</span>';
+      msg+='<br><span style="color:var(--accent-glow)">★ Jeton obtenu pour '+catName+'!</span>';
     }
     document.getElementById('modalResult').innerHTML=msg;
   } else {
@@ -481,7 +481,7 @@ function closeModal(){
     winGame();return;
   }
   document.getElementById('diceBtn').disabled=false;
-  document.getElementById('infoText').textContent=`Wedges: ${state.wedges.size}/5 — Roll again!`;
+  document.getElementById('infoText').textContent=`Wedges: ${state.wedges.size}/5 — Relancez !`;
 }
 
 function winGame(){
@@ -501,10 +501,10 @@ function winGame(){
     <h2>🏆 Trivia Champion!</h2>
     <div class="stats">
       <p>All 5 wedges collected!</p>
-      <p>Questions answered: <strong>${state.questionsAnswered}</strong></p>
-      <p>Correct: <strong>${state.correctAnswers}</strong></p>
-      <p>Accuracy: <strong>${state.questionsAnswered?Math.round(state.correctAnswers/state.questionsAnswered*100):0}%</strong></p>
-      <p>XP earned: <strong>+${state.xpEarned}</strong></p>
+      <p>Questions répondues : <strong>${state.questionsAnswered}</strong></p>
+      <p>Correct : <strong>${state.correctAnswers}</strong></p>
+      <p>Précision : <strong>${state.questionsAnswered?Math.round(state.correctAnswers/state.questionsAnswered*100):0}%</strong></p>
+      <p>XP gagnés : <strong>+${state.xpEarned}</strong></p>
     </div>
     <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
       <button class="btn-primary" onclick="restartGame()">Rejouer</button>

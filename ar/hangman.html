@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Fresha Hangman</title>
+<title>لعبة الكلمات - فريشا</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -160,7 +160,7 @@ const HANGMAN_PARTS = [
   (svg)=>{const l=document.createElementNS('http://www.w3.org/2000/svg','line');l.setAttribute('x1','120');l.setAttribute('y1','130');l.setAttribute('x2','140');l.setAttribute('y2','165');l.setAttribute('stroke','#e06060');l.setAttribute('stroke-width','3');svg.appendChild(l)}
 ];
 
-let state={player:null,round:0,mistakes:0,guessed:new Set(),currentWord:null,words:[],score:0,streak:0,maxStreak:0,perfectRounds:0,xpEarned:0,roundActive:false,soundOn:true,audioCtx:null};
+let state={player:null,round:0,mistakes:0,guessed:new Set(),currentWord:null,words:[],score:0,streak:0,maxسلسلة:0,perfectجولةs:0,xpEarned:0,roundActive:false,soundOn:true,audioCtx:null};
 
 /* Storage */
 function loadProfile(){return JSON.parse(localStorage.getItem('player-profile')||'null')}
@@ -174,7 +174,7 @@ function saveSettings(s){localStorage.setItem('fresha-arcade-settings',JSON.stri
 function addXP(n){if(!state.player)return;state.player.xp=(state.player.xp||0)+n;state.xpEarned+=n;saveProfile(state.player);updateTopBar();showXPFloat(n)}
 function showXPFloat(n){const el=document.createElement('div');el.className='xp-float';el.textContent='+'+n+' XP';el.style.left=(Math.random()*60+20)+'%';el.style.top='40%';document.body.appendChild(el);setTimeout(()=>el.remove(),1300)}
 
-const LEVELS=[{name:"Trainee",xp:0},{name:"Rookie",xp:1000},{name:"Agent",xp:3000},{name:"Specialist",xp:6000},{name:"Expert",xp:10000},{name:"Senior Agent",xp:15000},{name:"Elite",xp:21000},{name:"Master",xp:28000},{name:"Director",xp:36000},{name:"Grandmaster",xp:45000}];
+const LEVELS=[{name:"متدرب",xp:0},{name:"مبتدئ",xp:1000},{name:"وكيل",xp:3000},{name:"متخصص",xp:6000},{name:"خبير",xp:10000},{name:"وكيل أول",xp:15000},{name:"نخبة",xp:21000},{name:"ماجستير",xp:28000},{name:"مدير",xp:36000},{name:"خبير كبير",xp:45000}];
 function getLevel(xp){let l=LEVELS[0];for(const lv of LEVELS)if(xp>=lv.xp)l=lv;return l}
 function getLevelProgress(xp){const l=getLevel(xp);const i=LEVELS.indexOf(l);if(i>=LEVELS.length-1)return 1;return(xp-l.xp)/(LEVELS[i+1].xp-l.xp)}
 
@@ -183,7 +183,7 @@ function initAudio(){if(state.audioCtx)return;try{state.audioCtx=new(window.Audi
 function playSFX(f,d,v){if(!state.soundOn||!state.audioCtx)return;try{const o=state.audioCtx.createOscillator();const g=state.audioCtx.createGain();o.type='sine';o.frequency.setValueAtTime(f,state.audioCtx.currentTime);g.gain.setValueAtTime(v||0.08,state.audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,state.audioCtx.currentTime+(d||0.3));o.connect(g);g.connect(state.audioCtx.destination);o.start();o.stop(state.audioCtx.currentTime+(d||0.3))}catch(e){}}
 function playCorrect(){playSFX(660,0.15,0.1);setTimeout(()=>playSFX(880,0.2,0.08),120)}
 function playWrong(){playSFX(220,0.3,0.08)}
-function playRoundWin(){playSFX(523,0.12,0.1);setTimeout(()=>playSFX(659,0.12,0.08),100);setTimeout(()=>playSFX(784,0.2,0.1),200)}
+function playجولةWin(){playSFX(523,0.12,0.1);setTimeout(()=>playSFX(659,0.12,0.08),100);setTimeout(()=>playSFX(784,0.2,0.1),200)}
 function toggleSound(){state.soundOn=!state.soundOn;document.getElementById('soundBtn').textContent=state.soundOn?'🔊':'🔇';saveSettings({sound:state.soundOn})}
 
 /* Particles */
@@ -213,14 +213,14 @@ function updateTopBar(){if(!state.player)return;document.getElementById('playerN
 /* Game */
 function startGame(){
   initAudio();
-  state.round=0;state.score=0;state.streak=0;state.maxStreak=0;state.perfectRounds=0;state.xpEarned=0;
+  state.round=0;state.score=0;state.streak=0;state.maxسلسلة=0;state.perfectجولةs=0;state.xpEarned=0;
   state.words=shuffleArray(WORDS).slice(0,10);
   document.getElementById('gameScreen').classList.remove('hidden');
   document.getElementById('resultScreen').classList.add('hidden');
-  nextRound();
+  nextجولة();
 }
 
-function nextRound(){
+function nextجولة(){
   if(state.round>=10){endGame();return}
   state.currentWord=state.words[state.round];
   state.mistakes=0;state.guessed=new Set();state.roundActive=true;
@@ -232,10 +232,10 @@ function nextRound(){
 function updateStats(){
   const mult=Math.min(3,1+state.streak*0.5);
   document.getElementById('statsRow').innerHTML=`
-    <div class="stat-box"><div class="label">Round</div><div class="value">${state.round+1}/10</div></div>
-    <div class="stat-box"><div class="label">Score</div><div class="value">${state.score}</div></div>
-    <div class="stat-box"><div class="label">Streak</div><div class="value streak">${state.streak}🔥 x${mult.toFixed(1)}</div></div>
-    <div class="stat-box"><div class="label">Mistakes</div><div class="value">${state.mistakes}/6</div></div>`;
+    <div class="stat-box"><div class="label">جولة</div><div class="value">${state.round+1}/10</div></div>
+    <div class="stat-box"><div class="label">نتيجة</div><div class="value">${state.score}</div></div>
+    <div class="stat-box"><div class="label">سلسلة</div><div class="value streak">${state.streak}🔥 x${mult.toFixed(1)}</div></div>
+    <div class="stat-box"><div class="label">أخطاء</div><div class="value">${state.mistakes}/6</div></div>`;
 }
 
 function drawGallows(){
@@ -302,10 +302,10 @@ document.addEventListener('keydown',e=>{
 });
 
 function roundWon(){
-  state.roundActive=false;playRoundWin();
+  state.roundActive=false;playجولةWin();
   const perfect=state.mistakes===0;
-  state.streak++;if(state.streak>state.maxStreak)state.maxStreak=state.streak;
-  if(perfect)state.perfectRounds++;
+  state.streak++;if(state.streak>state.maxسلسلة)state.maxسلسلة=state.streak;
+  if(perfect)state.perfectجولةs++;
   const mult=Math.min(3,1+(state.streak-1)*0.5);
   const pts=Math.round(30*mult)+(perfect?75:0);
   state.score+=pts;addXP(pts);
@@ -315,9 +315,9 @@ function roundWon(){
 
   document.getElementById('roundResult').innerHTML=`
     <div class="round-result"><h3 style="color:var(--correct)">✓ Correct!</h3>
-    ${perfect?'<p style="color:var(--accent-glow)">⭐ PERFECT — No mistakes!</p>':''}
+    ${perfect?'<p style="color:var(--accent-glow)">⭐ مثالي — بدون أخطاء!</p>':''}
     <p>+${pts} XP (x${mult.toFixed(1)} streak)</p>
-    <button class="btn-primary" onclick="advanceRound()" style="margin-top:12px">Next Word →</button></div>`;
+    <button class="btn-primary" onclick="advanceجولة()" style="margin-top:12px">Next Word →</button></div>`;
 }
 
 function roundLost(){
@@ -333,11 +333,11 @@ function roundLost(){
   updateStats();
   document.getElementById('roundResult').innerHTML=`
     <div class="round-result"><h3 style="color:var(--wrong)">✗ Not this time</h3>
-    <div class="word-reveal">The word was: ${state.currentWord.word}</div>
-    <button class="btn-primary" onclick="advanceRound()" style="margin-top:12px">Next Word →</button></div>`;
+    <div class="word-reveal">الكلمة كانت: ${state.currentWord.word}</div>
+    <button class="btn-primary" onclick="advanceجولة()" style="margin-top:12px">Next Word →</button></div>`;
 }
 
-function advanceRound(){state.round++;nextRound()}
+function advanceجولة(){state.round++;nextجولة()}
 
 function endGame(){
   document.getElementById('gameScreen').classList.add('hidden');
@@ -345,20 +345,20 @@ function endGame(){
   // Save progress
   const prog=loadProgress();if(!prog.hangman)prog.hangman={};
   prog.hangman.gamesPlayed=(prog.hangman.gamesPlayed||0)+1;
-  const best=prog.hangman.bestScore||0;if(state.score>best)prog.hangman.bestScore=state.score;
+  const best=prog.hangman.bestنتيجة||0;if(state.score>best)prog.hangman.bestنتيجة=state.score;
   prog.hangman.lastPlayed=Date.now();saveProgress(prog);
   // الإنجازات
-  if(state.maxStreak>=5)unlockAchievement('hang_streak5','Streak Master','5 correct words in a row in Hangman');
-  if(state.perfectRounds>=3)unlockAchievement('hang_perfect3','Flawless Agent','3 perfect rounds in a single Hangman game');
-  if(state.score>=500)unlockAchievement('hang_500','Word Wizard','Scored 500+ in Hangman');
+  if(state.maxسلسلة>=5)unlockAchievement('hang_streak5','سلسلة Master','5 correct words in a row in Hangman');
+  if(state.perfectجولةs>=3)unlockAchievement('hang_perfect3','Flawless Agent','3 perfect rounds in a single Hangman game');
+  if(state.score>=500)unlockAchievement('hang_500','Word Wizard','نتيجةd 500+ in Hangman');
 
   rs.innerHTML=`
     <h2>🎯 Hangman Complete!</h2>
     <div class="stats">
-      <p>Final Score: <strong>${state.score}</strong></p>
-      <p>Best Streak: <strong>${state.maxStreak}🔥</strong></p>
-      <p>Perfect Rounds: <strong>${state.perfectRounds}⭐</strong></p>
-      <p>XP Earned: <strong>+${state.xpEarned}</strong></p>
+      <p>النتيجة النهائية: <strong>${state.score}</strong></p>
+      <p>أفضل سلسلة: <strong>${state.maxسلسلة}🔥</strong></p>
+      <p>جولات مثالية: <strong>${state.perfectجولةs}⭐</strong></p>
+      <p>XP المكتسبة: <strong>+${state.xpEarned}</strong></p>
     </div>
     <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
       <button class="btn-primary" onclick="restartGame()">العب مرة أخرى</button>
