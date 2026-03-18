@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="es" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tablero Trivia Fresha</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg-primary:#0a0a0f;--bg-surface:#161620;--bg-card:#1e1e2c;--bg-elevated:#282840;
+--accent-primary:#dbb96a;--accent-glow:#e8cc82;
+--text-primary:#f5f4f1;--text-secondary:#d0cdd8;--text-dim:#928da0;
+--correct:#6ee0a5;--wrong:#e06060;
+--cat-product:#6db4ff;--cat-gap:#7eddaa;--cat-beauty:#e098cc;--cat-objection:#f0c86a;--cat-competitor:#b49af0;
+--font-display:'Playfair Display',Georgia,serif;--font-body:'DM Sans','Segoe UI',sans-serif;
+}
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+html,body{width:100%;min-height:100vh;background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-body);overflow-x:hidden}
+a{color:var(--accent-primary);text-decoration:none}
+.top-bar{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:10px 20px;background:rgba(22,22,32,0.97);border-bottom:1px solid rgba(219,185,106,0.2);backdrop-filter:blur(8px)}
+.top-bar .logo{font-family:var(--font-display);font-size:1.1rem;color:var(--accent-primary)}
+.top-bar .player-info{display:flex;align-items:center;gap:10px;font-size:0.85rem;color:var(--text-secondary)}
+.top-bar .xp-mini{background:var(--bg-elevated);border-radius:20px;padding:2px;width:80px;height:14px}
+.top-bar .xp-mini-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--accent-primary),var(--accent-glow));transition:width 0.5s}
+.top-bar-btns{display:flex;gap:8px}
+.top-bar-btns button{background:var(--bg-elevated);border:1px solid rgba(219,185,106,0.3);color:var(--text-secondary);border-radius:6px;padding:5px 12px;font-size:0.8rem;cursor:pointer;font-family:var(--font-body)}
+.top-bar-btns button:hover{background:var(--accent-primary);color:var(--bg-primary)}
+.login-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:90vh;gap:24px;padding:20px}
+.login-screen h1{font-family:var(--font-display);font-size:2rem;color:var(--accent-primary);text-align:center}
+.login-screen input{background:var(--bg-card);border:1px solid rgba(219,185,106,0.3);color:var(--text-primary);padding:12px 20px;border-radius:8px;font-size:1rem;width:280px;text-align:center;font-family:var(--font-body)}
+.login-screen input::placeholder{color:var(--text-dim)}
+.login-screen button{background:linear-gradient(135deg,var(--accent-primary),var(--accent-glow));color:var(--bg-primary);border:none;padding:12px 40px;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;font-family:var(--font-body)}
+
+.game-wrap{display:flex;flex-direction:column;align-items:center;padding:16px;gap:12px;max-width:800px;margin:0 auto}
+
+/* WEDGES */
+.wedges-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.wedge{width:36px;height:36px;border-radius:50%;border:3px solid var(--bg-elevated);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:var(--bg-primary);transition:all 0.3s;opacity:0.3}
+.wedge.collected{opacity:1;box-shadow:0 0 12px rgba(255,255,255,0.2)}
+
+/* BOARD CANVAS */
+.board-canvas{border-radius:12px;border:2px solid rgba(219,185,106,0.15);background:var(--bg-surface);cursor:default}
+
+/* DICE */
+.dice-area{display:flex;align-items:center;gap:16px}
+.dice-btn{background:linear-gradient(135deg,var(--accent-primary),var(--accent-glow));color:var(--bg-primary);border:none;padding:12px 28px;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;font-family:var(--font-body);transition:transform 0.2s}
+.dice-btn:hover{transform:scale(1.05)}
+.dice-btn:disabled{opacity:0.4;cursor:default;transform:none}
+.dice-display{font-size:2.5rem;min-width:50px;text-align:center}
+
+/* QUESTION MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(10,10,15,0.85);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal-card{background:var(--bg-card);border:2px solid rgba(219,185,106,0.3);border-radius:16px;padding:28px;max-width:560px;width:100%;animation:fadeIn 0.3s}
+.modal-card .cat-badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:0.72rem;font-weight:600;margin-bottom:10px;background:var(--bg-elevated)}
+.modal-card .q-text{font-family:var(--font-display);font-size:1.15rem;line-height:1.5;margin-bottom:20px}
+.modal-answers{display:flex;flex-direction:column;gap:8px}
+.modal-ans-btn{background:var(--bg-surface);border:2px solid rgba(219,185,106,0.2);color:var(--text-primary);padding:12px 16px;border-radius:8px;font-size:0.92rem;cursor:pointer;text-align:left;font-family:var(--font-body);transition:all 0.2s;display:flex;gap:10px;align-items:center}
+.modal-ans-btn:hover:not(.disabled){background:var(--bg-elevated);border-color:var(--accent-primary)}
+.modal-ans-btn .letter{font-weight:700;color:var(--accent-primary);min-width:20px}
+.modal-ans-btn.correct-reveal{background:var(--correct);color:var(--bg-primary);border-color:var(--correct)}
+.modal-ans-btn.wrong-reveal{background:var(--wrong);color:#fff;border-color:var(--wrong)}
+.modal-ans-btn.disabled{pointer-events:none}
+.modal-result{text-align:center;margin-top:16px;font-size:1rem;font-weight:600}
+.modal-continue{margin-top:16px;text-align:center}
+.modal-continue button{background:linear-gradient(135deg,var(--accent-primary),var(--accent-glow));color:var(--bg-primary);border:none;padding:10px 28px;border-radius:8px;font-weight:700;cursor:pointer;font-family:var(--font-body)}
+
+.result-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:40px 20px;text-align:center;min-height:60vh}
+.result-screen h2{font-family:var(--font-display);font-size:2rem;color:var(--accent-primary)}
+.result-screen .stats{color:var(--text-secondary);line-height:1.8}
+.btn-primary{background:linear-gradient(135deg,var(--accent-primary),var(--accent-glow));color:var(--bg-primary);border:none;padding:12px 32px;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;font-family:var(--font-body)}
+.btn-secondary{background:var(--bg-card);border:2px solid var(--accent-primary);color:var(--accent-primary);padding:10px 28px;border-radius:8px;font-size:0.95rem;font-weight:600;cursor:pointer;font-family:var(--font-body)}
+.info-text{font-size:0.85rem;color:var(--text-dim);text-align:center}
+
+.particles-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.4}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes xpFloat{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-40px)}}
+.xp-float{position:fixed;pointer-events:none;font-weight:700;color:var(--accent-glow);font-size:1.1rem;z-index:999;animation:xpFloat 1.2s ease forwards}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<canvas class="particles-canvas" id="particles"></canvas>
+<div class="top-bar">
+  <a href="hub.html" class="logo">🏛 Fresha Arcade</a>
+  <div class="player-info"><span id="playerName">—</span><div class="xp-mini"><div class="xp-mini-fill" id="xpMiniFill" style="width:0%"></div></div></div>
+  <div class="top-bar-btns"><button onclick="toggleSound()" id="soundBtn">🔊</button><button onclick="location.href='hub.html'">CG</button></div>
+</div>
+
+<div id="loginScreen" class="login-screen hidden">
+  <h1>🎲 Tablero Trivia Fresha</h1>
+  <p style="color:var(--text-secondary)">¡Tira, mueve y colecciona las 5 fichas para ganar!</p>
+  <input type="text" id="nameInput" placeholder="Nombre de agente…" maxlength="20" autofocus>
+  <button onclick="doLogin()">Tirar el Dado</button>
+</div>
+
+<div id="gameScreen" class="game-wrap hidden">
+  <div class="wedges-row" id="wedgesRow"></div>
+  <canvas id="boardCanvas" class="board-canvas" width="600" height="600"></canvas>
+  <div class="dice-area">
+    <button class="dice-btn" id="diceBtn" onclick="rollDice()">🎲 Tirar Dado</button>
+    <div class="dice-display" id="diceDisplay">—</div>
+  </div>
+  <div class="info-text" id="infoText">¡Tira el dado para comenzar tu aventura!</div>
+</div>
+
+<div id="questionModal" class="modal-overlay hidden"></div>
+<div id="resultScreen" class="result-screen hidden"></div>
+
+<script>
+/* ===== CATEGORIES & QUESTIONS ===== */
+const CATEGORIES = [
+  {name:"Product Knowledge",color:"#6db4ff",short:"PK"},
+  {name:"GAP Selling",color:"#7eddaa",short:"GAP"},
+  {name:"Beauty & Wellness",color:"#e098cc",short:"B&W"},
+  {name:"Objection Handling",color:"#f0c86a",short:"OBJ"},
+  {name:"Industry Knowledge",color:"#b49af0",short:"IND"}
+];
+
+const QUESTIONS = {
+"Product Knowledge":[
+  {q:"What is the name of Fresha's integrated payment system?",a:["Fresha Payments","Fresha Pay","Smart Checkout","PayFresha"],c:0},
+  {q:"What commission does Fresha charge on new marketplace clients?",a:["20%","15%","10%","25%"],c:0},
+  {q:"Does Fresha require a long-term contract?",a:["No — month-to-month","Yes — 12 months","Yes — 6 months","Only for Enterprise"],c:0},
+  {q:"What does Fresha charge for returning marketplace clients?",a:["Nothing","10%","5%","A flat fee"],c:0},
+  {q:"Which Fresha plan is for solo professionals?",a:["Independent","Starter","Solo","Basic"],c:0},
+  {q:"Which Fresha plan is for multi-member teams?",a:["Team","Professional","Growth","Business"],c:0},
+  {q:"How long is Fresha's free trial?",a:["7 days","14 days","30 days","3 days"],c:0},
+  {q:"What was Fresha originally called?",a:["Shedul","Schedulr","BookNow","FreshBook"],c:0},
+  {q:"What feature sends marketing messages to clients?",a:["Blast campaigns","Smart emails","Auto messages","Marketing suite"],c:0},
+  {q:"Which feature provides business loans?",a:["Fresha Capital","Fresha Finance","Fresha Lending","Business Boost"],c:0},
+  {q:"What is Fresha POS used for?",a:["In-store payments","Online bookings","Staff scheduling","Marketing"],c:0},
+  {q:"What do Consultation forms help with?",a:["Gathering client info before appointments","Processing payments","Marketing automation","Staff training"],c:0},
+  {q:"How many businesses use Fresha?",a:["Over 120,000","Over 50,000","Over 200,000","Over 80,000"],c:0},
+  {q:"What does Smart pricing allow?",a:["Adjusting prices by demand and time","Matching competitor prices","Auto-applying discounts","Seasonal pricing only"],c:0},
+  {q:"What does Wallets let clients do?",a:["Store payment details for fast checkout","Save appointment history","Track loyalty points","View receipts"],c:0}
+],
+"GAP Selling":[
+  {q:"What does the 'gap' in GAP selling refer to?",a:["Gap between current and desired state","Growth and profitability","General account profiling","Goal attainment process"],c:0},
+  {q:"What is the first step in GAP selling?",a:["Understand the current state","Present pricing","Demo the product","Identify the budget"],c:0},
+  {q:"Why is discovering the 'current state' so important?",a:["It reveals the gap that creates urgency","It helps with pricing","It identifies the decision maker","It builds rapport"],c:0},
+  {q:"What is 'Technical Impact' in GAP selling?",a:["How a problem affects daily operations","The cost of new technology","IT infrastructure needs","Software compatibility"],c:0},
+  {q:"What is 'Business Impact'?",a:["How a problem affects revenue and growth","Daily operational issues","IT costs","Customer complaints"],c:0},
+  {q:"Why quantify the 'cost of inaction'?",a:["Makes the problem tangible and creates urgency","To scare the prospect","To calculate ROI","To demonstrate value"],c:0},
+  {q:"Best response to 'We use paper diaries and it works'?",a:["Explore hidden costs of manual systems","Show all Fresha features","Offer a discount","Tell them paper is outdated"],c:0},
+  {q:"How should you explore a prospect's future state?",a:["Ask what success looks like for their business","Tell them what they need","Show competitor comparisons","Focus on price savings"],c:0},
+  {q:"What makes a good discovery question?",a:["Open-ended questions about challenges","Yes/no questions about features","Questions about budget first","Questions about contract length"],c:0},
+  {q:"When is the right time to present Fresha's solution?",a:["After fully understanding the gap","At the start of the call","When asked about pricing","After the demo"],c:0},
+  {q:"How does GAP selling differ from feature-based selling?",a:["Focuses on problems, not features","Uses more slides","Requires longer calls","Needs more follow-ups"],c:0},
+  {q:"What role does 'emotional impact' play in GAP selling?",a:["It motivates action beyond rational analysis","It replaces data","It's only for B2C sales","It's not relevant"],c:0},
+  {q:"How do you handle a prospect who says 'I'm happy as I am'?",a:["Explore what they might be missing or unaware of","Accept and move on","Offer a bigger discount","Schedule a follow-up in 6 months"],c:0},
+  {q:"What is a 'decision criteria' in GAP selling?",a:["What the buyer uses to evaluate solutions","The price point","The contract terms","The implementation timeline"],c:0},
+  {q:"What should you never do in a GAP selling discovery?",a:["Jump to your solution before understanding the gap","Ask too many questions","Take notes","Discuss timelines"],c:0}
+],
+"Beauty & Wellness":[
+  {q:"What percentage of clients typically rebook before leaving?",a:["Less than 30%","Over 60%","About 50%","Over 80%"],c:0},
+  {q:"What is the average client retention rate in beauty?",a:["60-70%","80-90%","40-50%","30-40%"],c:0},
+  {q:"What is the most common reason for client churn in salons?",a:["Forgetting to rebook","Poor service quality","Price increases","Relocation"],c:0},
+  {q:"How do deposits help beauty businesses?",a:["Reduce no-shows and secure revenue","Increase prices","Replace memberships","Speed up check-in"],c:0},
+  {q:"What drives digital transformation in beauty?",a:["Demand for online booking and contactless payments","Government regulations","Decreasing rent costs","Social media only"],c:0},
+  {q:"Why are memberships valuable for salons?",a:["Predictable recurring revenue","They replace all other pricing","Required by law","Only for large chains"],c:0},
+  {q:"What is upselling in a salon context?",a:["Recommending additional services or products","Raising all prices","Reducing appointment times","Overbooking"],c:0},
+  {q:"What percentage of salon revenue comes from retail products?",a:["Around 10-15%","Over 50%","Less than 2%","Around 30-40%"],c:0},
+  {q:"Why is online booking critical for modern salons?",a:["Captures after-hours demand","It's a legal requirement","Only young clients use it","Reduces service quality"],c:0},
+  {q:"What is the benefit of automated appointment reminders?",a:["Significantly reduces no-shows","Replaces receptionist","Increases prices","Only works for new clients"],c:0},
+  {q:"How do gift cards benefit salons?",a:["Upfront revenue and new client acquisition","They replace regular payments","Only useful at Christmas","Required for franchise salons"],c:0},
+  {q:"What is the typical no-show rate in beauty?",a:["Around 10-20%","Under 2%","Over 40%","About 30%"],c:0},
+  {q:"What client data is most valuable for salon marketing?",a:["Visit frequency and service preferences","Social media followers","Age only","Address only"],c:0},
+  {q:"How do cancellation policies protect businesses?",a:["Compensate for lost appointment time","Punish all clients","Increase revenue directly","Replace marketing"],c:0},
+  {q:"What is the trend in salon appointment length?",a:["Shorter, more frequent visits","Longer sessions only","No change","Less frequent, longer visits"],c:0}
+],
+"Objection Handling":[
+  {q:"'Your marketplace takes 20%' — best response?",a:["It only applies to new clients you'd never have had","Offer to reduce it","Explain competitors charge more","Suggest opting out"],c:0},
+  {q:"'I need to think about it' — best approach?",a:["Identify what concerns remain","Give them a deadline","Follow up next week","Repeat key features"],c:0},
+  {q:"'We tried software before and it didn't work' — best response?",a:["Ask what specifically didn't work","Guarantee Fresha is better","Offer extended trial","Show testimonials"],c:0},
+  {q:"'My clients don't book online' — best approach?",a:["Explore after-hours booking demand they may be missing","Show statistics","Tell them it's the future","Offer free trial"],c:0},
+  {q:"'I can't afford it right now' — what to explore?",a:["The cost of their current problems vs Fresha's price","Offer a discount","Skip this prospect","Talk about features instead"],c:0},
+  {q:"'We're too busy to switch' — best response?",a:["Acknowledge and explain minimal setup disruption","Challenge their efficiency","Wait until they're less busy","Offer to do it for them"],c:0},
+  {q:"Staff resistance to new tech — best approach?",a:["Acknowledge concern, highlight intuitive design and support","Tell them staff will adapt","Skip the concern","Offer individual training only"],c:0},
+  {q:"'I'm locked into a contract' — what to do?",a:["Find out when it ends and nurture the relationship","Tell them to break the contract","Offer to pay exit fees","Move on to another prospect"],c:0},
+  {q:"'Free software does the same thing' — response?",a:["Explore limitations they're experiencing with free tools","Agree and move on","Criticise free software","Offer a lower price"],c:0},
+  {q:"'I don't trust putting my business on the cloud' — approach?",a:["Address security and show data protection measures","Dismiss the concern","Say everyone uses cloud now","Offer on-premise version"],c:0},
+  {q:"'My business is too small for software' — response?",a:["Show how even solo professionals save time and money","Agree and suggest they grow first","Only focus on large business features","Offer a group discount"],c:0},
+  {q:"'I'll sign up later' — how to create urgency?",a:["Quantify what they're losing each month they wait","Offer a time-limited discount","Accept and follow up later","Add pressure tactics"],c:0},
+  {q:"How do you handle the 'I want to compare options' objection?",a:["Welcome comparison and highlight Fresha's unique value","Discourage comparison","Offer the lowest price","Rush them to decide"],c:0},
+  {q:"'Payments processing is too expensive' — response?",a:["Compare rates to their current provider — often Fresha is cheaper","Offer free processing","Skip this topic","Agree it's expensive"],c:0},
+  {q:"What's the key principle in all objection handling?",a:["Listen, acknowledge, then address with evidence","Overcome objections quickly","Avoid objections entirely","Change the subject"],c:0}
+],
+"Industry Knowledge":[
+  {q:"What is the estimated global beauty market size?",a:["Over $500 billion","Over $100 billion","Over $1 trillion","Over $250 billion"],c:0},
+  {q:"How many bookings has Fresha processed?",a:["Over 1 billion","Over 500 million","Over 2 billion","Over 250 million"],c:0},
+  {q:"What is a top revenue concern for beauty businesses?",a:["No-shows and cancellations","Rent increases","Product costs","Staff turnover"],c:0},
+  {q:"What's the primary revenue impact of reducing no-shows by 10%?",a:["Thousands recovered annually","Minimal impact","Only saves time","Improves scheduling only"],c:0},
+  {q:"How many professionals use Fresha?",a:["Over 450,000","Over 200,000","Over 700,000","Over 100,000"],c:0},
+  {q:"What is the biggest tech adoption barrier in beauty?",a:["Fear of change and learning curve","Cost of hardware","Internet availability","Client resistance"],c:0},
+  {q:"What revenue model is growing fastest in wellness?",a:["Subscription and membership-based","Walk-in only","Retail product sales","Event-based"],c:0},
+  {q:"What percentage of bookings happen outside business hours?",a:["Around 30-40%","Under 5%","Over 70%","About 10%"],c:0},
+  {q:"What's driving consolidation in the salon industry?",a:["Technology and client expectations","Government policy","Declining demand","Rising rent costs"],c:0},
+  {q:"What is the average salon's biggest operational cost?",a:["Staff wages","Rent","Products","Marketing"],c:0},
+  {q:"How does Fresha's no-contract model benefit the industry?",a:["Lowers barrier to adoption","Reduces Fresha's revenue","Only helps small businesses","Has no real impact"],c:0},
+  {q:"What's the most requested feature by salon owners?",a:["Online booking and calendar management","Social media posting","Video consultations","AI styling"],c:0},
+  {q:"What is a common cause of revenue gaps in salon schedules?",a:["Unfilled time slots between appointments","Too many staff","Product shortages","Long service times"],c:0},
+  {q:"What is the average booking-to-appointment time in beauty?",a:["1-3 days","Same day","Over 2 weeks","Over a month"],c:0},
+  {q:"How are client expectations changing in beauty services?",a:["Demanding seamless digital experiences","Preferring phone calls","Wanting less technology","No significant change"],c:0}
+]
+};
+
+/* ===== BOARD SETUP ===== */
+const TOTAL_SPACES = 30;
+const BOARD_SPACES = [];
+// Generate a circular board path
+(function buildBoard(){
+  const cx=300,cy=300,r=230;
+  for(let i=0;i<TOTAL_SPACES;i++){
+    const angle = (i/TOTAL_SPACES)*Math.PI*2 - Math.PI/2;
+    const catIdx = i % 5;
+    BOARD_SPACES.push({
+      x: cx + Math.cos(angle)*r,
+      y: cy + Math.sin(angle)*r,
+      cat: CATEGORIES[catIdx],
+      isWedge: (i % 6 === 0) // Every 6th space is a wedge space
+    });
+  }
+})();
+
+/* ===== STATE ===== */
+let state={player:null,position:0,wedges:new Set(),questionsAnswered:0,correctAnswers:0,xpEarned:0,rolling:false,gameOver:false,usedQuestions:{},soundOn:true,audioCtx:null};
+
+/* Storage */
+function loadProfile(){return JSON.parse(localStorage.getItem('player-profile')||'null')}
+function saveProfile(p){localStorage.setItem('player-profile',JSON.stringify(p))}
+function loadProgress(){return JSON.parse(localStorage.getItem('fresha-arcade-progress')||'{}')}
+function saveProgress(p){localStorage.setItem('fresha-arcade-progress',JSON.stringify(p))}
+function loadLogros(){return JSON.parse(localStorage.getItem('fresha-arcade-achievements')||'[]')}
+function saveLogros(a){localStorage.setItem('fresha-arcade-achievements',JSON.stringify(a))}
+function loadSettings(){return JSON.parse(localStorage.getItem('fresha-arcade-settings')||'{"sound":true}')}
+function saveSettings(s){localStorage.setItem('fresha-arcade-settings',JSON.stringify(s))}
+function addXP(n){if(!state.player)return;state.player.xp=(state.player.xp||0)+n;state.xpEarned+=n;saveProfile(state.player);updateTopBar();showXPFloat(n)}
+function showXPFloat(n){const el=document.createElement('div');el.className='xp-float';el.textContent='+'+n+' XP';el.style.left=(Math.random()*60+20)+'%';el.style.top='40%';document.body.appendChild(el);setTimeout(()=>el.remove(),1300)}
+
+const LEVELS=[{name:"Trainee",xp:0},{name:"Rookie",xp:1000},{name:"Agent",xp:3000},{name:"Specialist",xp:6000},{name:"Expert",xp:10000},{name:"Senior Agent",xp:15000},{name:"Elite",xp:21000},{name:"Master",xp:28000},{name:"Director",xp:36000},{name:"Grandmaster",xp:45000}];
+function getLevel(xp){let l=LEVELS[0];for(const lv of LEVELS)if(xp>=lv.xp)l=lv;return l}
+function getLevelProgress(xp){const l=getLevel(xp);const i=LEVELS.indexOf(l);if(i>=LEVELS.length-1)return 1;return(xp-l.xp)/(LEVELS[i+1].xp-l.xp)}
+
+/* Audio */
+function initAudio(){if(state.audioCtx)return;try{state.audioCtx=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}
+function playSFX(f,d,v){if(!state.soundOn||!state.audioCtx)return;try{const o=state.audioCtx.createOscillator();const g=state.audioCtx.createGain();o.type='sine';o.frequency.setValueAtTime(f,state.audioCtx.currentTime);g.gain.setValueAtTime(v||0.08,state.audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,state.audioCtx.currentTime+(d||0.3));o.connect(g);g.connect(state.audioCtx.destination);o.start();o.stop(state.audioCtx.currentTime+(d||0.3))}catch(e){}}
+function playCorrect(){playSFX(660,0.15,0.1);setTimeout(()=>playSFX(880,0.2,0.08),120)}
+function playWrong(){playSFX(220,0.3,0.08)}
+function playWedge(){playSFX(523,0.12,0.1);setTimeout(()=>playSFX(659,0.12,0.08),100);setTimeout(()=>playSFX(784,0.2,0.1),200)}
+function playRoll(){playSFX(400,0.08,0.06)}
+function toggleSound(){state.soundOn=!state.soundOn;document.getElementById('soundBtn').textContent=state.soundOn?'🔊':'🔇';saveSettings({sound:state.soundOn})}
+
+/* Particles */
+function initParticles(){const c=document.getElementById('particles');const ctx=c.getContext('2d');let w,h,ps=[];function rs(){w=c.width=innerWidth;h=c.height=innerHeight}rs();addEventListener('resize',rs);for(let i=0;i<25;i++)ps.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2+0.5,dx:(Math.random()-0.5)*0.3,dy:-Math.random()*0.4-0.1,o:Math.random()*0.5+0.1});(function draw(){ctx.clearRect(0,0,w,h);for(const p of ps){ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(219,185,106,${p.o})`;ctx.fill();p.x+=p.dx;p.y+=p.dy;if(p.y<-10){p.y=h+10;p.x=Math.random()*w}}requestAnimationFrame(draw)})()}
+function shuffleArray(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
+
+/* Init */
+window.addEventListener('DOMContentLoaded',()=>{
+  initParticles();
+  const s=loadSettings();state.soundOn=s.sound!==false;
+  document.getElementById('soundBtn').textContent=state.soundOn?'🔊':'🔇';
+  const p=loadProfile();
+  if(p&&p.name){state.player=p;updateTopBar();startGame()}
+  else document.getElementById('loginScreen').classList.remove('hidden');
+});
+function doLogin(){
+  const n=document.getElementById('nameInput').value.trim();if(!n)return;initAudio();
+  let p=loadProfile();if(!p)p={name:n,xp:0,joined:Date.now()};else p.name=n;
+  saveProfile(p);state.player=p;updateTopBar();
+  document.getElementById('loginScreen').classList.add('hidden');startGame();
+}
+document.getElementById('nameInput').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
+function updateTopBar(){if(!state.player)return;document.getElementById('playerName').textContent=state.player.name;document.getElementById('xpMiniFill').style.width=getLevelProgress(state.player.xp||0)*100+'%'}
+
+/* ===== GAME ===== */
+function startGame(){
+  initAudio();
+  state.position=0;state.wedges=new Set();state.questionsAnswered=0;state.correctAnswers=0;state.xpEarned=0;state.gameOver=false;state.usedQuestions={};
+  document.getElementById('gameScreen').classList.remove('hidden');
+  document.getElementById('resultScreen').classList.add('hidden');
+  updateWedgesUI();drawBoard();
+  document.getElementById('diceBtn').disabled=false;
+  document.getElementById('infoText').textContent='¡Tira el dado para comenzar tu aventura!';
+}
+
+function updateWedgesUI(){
+  const el=document.getElementById('wedgesRow');el.innerHTML='';
+  CATEGORIES.forEach(cat=>{
+    const w=document.createElement('div');
+    w.className='wedge'+(state.wedges.has(cat.name)?' collected':'');
+    w.style.background=cat.color;
+    w.textContent=cat.short;
+    w.title=cat.name;
+    el.appendChild(w);
+  });
+}
+
+function drawBoard(){
+  const canvas=document.getElementById('boardCanvas');
+  const ctx=canvas.getContext('2d');
+  const w=canvas.width,h=canvas.height;
+  ctx.clearRect(0,0,w,h);
+
+  // Draw spaces
+  BOARD_SPACES.forEach((sp,i)=>{
+    ctx.beginPath();
+    const radius = sp.isWedge ? 18 : 14;
+    ctx.arc(sp.x,sp.y,radius,0,Math.PI*2);
+    ctx.fillStyle = sp.cat.color + (sp.isWedge ? 'cc' : '44');
+    ctx.fill();
+    ctx.strokeStyle = sp.cat.color;
+    ctx.lineWidth = sp.isWedge ? 3 : 1.5;
+    ctx.stroke();
+
+    // Wedge star
+    if(sp.isWedge){
+      ctx.fillStyle='#fff';
+      ctx.font='bold 11px sans-serif';
+      ctx.textAlign='center';
+      ctx.textBaseline='middle';
+      ctx.fillText('★',sp.x,sp.y);
+    }
+
+    // Space number
+    if(!sp.isWedge){
+      ctx.fillStyle='rgba(255,255,255,0.5)';
+      ctx.font='9px sans-serif';
+      ctx.textAlign='center';
+      ctx.textBaseline='middle';
+      ctx.fillText(i+1,sp.x,sp.y);
+    }
+  });
+
+  // Draw connecting lines
+  ctx.strokeStyle='rgba(219,185,106,0.15)';
+  ctx.lineWidth=1;
+  ctx.beginPath();
+  BOARD_SPACES.forEach((sp,i)=>{
+    if(i===0)ctx.moveTo(sp.x,sp.y);
+    else ctx.lineTo(sp.x,sp.y);
+  });
+  ctx.closePath();ctx.stroke();
+
+  // Draw player token
+  const pos = BOARD_SPACES[state.position];
+  ctx.beginPath();
+  ctx.arc(pos.x,pos.y,10,0,Math.PI*2);
+  ctx.fillStyle='#dbb96a';
+  ctx.fill();
+  ctx.strokeStyle='#fff';
+  ctx.lineWidth=3;
+  ctx.stroke();
+
+  // Center text
+  ctx.fillStyle='var(--text-dim)';
+  ctx.font='bold 14px DM Sans, sans-serif';
+  ctx.textAlign='center';
+  ctx.fillText('FRESHA',300,290);
+  ctx.fillText('TRIVIA',300,310);
+}
+
+/* DICE */
+function rollDice(){
+  if(state.rolling||state.gameOver)return;
+  initAudio();
+  state.rolling=true;
+  document.getElementById('diceBtn').disabled=true;
+
+  // Animate dice
+  const display=document.getElementById('diceDisplay');
+  const emojis=['⚀','⚁','⚂','⚃','⚄','⚅'];
+  let count=0;
+  const rollAnim=setInterval(()=>{
+    display.textContent=emojis[Math.floor(Math.random()*6)];
+    playRoll();
+    count++;
+    if(count>=10){
+      clearInterval(rollAnim);
+      const roll=Math.floor(Math.random()*6)+1;
+      display.textContent=emojis[roll-1]+' '+roll;
+      movePlayer(roll);
+    }
+  },80);
+}
+
+function movePlayer(steps){
+  let moved=0;
+  const moveStep=()=>{
+    if(moved>=steps){
+      state.rolling=false;
+      landOnSpace();
+      return;
+    }
+    state.position=(state.position+1)%TOTAL_SPACES;
+    moved++;
+    drawBoard();
+    setTimeout(moveStep,150);
+  };
+  moveStep();
+}
+
+function landOnSpace(){
+  const space=BOARD_SPACES[state.position];
+  const catName=space.cat.name;
+  document.getElementById('infoText').textContent=`You landed on ${catName}!`;
+  showQuestion(catName, space.isWedge);
+}
+
+function getQuestion(catName){
+  if(!state.usedQuestions[catName])state.usedQuestions[catName]=new Set();
+  const pool=QUESTIONS[catName];
+  const available=pool.filter((_,i)=>!state.usedQuestions[catName].has(i));
+  if(available.length===0){state.usedQuestions[catName]=new Set();return getQuestion(catName)}
+  const idx=Math.floor(Math.random()*available.length);
+  const origIdx=pool.indexOf(available[idx]);
+  state.usedQuestions[catName].add(origIdx);
+  return available[idx];
+}
+
+function showQuestion(catName, isWedge){
+  const q=getQuestion(catName);
+  const cat=CATEGORIES.find(c=>c.name===catName);
+
+  // Shuffle answers
+  const indices=[0,1,2,3];
+  const shuffled=shuffleArray(indices);
+  const correctShuffledIdx=shuffled.indexOf(q.c);
+
+  const modal=document.getElementById('questionModal');
+  const letters=['A','B','C','D'];
+
+  let html=`<div class="modal-card">
+    <div class="cat-badge" style="border-left:3px solid ${cat.color};color:${cat.color}">${catName}${isWedge?' ★ WEDGE':''}
+    </div>
+    <div class="q-text">${q.q}</div>
+    <div class="modal-answers" id="modalAnswers">`;
+  shuffled.forEach((origIdx,displayIdx)=>{
+    html+=`<button class="modal-ans-btn" data-idx="${displayIdx}" onclick="answerTrivia(${displayIdx},${correctShuffledIdx},'${catName}',${isWedge})">
+      <span class="letter">${letters[displayIdx]}</span>${q.a[origIdx]}</button>`;
+  });
+  html+=`</div><div class="modal-result" id="modalResult"></div><div class="modal-continue hidden" id="modalContinue">
+    <button onclick="closeModal()">Continuar →</button></div></div>`;
+
+  modal.innerHTML=html;
+  modal.classList.remove('hidden');
+}
+
+function answerTrivia(selected,correct,catName,isWedge){
+  const btns=document.querySelectorAll('.modal-ans-btn');
+  btns.forEach(b=>b.classList.add('disabled'));
+  state.questionsAnswered++;
+
+  const isCorrect=selected===correct;
+  if(isCorrect){
+    btns[selected].classList.add('correct-reveal');
+    playCorrect();addXP(25);
+    state.correctAnswers++;
+
+    let msg='<span style="color:var(--correct)">✓ Correct!</span>';
+    if(isWedge && !state.wedges.has(catName)){
+      state.wedges.add(catName);
+      addXP(50);
+      playWedge();
+      updateWedgesUI();
+      msg+='<br><span style="color:var(--accent-glow)">★ Wedge earned for '+catName+'!</span>';
+    }
+    document.getElementById('modalResult').innerHTML=msg;
+  } else {
+    btns[selected].classList.add('wrong-reveal');
+    btns[correct].classList.add('correct-reveal');
+    playWrong();
+    document.getElementById('modalResult').innerHTML='<span style="color:var(--wrong)">✗ Incorrect</span>';
+  }
+  document.getElementById('modalContinue').classList.remove('hidden');
+}
+
+function closeModal(){
+  document.getElementById('questionModal').classList.add('hidden');
+  // Check win
+  if(state.wedges.size>=5){
+    winGame();return;
+  }
+  document.getElementById('diceBtn').disabled=false;
+  document.getElementById('infoText').textContent=`Wedges: ${state.wedges.size}/5 — Roll again!`;
+}
+
+function winGame(){
+  state.gameOver=true;
+  addXP(300);playWedge();
+  unlockAchievement('trivia_winner','Trivia Champion','Collected all 5 wedges in Trivia Board');
+
+  document.getElementById('gameScreen').classList.add('hidden');
+  const rs=document.getElementById('resultScreen');rs.classList.remove('hidden');
+
+  const prog=loadProgress();if(!prog.trivia)prog.trivia={};
+  prog.trivia.gamesPlayed=(prog.trivia.gamesPlayed||0)+1;
+  prog.trivia.wins=(prog.trivia.wins||0)+1;
+  prog.trivia.lastPlayed=Date.now();saveProgress(prog);
+
+  rs.innerHTML=`
+    <h2>🏆 Trivia Champion!</h2>
+    <div class="stats">
+      <p>All 5 wedges collected!</p>
+      <p>Questions answered: <strong>${state.questionsAnswered}</strong></p>
+      <p>Correct: <strong>${state.correctAnswers}</strong></p>
+      <p>Accuracy: <strong>${state.questionsAnswered?Math.round(state.correctAnswers/state.questionsAnswered*100):0}%</strong></p>
+      <p>XP earned: <strong>+${state.xpEarned}</strong></p>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
+      <button class="btn-primary" onclick="restartGame()">Jugar de Nuevo</button>
+      <button class="btn-secondary" onclick="location.href='hub.html'">Volver al CG</button>
+    </div>`;
+}
+
+function restartGame(){document.getElementById('resultScreen').classList.add('hidden');startGame()}
+function unlockAchievement(id,title,desc){let a=loadLogros();if(a.find(x=>x.id===id))return;a.push({id,title,desc,ts:Date.now()});saveLogros(a)}
+</script>
+</body>
+</html>

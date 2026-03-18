@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pendu Fresha</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg-primary:#0a0a0f;--bg-surface:#161620;--bg-card:#1e1e2c;--bg-elevated:#282840;
+--accent-primary:#dbb96a;--accent-glow:#e8cc82;
+--text-primary:#f5f4f1;--text-secondary:#d0cdd8;--text-dim:#928da0;
+--correct:#6ee0a5;--wrong:#e06060;
+--font-display:'Playfair Display',Georgia,serif;--font-body:'DM Sans','Segoe UI',sans-serif;
+}
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+html,body{width:100%;min-height:100vh;background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-body);overflow-x:hidden}
+a{color:var(--accent-primary);text-decoration:none}
+.top-bar{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:10px 20px;background:rgba(22,22,32,0.97);border-bottom:1px solid rgba(219,185,106,0.2);backdrop-filter:blur(8px)}
+.top-bar .logo{font-family:var(--font-display);font-size:1.1rem;color:var(--accent-primary)}
+.top-bar .player-info{display:flex;align-items:center;gap:10px;font-size:0.85rem;color:var(--text-secondary)}
+.top-bar .xp-mini{background:var(--bg-elevated);border-radius:20px;padding:2px;width:80px;height:14px}
+.top-bar .xp-mini-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--accent-primary),var(--accent-glow));transition:width 0.5s}
+.top-bar-btns{display:flex;gap:8px}
+.top-bar-btns button{background:var(--bg-elevated);border:1px solid rgba(219,185,106,0.3);color:var(--text-secondary);border-radius:6px;padding:5px 12px;font-size:0.8rem;cursor:pointer;font-family:var(--font-body)}
+.top-bar-btns button:hover{background:var(--accent-primary);color:var(--bg-primary)}
+
+.login-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:90vh;gap:24px;padding:20px}
+.login-screen h1{font-family:var(--font-display);font-size:2rem;color:var(--accent-primary);text-align:center}
+.login-screen input{background:var(--bg-card);border:1px solid rgba(219,185,106,0.3);color:var(--text-primary);padding:12px 20px;border-radius:8px;font-size:1rem;width:280px;text-align:center;font-family:var(--font-body)}
+.login-screen input::placeholder{color:var(--text-dim)}
+.login-screen button{background:linear-gradient(135deg,var(--accent-primary),var(--accent-glow));color:var(--bg-primary);border:none;padding:12px 40px;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;font-family:var(--font-body)}
+
+.game-wrap{display:flex;flex-direction:column;align-items:center;padding:20px;gap:16px;max-width:700px;margin:0 auto}
+
+/* STATS ROW */
+.stats-row{display:flex;gap:20px;flex-wrap:wrap;justify-content:center}
+.stat-box{background:var(--bg-card);border:1px solid rgba(219,185,106,0.15);border-radius:10px;padding:10px 18px;text-align:center}
+.stat-box .label{font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px}
+.stat-box .value{font-size:1.3rem;font-weight:700;color:var(--accent-primary);margin-top:2px}
+.stat-box .value.streak{color:var(--correct)}
+
+/* GALLOWS */
+.gallows-wrap{position:relative;width:200px;height:220px;margin:10px 0}
+.gallows-svg{width:100%;height:100%}
+
+/* CLUE */
+.clue-text{font-size:0.95rem;color:var(--text-secondary);text-align:center;padding:8px 20px;background:var(--bg-card);border-radius:8px;border:1px solid rgba(219,185,106,0.12)}
+
+/* WORD DISPLAY */
+.word-display{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:16px 0;min-height:50px}
+.letter-slot{width:36px;height:44px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:700;font-family:var(--font-display);border-bottom:3px solid var(--accent-primary);color:var(--text-primary);transition:all 0.3s}
+.letter-slot.space{border-bottom:none;width:18px}
+.letter-slot.revealed{animation:revealLetter 0.3s ease}
+@keyframes revealLetter{0%{transform:scale(0.5);opacity:0}100%{transform:scale(1);opacity:1}}
+.letter-slot.wrong-word{border-bottom-color:var(--wrong);color:var(--wrong)}
+.letter-slot.correct-word{border-bottom-color:var(--correct);color:var(--correct)}
+
+/* KEYBOARD */
+.keyboard{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:500px;margin-top:10px}
+.key-btn{width:38px;height:42px;border-radius:8px;border:2px solid rgba(219,185,106,0.3);background:var(--bg-card);color:var(--text-primary);font-size:0.95rem;font-weight:600;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;font-family:var(--font-body)}
+.key-btn:hover:not(.used){background:var(--accent-primary);color:var(--bg-primary);border-color:var(--accent-primary)}
+.key-btn.correct-key{background:var(--correct);color:var(--bg-primary);border-color:var(--correct)}
+.key-btn.wrong-key{background:var(--wrong);color:#fff;border-color:var(--wrong);opacity:0.5}
+.key-btn.used{pointer-events:none}
+
+/* ROUND RESULT */
+.round-result{text-align:center;padding:20px;animation:fadeIn 0.4s}
+.round-result h3{font-family:var(--font-display);font-size:1.3rem;margin-bottom:8px}
+.round-result p{color:var(--text-secondary);font-size:0.9rem}
+.round-result .word-reveal{font-size:1.2rem;color:var(--accent-primary);font-weight:700;margin:8px 0}
+
+/* FINAL RESULT */
+.result-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:40px 20px;text-align:center;min-height:60vh}
+.result-screen h2{font-family:var(--font-display);font-size:2rem;color:var(--accent-primary)}
+.result-screen .stats{color:var(--text-secondary);line-height:1.8}
+.btn-primary{background:linear-gradient(135deg,var(--accent-primary),var(--accent-glow));color:var(--bg-primary);border:none;padding:12px 32px;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;font-family:var(--font-body)}
+.btn-secondary{background:var(--bg-card);border:2px solid var(--accent-primary);color:var(--accent-primary);padding:10px 28px;border-radius:8px;font-size:0.95rem;font-weight:600;cursor:pointer;font-family:var(--font-body)}
+
+.particles-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.4}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes xpFloat{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-40px)}}
+.xp-float{position:fixed;pointer-events:none;font-weight:700;color:var(--accent-glow);font-size:1.1rem;z-index:999;animation:xpFloat 1.2s ease forwards}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<canvas class="particles-canvas" id="particles"></canvas>
+<div class="top-bar">
+  <a href="hub.html" class="logo">🏛 Fresha Arcade</a>
+  <div class="player-info"><span id="playerName">—</span><div class="xp-mini"><div class="xp-mini-fill" id="xpMiniFill" style="width:0%"></div></div></div>
+  <div class="top-bar-btns"><button onclick="toggleSound()" id="soundBtn">🔊</button><button onclick="location.href='hub.html'">QG</button></div>
+</div>
+
+<div id="loginScreen" class="login-screen hidden">
+  <h1>🎯 Pendu Fresha</h1>
+  <p style="color:var(--text-secondary)">Devinez le terme Fresha avant que la figure soit complète !</p>
+  <input type="text" id="nameInput" placeholder="Nom de code agent…" maxlength="20" autofocus>
+  <button onclick="doLogin()">Commencer à Deviner</button>
+</div>
+
+<div id="gameScreen" class="game-wrap hidden">
+  <div class="stats-row" id="statsRow"></div>
+  <div class="gallows-wrap"><svg class="gallows-svg" id="gallowsSvg" viewBox="0 0 200 220"></svg></div>
+  <div class="clue-text" id="clueText"></div>
+  <div class="word-display" id="wordDisplay"></div>
+  <div id="roundResult"></div>
+  <div class="keyboard" id="keyboard"></div>
+</div>
+
+<div id="resultScreen" class="result-screen hidden"></div>
+
+<script>
+const WORDS = [
+  {word:"BLAST CAMPAIGNS",clue:"Fresha's marketing message feature for reaching clients"},
+  {word:"SMART PRICING",clue:"Adjust prices based on demand and time slots"},
+  {word:"CONSULTATION FORMS",clue:"Gather client details before their appointment"},
+  {word:"FRESHA PAYMENTS",clue:"Integrated payment processing system"},
+  {word:"FRESHA POS",clue:"In-store point of sale terminal"},
+  {word:"FRESHA CAPITAL",clue:"Business loans and financial advances for partners"},
+  {word:"WALLETS",clue:"Clients store payment details for faster checkout"},
+  {word:"MEMBERSHIPS",clue:"Recurring revenue model with discounted rates for loyal clients"},
+  {word:"GIFT CARDS",clue:"Prepaid cards that drive new and repeat visits"},
+  {word:"REPORTS AND INSIGHTS",clue:"Track business performance and analytics"},
+  {word:"MARKETPLACE",clue:"Where new clients discover and book your services"},
+  {word:"NO SHOW",clue:"A missed appointment that costs revenue"},
+  {word:"GAP SELLING",clue:"Sales methodology focused on the gap between current and future state"},
+  {word:"ONLINE BOOKING",clue:"Clients schedule appointments through the web"},
+  {word:"DEPOSIT",clue:"Upfront payment to reduce no-shows"},
+  {word:"RETENTION",clue:"Keeping existing clients coming back"},
+  {word:"UPSELLING",clue:"Recommending additional services to increase revenue"},
+  {word:"CLIENT JOURNEY",clue:"The complete experience from booking to follow-up"},
+  {word:"COMMISSION",clue:"Percentage fee charged on marketplace bookings"},
+  {word:"FREE TRIAL",clue:"Seven days to try Fresha at no cost"},
+  {word:"TEAM PLAN",clue:"Fresha subscription tier for businesses with staff"},
+  {word:"ENTERPRISE",clue:"Custom Fresha plan for large organisations"},
+  {word:"INDEPENDENT",clue:"Fresha plan for solo professionals"},
+  {word:"CANCELLATION POLICY",clue:"Rules that protect businesses from last-minute changes"},
+  {word:"AUTOMATED REMINDERS",clue:"Messages sent automatically to reduce missed appointments"},
+  {word:"CURRENT STATE",clue:"In GAP selling where the prospect is right now"},
+  {word:"BUSINESS IMPACT",clue:"How a problem affects revenue and growth"},
+  {word:"OBJECTION HANDLING",clue:"Technique for addressing prospect concerns"},
+  {word:"COST OF INACTION",clue:"The price of not making a change in GAP selling"},
+  {word:"WAITLIST",clue:"Feature that fills cancelled slots automatically"}
+];
+
+const HANGMAN_PARTS = [
+  // head
+  (svg)=>{const c=document.createElementNS('http://www.w3.org/2000/svg','circle');c.setAttribute('cx','120');c.setAttribute('cy','55');c.setAttribute('r','15');c.setAttribute('fill','none');c.setAttribute('stroke','#e06060');c.setAttribute('stroke-width','3');svg.appendChild(c)},
+  // body
+  (svg)=>{const l=document.createElementNS('http://www.w3.org/2000/svg','line');l.setAttribute('x1','120');l.setAttribute('y1','70');l.setAttribute('x2','120');l.setAttribute('y2','130');l.setAttribute('stroke','#e06060');l.setAttribute('stroke-width','3');svg.appendChild(l)},
+  // left arm
+  (svg)=>{const l=document.createElementNS('http://www.w3.org/2000/svg','line');l.setAttribute('x1','120');l.setAttribute('y1','85');l.setAttribute('x2','95');l.setAttribute('y2','110');l.setAttribute('stroke','#e06060');l.setAttribute('stroke-width','3');svg.appendChild(l)},
+  // right arm
+  (svg)=>{const l=document.createElementNS('http://www.w3.org/2000/svg','line');l.setAttribute('x1','120');l.setAttribute('y1','85');l.setAttribute('x2','145');l.setAttribute('y2','110');l.setAttribute('stroke','#e06060');l.setAttribute('stroke-width','3');svg.appendChild(l)},
+  // left leg
+  (svg)=>{const l=document.createElementNS('http://www.w3.org/2000/svg','line');l.setAttribute('x1','120');l.setAttribute('y1','130');l.setAttribute('x2','100');l.setAttribute('y2','165');l.setAttribute('stroke','#e06060');l.setAttribute('stroke-width','3');svg.appendChild(l)},
+  // right leg
+  (svg)=>{const l=document.createElementNS('http://www.w3.org/2000/svg','line');l.setAttribute('x1','120');l.setAttribute('y1','130');l.setAttribute('x2','140');l.setAttribute('y2','165');l.setAttribute('stroke','#e06060');l.setAttribute('stroke-width','3');svg.appendChild(l)}
+];
+
+let state={player:null,round:0,mistakes:0,guessed:new Set(),currentWord:null,words:[],score:0,streak:0,maxStreak:0,perfectRounds:0,xpEarned:0,roundActive:false,soundOn:true,audioCtx:null};
+
+/* Storage */
+function loadProfile(){return JSON.parse(localStorage.getItem('player-profile')||'null')}
+function saveProfile(p){localStorage.setItem('player-profile',JSON.stringify(p))}
+function loadProgress(){return JSON.parse(localStorage.getItem('fresha-arcade-progress')||'{}')}
+function saveProgress(p){localStorage.setItem('fresha-arcade-progress',JSON.stringify(p))}
+function loadRéussites(){return JSON.parse(localStorage.getItem('fresha-arcade-achievements')||'[]')}
+function saveRéussites(a){localStorage.setItem('fresha-arcade-achievements',JSON.stringify(a))}
+function loadSettings(){return JSON.parse(localStorage.getItem('fresha-arcade-settings')||'{"sound":true}')}
+function saveSettings(s){localStorage.setItem('fresha-arcade-settings',JSON.stringify(s))}
+function addXP(n){if(!state.player)return;state.player.xp=(state.player.xp||0)+n;state.xpEarned+=n;saveProfile(state.player);updateTopBar();showXPFloat(n)}
+function showXPFloat(n){const el=document.createElement('div');el.className='xp-float';el.textContent='+'+n+' XP';el.style.left=(Math.random()*60+20)+'%';el.style.top='40%';document.body.appendChild(el);setTimeout(()=>el.remove(),1300)}
+
+const LEVELS=[{name:"Trainee",xp:0},{name:"Rookie",xp:1000},{name:"Agent",xp:3000},{name:"Specialist",xp:6000},{name:"Expert",xp:10000},{name:"Senior Agent",xp:15000},{name:"Elite",xp:21000},{name:"Master",xp:28000},{name:"Director",xp:36000},{name:"Grandmaster",xp:45000}];
+function getLevel(xp){let l=LEVELS[0];for(const lv of LEVELS)if(xp>=lv.xp)l=lv;return l}
+function getLevelProgress(xp){const l=getLevel(xp);const i=LEVELS.indexOf(l);if(i>=LEVELS.length-1)return 1;return(xp-l.xp)/(LEVELS[i+1].xp-l.xp)}
+
+/* Audio */
+function initAudio(){if(state.audioCtx)return;try{state.audioCtx=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}
+function playSFX(f,d,v){if(!state.soundOn||!state.audioCtx)return;try{const o=state.audioCtx.createOscillator();const g=state.audioCtx.createGain();o.type='sine';o.frequency.setValueAtTime(f,state.audioCtx.currentTime);g.gain.setValueAtTime(v||0.08,state.audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,state.audioCtx.currentTime+(d||0.3));o.connect(g);g.connect(state.audioCtx.destination);o.start();o.stop(state.audioCtx.currentTime+(d||0.3))}catch(e){}}
+function playCorrect(){playSFX(660,0.15,0.1);setTimeout(()=>playSFX(880,0.2,0.08),120)}
+function playWrong(){playSFX(220,0.3,0.08)}
+function playRoundWin(){playSFX(523,0.12,0.1);setTimeout(()=>playSFX(659,0.12,0.08),100);setTimeout(()=>playSFX(784,0.2,0.1),200)}
+function toggleSound(){state.soundOn=!state.soundOn;document.getElementById('soundBtn').textContent=state.soundOn?'🔊':'🔇';saveSettings({sound:state.soundOn})}
+
+/* Particles */
+function initParticles(){const c=document.getElementById('particles');const ctx=c.getContext('2d');let w,h,ps=[];function rs(){w=c.width=innerWidth;h=c.height=innerHeight}rs();addEventListener('resize',rs);for(let i=0;i<25;i++)ps.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2+0.5,dx:(Math.random()-0.5)*0.3,dy:-Math.random()*0.4-0.1,o:Math.random()*0.5+0.1});(function draw(){ctx.clearRect(0,0,w,h);for(const p of ps){ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(219,185,106,${p.o})`;ctx.fill();p.x+=p.dx;p.y+=p.dy;if(p.y<-10){p.y=h+10;p.x=Math.random()*w}}requestAnimationFrame(draw)})()}
+
+function shuffleArray(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
+
+/* Init */
+window.addEventListener('DOMContentLoaded',()=>{
+  initParticles();
+  const s=loadSettings();state.soundOn=s.sound!==false;
+  document.getElementById('soundBtn').textContent=state.soundOn?'🔊':'🔇';
+  const p=loadProfile();
+  if(p&&p.name){state.player=p;updateTopBar();startGame()}
+  else document.getElementById('loginScreen').classList.remove('hidden');
+});
+
+function doLogin(){
+  const n=document.getElementById('nameInput').value.trim();if(!n)return;initAudio();
+  let p=loadProfile();if(!p)p={name:n,xp:0,joined:Date.now()};else p.name=n;
+  saveProfile(p);state.player=p;updateTopBar();
+  document.getElementById('loginScreen').classList.add('hidden');startGame();
+}
+document.getElementById('nameInput').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
+function updateTopBar(){if(!state.player)return;document.getElementById('playerName').textContent=state.player.name;document.getElementById('xpMiniFill').style.width=getLevelProgress(state.player.xp||0)*100+'%'}
+
+/* Game */
+function startGame(){
+  initAudio();
+  state.round=0;state.score=0;state.streak=0;state.maxStreak=0;state.perfectRounds=0;state.xpEarned=0;
+  state.words=shuffleArray(WORDS).slice(0,10);
+  document.getElementById('gameScreen').classList.remove('hidden');
+  document.getElementById('resultScreen').classList.add('hidden');
+  nextRound();
+}
+
+function nextRound(){
+  if(state.round>=10){endGame();return}
+  state.currentWord=state.words[state.round];
+  state.mistakes=0;state.guessed=new Set();state.roundActive=true;
+  document.getElementById('roundResult').innerHTML='';
+  updateStats();drawGallows();drawWord();buildKeyboard();
+  document.getElementById('clueText').textContent='💡 '+state.currentWord.clue;
+}
+
+function updateStats(){
+  const mult=Math.min(3,1+state.streak*0.5);
+  document.getElementById('statsRow').innerHTML=`
+    <div class="stat-box"><div class="label">Round</div><div class="value">${state.round+1}/10</div></div>
+    <div class="stat-box"><div class="label">Score</div><div class="value">${state.score}</div></div>
+    <div class="stat-box"><div class="label">Streak</div><div class="value streak">${state.streak}🔥 x${mult.toFixed(1)}</div></div>
+    <div class="stat-box"><div class="label">Mistakes</div><div class="value">${state.mistakes}/6</div></div>`;
+}
+
+function drawGallows(){
+  const svg=document.getElementById('gallowsSvg');
+  svg.innerHTML='';
+  // Base structure
+  const parts=[
+    {tag:'line',attrs:{x1:20,y1:200,x2:80,y2:200,stroke:'var(--text-dim)','stroke-width':3}},
+    {tag:'line',attrs:{x1:50,y1:200,x2:50,y2:20,stroke:'var(--text-dim)','stroke-width':3}},
+    {tag:'line',attrs:{x1:50,y1:20,x2:120,y2:20,stroke:'var(--text-dim)','stroke-width':3}},
+    {tag:'line',attrs:{x1:120,y1:20,x2:120,y2:40,stroke:'var(--text-dim)','stroke-width':3}}
+  ];
+  parts.forEach(p=>{const el=document.createElementNS('http://www.w3.org/2000/svg',p.tag);Object.entries(p.attrs).forEach(([k,v])=>el.setAttribute(k,v));svg.appendChild(el)});
+  for(let i=0;i<state.mistakes;i++)HANGMAN_PARTS[i](svg);
+}
+
+function drawWord(){
+  const el=document.getElementById('wordDisplay');el.innerHTML='';
+  for(const ch of state.currentWord.word){
+    const slot=document.createElement('div');
+    if(ch===' '){slot.className='letter-slot space'}
+    else{
+      slot.className='letter-slot';
+      if(state.guessed.has(ch)){slot.textContent=ch;slot.classList.add('revealed')}
+    }
+    el.appendChild(slot);
+  }
+}
+
+function buildKeyboard(){
+  const el=document.getElementById('keyboard');el.innerHTML='';
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(ch=>{
+    const btn=document.createElement('button');btn.className='key-btn';btn.textContent=ch;
+    if(state.guessed.has(ch)){
+      btn.classList.add('used');
+      btn.classList.add(state.currentWord.word.includes(ch)?'correct-key':'wrong-key');
+    }
+    btn.onclick=()=>guessLetter(ch);
+    el.appendChild(btn);
+  });
+}
+
+function guessLetter(ch){
+  if(!state.roundActive||state.guessed.has(ch))return;
+  initAudio();state.guessed.add(ch);
+  const word=state.currentWord.word;
+  if(word.includes(ch)){
+    playSFX(600,0.1,0.08);
+    drawWord();buildKeyboard();
+    // Check win
+    const won=[...word].every(c=>c===' '||state.guessed.has(c));
+    if(won){roundWon()}
+  } else {
+    state.mistakes++;playWrong();drawGallows();buildKeyboard();updateStats();
+    if(state.mistakes>=6)roundLost();
+  }
+}
+
+// Physical keyboard
+document.addEventListener('keydown',e=>{
+  if(!state.roundActive)return;
+  const ch=e.key.toUpperCase();
+  if(/^[A-Z]$/.test(ch))guessLetter(ch);
+});
+
+function roundWon(){
+  state.roundActive=false;playRoundWin();
+  const perfect=state.mistakes===0;
+  state.streak++;if(state.streak>state.maxStreak)state.maxStreak=state.streak;
+  if(perfect)state.perfectRounds++;
+  const mult=Math.min(3,1+(state.streak-1)*0.5);
+  const pts=Math.round(30*mult)+(perfect?75:0);
+  state.score+=pts;addXP(pts);
+  // Mark word green
+  document.querySelectorAll('.letter-slot').forEach(s=>{if(s.textContent)s.classList.add('correct-word')});
+  updateStats();
+
+  document.getElementById('roundResult').innerHTML=`
+    <div class="round-result"><h3 style="color:var(--correct)">✓ Correct!</h3>
+    ${perfect?'<p style="color:var(--accent-glow)">⭐ PERFECT — No mistakes!</p>':''}
+    <p>+${pts} XP (x${mult.toFixed(1)} streak)</p>
+    <button class="btn-primary" onclick="advanceRound()" style="margin-top:12px">Mot Suivant →</button></div>`;
+}
+
+function roundLost(){
+  state.roundActive=false;state.streak=0;
+  // Reveal word
+  document.getElementById('wordDisplay').innerHTML='';
+  for(const ch of state.currentWord.word){
+    const slot=document.createElement('div');
+    if(ch===' ')slot.className='letter-slot space';
+    else{slot.className='letter-slot wrong-word';slot.textContent=ch}
+    document.getElementById('wordDisplay').appendChild(slot);
+  }
+  updateStats();
+  document.getElementById('roundResult').innerHTML=`
+    <div class="round-result"><h3 style="color:var(--wrong)">✗ Not this time</h3>
+    <div class="word-reveal">The word was: ${state.currentWord.word}</div>
+    <button class="btn-primary" onclick="advanceRound()" style="margin-top:12px">Mot Suivant →</button></div>`;
+}
+
+function advanceRound(){state.round++;nextRound()}
+
+function endGame(){
+  document.getElementById('gameScreen').classList.add('hidden');
+  const rs=document.getElementById('resultScreen');rs.classList.remove('hidden');
+  // Save progress
+  const prog=loadProgress();if(!prog.hangman)prog.hangman={};
+  prog.hangman.gamesPlayed=(prog.hangman.gamesPlayed||0)+1;
+  const best=prog.hangman.bestScore||0;if(state.score>best)prog.hangman.bestScore=state.score;
+  prog.hangman.lastPlayed=Date.now();saveProgress(prog);
+  // Réussites
+  if(state.maxStreak>=5)unlockAchievement('hang_streak5','Streak Master','5 correct words in a row in Hangman');
+  if(state.perfectRounds>=3)unlockAchievement('hang_perfect3','Flawless Agent','3 perfect rounds in a single Hangman game');
+  if(state.score>=500)unlockAchievement('hang_500','Word Wizard','Scored 500+ in Hangman');
+
+  rs.innerHTML=`
+    <h2>🎯 Hangman Complete!</h2>
+    <div class="stats">
+      <p>Final Score: <strong>${state.score}</strong></p>
+      <p>Best Streak: <strong>${state.maxStreak}🔥</strong></p>
+      <p>Perfect Rounds: <strong>${state.perfectRounds}⭐</strong></p>
+      <p>XP Earned: <strong>+${state.xpEarned}</strong></p>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
+      <button class="btn-primary" onclick="restartGame()">Rejouer</button>
+      <button class="btn-secondary" onclick="location.href='hub.html'">Retour au QG</button>
+    </div>`;
+}
+
+function restartGame(){document.getElementById('resultScreen').classList.add('hidden');startGame()}
+function unlockAchievement(id,title,desc){let a=loadRéussites();if(a.find(x=>x.id===id))return;a.push({id,title,desc,ts:Date.now()});saveRéussites(a)}
+</script>
+</body>
+</html>

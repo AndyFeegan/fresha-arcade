@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="es" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>¿Quién Quiere Ser Millonario Fresha?</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg-primary:#0a0a0f;--bg-surface:#161620;--bg-card:#1e1e2c;--bg-elevated:#282840;
+--accent-primary:#dbb96a;--accent-glow:#e8cc82;
+--text-primary:#f5f4f1;--text-secondary:#d0cdd8;--text-dim:#928da0;
+--correct:#6ee0a5;--wrong:#e06060;
+--cat-product:#6db4ff;--cat-gap:#7eddaa;--cat-beauty:#e098cc;--cat-objection:#f0c86a;--cat-competitor:#b49af0;
+--font-display:'Playfair Display',Georgia,serif;--font-body:'DM Sans','Segoe UI',sans-serif;
+}
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+html,body{width:100%;min-height:100vh;background:var(--bg-primary);color:var(--text-primary);font-family:var(--font-body);overflow-x:hidden}
+a{color:var(--accent-primary);text-decoration:none}
+
+/* TOP BAR */
+.top-bar{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:10px 20px;background:rgba(22,22,32,0.97);border-bottom:1px solid rgba(219,185,106,0.2);backdrop-filter:blur(8px)}
+.top-bar .logo{font-family:var(--font-display);font-size:1.1rem;color:var(--accent-primary)}
+.top-bar .player-info{display:flex;align-items:center;gap:10px;font-size:0.85rem;color:var(--text-secondary)}
+.top-bar .xp-mini{background:var(--bg-elevated);border-radius:20px;padding:2px;width:80px;height:14px}
+.top-bar .xp-mini-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--accent-primary),var(--accent-glow));transition:width 0.5s}
+.top-bar-btns{display:flex;gap:8px}
+.top-bar-btns button{background:var(--bg-elevated);border:1px solid rgba(219,185,106,0.3);color:var(--text-secondary);border-radius:6px;padding:5px 12px;font-size:0.8rem;cursor:pointer;font-family:var(--font-body)}
+.top-bar-btns button:hover{background:var(--accent-primary);color:var(--bg-primary)}
+
+/* LOGIN SCREEN */
+.login-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:90vh;gap:24px;padding:20px}
+.login-screen h1{font-family:var(--font-display);font-size:2rem;color:var(--accent-primary);text-align:center}
+.login-screen input{background:var(--bg-card);border:1px solid rgba(219,185,106,0.3);color:var(--text-primary);padding:12px 20px;border-radius:8px;font-size:1rem;width:280px;text-align:center;font-family:var(--font-body)}
+.login-screen input::placeholder{color:var(--text-dim)}
+.login-screen button{background:linear-gradient(135deg,var(--accent-primary),var(--accent-glow));color:var(--bg-primary);border:none;padding:12px 40px;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;font-family:var(--font-body)}
+
+/* GAME LAYOUT */
+.game-wrap{display:flex;flex-direction:column;align-items:center;padding:16px;gap:16px;max-width:900px;margin:0 auto}
+
+/* PRIZE LADDER */
+.ladder{width:100%;max-width:320px;display:flex;flex-direction:column;gap:3px}
+.ladder-step{display:flex;align-items:center;padding:6px 14px;border-radius:6px;font-size:0.82rem;font-weight:600;transition:all 0.3s;background:var(--bg-card);border:1px solid rgba(219,185,106,0.12);color:var(--text-dim)}
+.ladder-step.current{background:var(--accent-primary);color:var(--bg-primary);box-shadow:0 0 20px rgba(219,185,106,0.4);transform:scale(1.04)}
+.ladder-step.safety{border-color:var(--accent-primary);color:var(--accent-primary)}
+.ladder-step.done{color:var(--text-dim);opacity:0.5}
+.ladder-step .step-num{width:28px;text-align:center;margin-right:8px;font-size:0.75rem}
+.ladder-step .step-prize{margin-left:auto}
+
+/* QUESTION AREA */
+.question-area{width:100%;max-width:700px}
+.category-badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:0.72rem;font-weight:600;margin-bottom:10px;background:var(--bg-elevated);color:var(--text-secondary)}
+.question-text{font-family:var(--font-display);font-size:1.25rem;line-height:1.5;color:var(--text-primary);margin-bottom:20px;min-height:60px}
+
+/* TIMER */
+.timer-wrap{display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.timer-ring{position:relative;width:70px;height:70px}
+.timer-ring svg{transform:rotate(-90deg)}
+.timer-ring circle{fill:none;stroke-width:5}
+.timer-ring .bg{stroke:var(--bg-elevated)}
+.timer-ring .fg{stroke:var(--accent-primary);stroke-linecap:round;transition:stroke-dashoffset 1s linear,stroke 0.5s}
+.timer-ring .fg.warn{stroke:var(--wrong)}
+.timer-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:700;color:var(--text-primary)}
+
+/* ANSWER BUTTONS */
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.answer-btn{background:var(--bg-card);border:2px solid rgba(219,185,106,0.25);color:var(--text-primary);padding:14px 18px;border-radius:10px;font-size:0.95rem;cursor:pointer;transition:all 0.25s;text-align:left;font-family:var(--font-body);display:flex;align-items:center;gap:10px}
+.answer-btn:hover:not(.disabled){background:var(--bg-elevated);border-color:var(--accent-primary);transform:translateY(-1px)}
+.answer-btn .letter{font-weight:700;color:var(--accent-primary);min-width:22px}
+.answer-btn.selected{background:var(--accent-primary);color:var(--bg-primary);border-color:var(--accent-primary)}
+.answer-btn.correct-reveal{background:var(--correct);color:var(--bg-primary);border-color:var(--correct)}
+.answer-btn.wrong-reveal{background:var(--wrong);color:#fff;border-color:var(--wrong)}
+.answer-btn.disabled{opacity:0.4;pointer-events:none}
+.answer-btn.fifty-out{opacity:0.15;pointer-events:none}
+
+/* LIFELINES */
+.lifelines{display:flex;gap:10px;margin-bottom:12px;justify-content:center;flex-wrap:wrap}
+.lifeline-btn{background:var(--bg-card);border:2px solid var(--accent-primary);color:var(--accent-primary);width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;cursor:pointer;transition:all 0.3s;text-align:center;line-height:1.1}
+.lifeline-btn:hover:not(.used){background:var(--accent-primary);color:var(--bg-primary)}
+.lifeline-btn.used{opacity:0.25;pointer-events:none;border-color:var(--text-dim);color:var(--text-dim)}
+
+/* AUDIENCE CHART */
+.audience-chart{display:flex;align-items:flex-end;gap:12px;justify-content:center;height:120px;margin:16px 0;padding:16px;background:var(--bg-card);border-radius:10px}
+.audience-bar-wrap{display:flex;flex-direction:column;align-items:center;gap:4px}
+.audience-bar{width:40px;border-radius:4px 4px 0 0;background:var(--accent-primary);transition:height 0.6s}
+.audience-label{font-size:0.75rem;color:var(--text-dim)}
+.audience-pct{font-size:0.8rem;font-weight:700;color:var(--text-primary)}
+
+/* PHONE FRIEND */
+.phone-box{background:var(--bg-card);border:1px solid rgba(219,185,106,0.2);border-radius:12px;padding:20px;margin:16px 0;text-align:center}
+.phone-box p{color:var(--text-secondary);font-style:italic;font-size:0.95rem;line-height:1.5}
+.phone-name{color:var(--accent-primary);font-weight:700;margin-bottom:8px}
+
+/* RESULT */
+.result-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:40px 20px;text-align:center;min-height:60vh}
+.result-screen h2{font-family:var(--font-display);font-size:2rem;color:var(--accent-primary)}
+.result-screen .prize{font-size:1.5rem;color:var(--accent-glow);font-weight:700}
+.result-screen .stats{color:var(--text-secondary);line-height:1.8}
+.btn-primary{background:linear-gradient(135deg,var(--accent-primary),var(--accent-glow));color:var(--bg-primary);border:none;padding:12px 32px;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;font-family:var(--font-body)}
+.btn-secondary{background:var(--bg-card);border:2px solid var(--accent-primary);color:var(--accent-primary);padding:10px 28px;border-radius:8px;font-size:0.95rem;font-weight:600;cursor:pointer;font-family:var(--font-body)}
+
+/* PARTICLES */
+.particles-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.4}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  .answers{grid-template-columns:1fr}
+  .question-text{font-size:1.05rem}
+  .ladder{max-width:100%}
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes xpFloat{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-40px)}}
+.fade-in{animation:fadeIn 0.4s ease both}
+.xp-float{position:fixed;pointer-events:none;font-weight:700;color:var(--accent-glow);font-size:1.1rem;z-index:999;animation:xpFloat 1.2s ease forwards}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<canvas class="particles-canvas" id="particles"></canvas>
+
+<!-- TOP BAR -->
+<div class="top-bar" id="topBar">
+  <a href="hub.html" class="logo">🏛 Fresha Arcade</a>
+  <div class="player-info" id="playerInfo">
+    <span id="playerName">—</span>
+    <div class="xp-mini"><div class="xp-mini-fill" id="xpMiniFill" style="width:0%"></div></div>
+  </div>
+  <div class="top-bar-btns">
+    <button onclick="toggleSound()" id="soundBtn">🔊</button>
+    <button onclick="location.href='hub.html'">CG</button>
+  </div>
+</div>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen" class="login-screen hidden">
+  <h1>¿Quién Quiere Ser<br>Millonario Fresha?</h1>
+  <p style="color:var(--text-secondary)">Ingresa tu nombre de agente para comenzar</p>
+  <input type="text" id="nameInput" placeholder="Nombre de agente…" maxlength="20" autofocus>
+  <button onclick="doLogin()">Toma el Asiento Caliente</button>
+</div>
+
+<!-- GAME SCREEN -->
+<div id="gameScreen" class="game-wrap hidden">
+  <div class="lifelines" id="lifelines">
+    <div class="lifeline-btn" id="ll5050" onclick="useFiftyFifty()" title="50:50">50:50</div>
+    <div class="lifeline-btn" id="llPhone" onclick="usePhone()" title="Phone a Friend">📞<br>Phone</div>
+    <div class="lifeline-btn" id="llAudience" onclick="useAudience()" title="Ask the Audience">👥<br>Ask</div>
+  </div>
+  <div class="timer-wrap">
+    <div class="timer-ring">
+      <svg width="70" height="70"><circle class="bg" cx="35" cy="35" r="30"/><circle class="fg" id="timerCircle" cx="35" cy="35" r="30"/></svg>
+      <div class="timer-text" id="timerText">30</div>
+    </div>
+  </div>
+  <div class="question-area fade-in" id="questionArea">
+    <div class="category-badge" id="catBadge">Category</div>
+    <div class="question-text" id="questionText">Loading…</div>
+    <div id="lifelineResult"></div>
+    <div class="answers" id="answersGrid"></div>
+  </div>
+  <div class="ladder" id="ladder"></div>
+</div>
+
+<!-- RESULT SCREEN -->
+<div id="resultScreen" class="result-screen hidden"></div>
+
+<script>
+/* ===== QUESTIONS DATABASE ===== */
+const QUESTIONS = {
+easy: [
+  {q:"What is the name of Fresha's integrated payment processing system?",a:["Fresha Payments","Fresha Pay","Smart Checkout","Cash Manager"],c:0,cat:"Product Knowledge"},
+  {q:"What is the commission fee Fresha charges for new clients booked through the marketplace?",a:["20%","15%","10%","25%"],c:0,cat:"Product Knowledge"},
+  {q:"How long is Fresha's free trial?",a:["7 days","14 days","30 days","3 days"],c:0,cat:"Product Knowledge"},
+  {q:"What was Fresha's original name before rebranding?",a:["Shedul","Schedulr","BookNow","FreshBook"],c:0,cat:"Product Knowledge"},
+  {q:"How many businesses use Fresha worldwide?",a:["Over 120,000","Over 50,000","Over 200,000","Over 80,000"],c:0,cat:"Product Knowledge"},
+  {q:"What does Fresha charge for returning clients booked via the marketplace?",a:["Nothing — it's free","10% commission","5% commission","A flat fee"],c:0,cat:"Product Knowledge"},
+  {q:"In GAP selling, what does the 'gap' refer to?",a:["Gap between current and desired state","Growth opportunity analysis","General account profiling","Goal attainment process"],c:0,cat:"GAP Selling"},
+  {q:"Does Fresha require a long-term contract?",a:["No — it's month-to-month with no contract","Yes — 12 month minimum","Yes — 6 month minimum","Only for Enterprise plans"],c:0,cat:"Product Knowledge"},
+  {q:"Which Fresha feature allows businesses to send marketing messages to their clients?",a:["Blast campaigns","Smart emails","Auto messages","Marketing suite"],c:0,cat:"Product Knowledge"},
+  {q:"How many professionals use the Fresha platform?",a:["Over 450,000","Over 200,000","Over 700,000","Over 100,000"],c:0,cat:"Product Knowledge"},
+  {q:"What is the first step in GAP selling when engaging a new prospect?",a:["Understand their current state","Present pricing immediately","Demo the product","Identify their budget"],c:0,cat:"GAP Selling"},
+  {q:"Which feature does Fresha use for managing client payments in-store?",a:["Fresha POS","Fresha Pay","Smart Checkout","Cash Manager"],c:0,cat:"Product Knowledge"},
+  {q:"What type of forms does Fresha offer for gathering client details before appointments?",a:["Consultation forms","Intake surveys","Client questionnaires","Registration forms"],c:0,cat:"Product Knowledge"},
+  {q:"Approximately how many bookings have been processed through Fresha?",a:["Over 1 billion","Over 500 million","Over 2 billion","Over 250 million"],c:0,cat:"Industry Knowledge"},
+  {q:"What is the average client retention rate in the beauty and wellness industry?",a:["Around 60-70%","Around 80-90%","Around 40-50%","Around 30-40%"],c:0,cat:"Beauty & Wellness"}
+],
+medium: [
+  {q:"Which Fresha plan is designed for solo professionals?",a:["Independent","Starter","Solo","Basic"],c:0,cat:"Product Knowledge"},
+  {q:"Which Fresha plan is designed for businesses with multiple team members?",a:["Team","Professional","Growth","Business"],c:0,cat:"Product Knowledge"},
+  {q:"In GAP selling, why is the 'current state' discovery most important?",a:["It reveals the gap that creates urgency to change","It helps with pricing negotiations","It identifies the decision maker","It builds rapport quickly"],c:0,cat:"GAP Selling"},
+  {q:"What type of pricing is available for large businesses with over 20 team members?",a:["Custom Enterprise pricing","The same Team plan rate","A volume discount","Free for large teams"],c:0,cat:"Product Knowledge"},
+  {q:"Which Fresha feature provides business loans and financial advances?",a:["Fresha Capital","Fresha Finance","Fresha Lending","Business Boost"],c:0,cat:"Product Knowledge"},
+  {q:"What does 'Smart pricing' in Fresha allow businesses to do?",a:["Adjust prices based on demand and time slots","Automatically match competitor prices","Offer loyalty discounts","Set seasonal pricing schedules"],c:0,cat:"Product Knowledge"},
+  {q:"A salon owner says 'We already use paper diaries and it works fine.' What GAP selling approach works best?",a:["Explore the hidden costs and time lost with manual systems","Immediately show Fresha's features","Offer a discount to switch","Tell them paper systems are outdated"],c:0,cat:"Objection Handling"},
+  {q:"What percentage of beauty clients typically book their next appointment before leaving the salon?",a:["Less than 30%","Over 60%","About 50%","Over 80%"],c:0,cat:"Beauty & Wellness"},
+  {q:"Which Fresha feature lets clients store payment details for faster checkout?",a:["Wallets","Quick Pay","Saved Cards","Express Checkout"],c:0,cat:"Product Knowledge"},
+  {q:"In GAP selling, what is the 'Technical Impact' of a problem?",a:["How the problem affects day-to-day operations","The cost of new technology","IT infrastructure requirements","Software compatibility issues"],c:0,cat:"GAP Selling"},
+  {q:"What is a common reason salons struggle with no-shows?",a:["No automated reminders or deposit requirements","Clients forget because they're too busy","Salons don't confirm bookings","Weather-related cancellations"],c:0,cat:"Beauty & Wellness"},
+  {q:"What does Fresha's 'Reports and Insights' feature primarily help with?",a:["Tracking business performance and analytics","Filing tax returns","Managing social media","Designing marketing materials"],c:0,cat:"Product Knowledge"},
+  {q:"When handling the objection 'I need to think about it,' what is the best approach?",a:["Identify what specific concerns remain unaddressed","Give them a deadline for the offer","Follow up in a week","Repeat the key features again"],c:0,cat:"Objection Handling"},
+  {q:"What channels can clients use to book through Fresha for free?",a:["Instagram, Facebook, Google, and direct links","Only the Fresha marketplace","Only the business website","Only phone and walk-ins"],c:0,cat:"Product Knowledge"},
+  {q:"Which Fresha features help reduce no-shows?",a:["Automated reminders, deposits, and cancellation policies","Social media integration only","Staff scheduling alerts","Loyalty point deductions"],c:0,cat:"Product Knowledge"}
+],
+hard: [
+  {q:"A prospect says 'Your marketplace takes 20% — that's too expensive.' What's the strongest rebuttal?",a:["The 20% only applies to new clients you wouldn't have had otherwise — returning clients are free","Offer to reduce the commission rate","Explain that competitors charge more","Suggest they opt out of the marketplace"],c:0,cat:"Objection Handling"},
+  {q:"In GAP selling, what's the difference between 'Technical Impact' and 'Business Impact'?",a:["Technical affects daily operations; Business affects revenue, growth, or strategic goals","Technical is about IT; Business is about finance","They are interchangeable terms","Technical is short-term; Business is long-term"],c:0,cat:"GAP Selling"},
+  {q:"What makes Fresha's Enterprise plan different from the Team plan?",a:["Custom rates and solutions for high-volume businesses with 20+ team members","It includes free hardware","It removes marketplace commission","It offers unlimited free messages"],c:0,cat:"Product Knowledge"},
+  {q:"What is a key advantage of Fresha's integrated payment processing for salons?",a:["No monthly terminal rental fees and competitive transaction rates","Zero commission on all transactions","Free hardware with every signup","Volume-based discounts that reduce to zero"],c:0,cat:"Product Knowledge"},
+  {q:"A salon owner says 'My clients don't book online.' What's the best GAP selling response?",a:["Explore how much revenue they might be losing from after-hours booking demand","Show them statistics about online booking","Tell them online booking is the future","Offer a free trial to test it"],c:0,cat:"GAP Selling"},
+  {q:"How does Fresha's marketplace model create a sustainable growth flywheel for businesses?",a:["New clients acquired through marketplace become free returning clients, compounding growth","Marketplace advertising drives traffic to the business website","Social media integration creates viral referrals","Loyalty programs keep clients engaged"],c:0,cat:"Product Knowledge"},
+  {q:"A prospect says 'We tried software before and it didn't work.' How should you handle this?",a:["Ask what specifically didn't work to understand their concerns and position Fresha's differences","Guarantee Fresha is better than what they used","Offer extended free trial","Show testimonials from similar businesses"],c:0,cat:"Objection Handling"},
+  {q:"What is the estimated global beauty and wellness market size?",a:["Over $500 billion annually","Over $100 billion annually","Over $1 trillion annually","Over $250 billion annually"],c:0,cat:"Industry Knowledge"},
+  {q:"In GAP selling, why should you quantify the 'cost of inaction' for a prospect?",a:["It makes the problem tangible and creates urgency by showing the financial impact of not changing","It's a scare tactic that pressures them to buy","It demonstrates product value","It helps calculate ROI for the proposal"],c:0,cat:"GAP Selling"},
+  {q:"How do Fresha Memberships benefit both the business and the client?",a:["Recurring revenue for the business and discounted rates for loyal clients","Free services for VIP clients","Unlimited bookings per month","Priority scheduling and free products"],c:0,cat:"Product Knowledge"},
+  {q:"A prospect is concerned about staff resistance to new technology. What approach works best?",a:["Acknowledge the concern, highlight Fresha's intuitive design and offer onboarding support","Tell them staff will adapt quickly","Skip the concern and focus on business benefits","Offer to train each staff member individually"],c:0,cat:"Objection Handling"},
+  {q:"What key trend is driving digital transformation in the beauty and wellness industry?",a:["Consumer demand for online booking, contactless payments, and personalised experiences","Government regulations requiring digital records","Decreasing cost of salon rent","Social media influencer marketing"],c:0,cat:"Industry Knowledge"},
+  {q:"How should you position Fresha's 'no contract' model against locked-in competitors?",a:["As a sign of confidence — Fresha earns your business monthly rather than trapping you","As a temporary promotion","As standard in the industry","As a benefit only for small businesses"],c:0,cat:"Objection Handling"},
+  {q:"What is the primary revenue impact of reducing no-shows by just 10% for an average salon?",a:["Thousands in recovered revenue annually","Minimal impact on the bottom line","Only affects scheduling efficiency","Primarily saves time, not money"],c:0,cat:"Industry Knowledge"},
+  {q:"How does Fresha's gift card feature create a dual revenue advantage?",a:["Upfront payment plus high redemption rates that drive new or repeat visits","Gift cards are pure profit","They replace the need for marketing","They allow dynamic pricing"],c:0,cat:"Product Knowledge"}
+]
+};
+
+const PRIZES = [
+  {label:"100 pts",val:100},{label:"200 pts",val:200},{label:"300 pts",val:300},{label:"500 pts",val:500},{label:"1,000 pts",val:1000},
+  {label:"2,000 pts",val:2000},{label:"4,000 pts",val:4000},{label:"8,000 pts",val:8000},{label:"16,000 pts",val:16000},{label:"32,000 pts",val:32000},
+  {label:"64,000 pts",val:64000},{label:"125,000 pts",val:125000},{label:"250,000 pts",val:250000},{label:"500,000 pts",val:500000},{label:"1,000,000 pts",val:1000000}
+];
+const SAFETY_NETS = [4, 9]; // indices for 1k and 32k pts
+
+const PHONE_FRIENDS = [
+  {name:"Sarah — Senior Account Manager",confidence:"fairly sure"},
+  {name:"James — Fresha Product Expert",confidence:"very confident"},
+  {name:"Priya — Top Seller 2024",confidence:"pretty certain"},
+  {name:"Marco — Beauty Industry Analyst",confidence:"I think"}
+];
+
+const CAT_COLORS = {"Product Knowledge":"var(--cat-product)","GAP Selling":"var(--cat-gap)","Beauty & Wellness":"var(--cat-beauty)","Objection Handling":"var(--cat-objection)","Industry Knowledge":"var(--cat-competitor)"};
+
+/* ===== STATE ===== */
+let state = {
+  player: null,
+  currentQ: 0,
+  questions: [],
+  shuffledAnswers: [],
+  timerInterval: null,
+  timeLeft: 30,
+  lifelines: {fifty:false, phone:false, audience:false},
+  gameOver: false,
+  xpEarned: 0,
+  soundOn: true,
+  audioCtx: null
+};
+
+/* ===== STORAGE ===== */
+function loadProfile(){
+  return JSON.parse(localStorage.getItem('player-profile') || 'null');
+}
+function saveProfile(p){
+  localStorage.setItem('player-profile', JSON.stringify(p));
+}
+function loadProgress(){
+  return JSON.parse(localStorage.getItem('fresha-arcade-progress') || '{}');
+}
+function saveProgress(p){
+  localStorage.setItem('fresha-arcade-progress', JSON.stringify(p));
+}
+function loadLogros(){
+  return JSON.parse(localStorage.getItem('fresha-arcade-achievements') || '[]');
+}
+function saveLogros(a){
+  localStorage.setItem('fresha-arcade-achievements', JSON.stringify(a));
+}
+function loadSettings(){
+  return JSON.parse(localStorage.getItem('fresha-arcade-settings') || '{"sound":true}');
+}
+function saveSettings(s){
+  localStorage.setItem('fresha-arcade-settings', JSON.stringify(s));
+}
+function addXP(amount){
+  if(!state.player) return;
+  state.player.xp = (state.player.xp||0) + amount;
+  state.xpEarned += amount;
+  saveProfile(state.player);
+  updateTopBar();
+  showXPFloat(amount);
+}
+function showXPFloat(amount){
+  const el = document.createElement('div');
+  el.className = 'xp-float';
+  el.textContent = '+' + amount + ' XP';
+  el.style.left = (Math.random()*60+20)+'%';
+  el.style.top = '40%';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(), 1300);
+}
+
+/* ===== LEVELS ===== */
+const LEVELS = [
+  {name:"Trainee",xp:0},{name:"Rookie",xp:1000},{name:"Agent",xp:3000},{name:"Specialist",xp:6000},
+  {name:"Expert",xp:10000},{name:"Senior Agent",xp:15000},{name:"Elite",xp:21000},{name:"Master",xp:28000},
+  {name:"Director",xp:36000},{name:"Grandmaster",xp:45000}
+];
+function getLevel(xp){
+  let lvl = LEVELS[0];
+  for(const l of LEVELS) if(xp >= l.xp) lvl = l;
+  return lvl;
+}
+function getLevelProgress(xp){
+  const lvl = getLevel(xp);
+  const idx = LEVELS.indexOf(lvl);
+  if(idx >= LEVELS.length-1) return 1;
+  const next = LEVELS[idx+1];
+  return (xp - lvl.xp) / (next.xp - lvl.xp);
+}
+
+/* ===== AUDIO ===== */
+function initAudio(){
+  if(state.audioCtx) return;
+  try{
+    state.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }catch(e){}
+}
+function playSFX(freq, dur, vol){
+  if(!state.soundOn || !state.audioCtx) return;
+  try{
+    const o = state.audioCtx.createOscillator();
+    const g = state.audioCtx.createGain();
+    o.type = 'sine';
+    o.frequency.setValueAtTime(freq, state.audioCtx.currentTime);
+    g.gain.setValueAtTime(vol||0.08, state.audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, state.audioCtx.currentTime + (dur||0.3));
+    o.connect(g);g.connect(state.audioCtx.destination);
+    o.start();o.stop(state.audioCtx.currentTime + (dur||0.3));
+  }catch(e){}
+}
+function playCorrect(){playSFX(660,0.15,0.1);setTimeout(()=>playSFX(880,0.2,0.08),120);}
+function playWrong(){playSFX(220,0.4,0.1);setTimeout(()=>playSFX(180,0.4,0.08),150);}
+function playMilestone(){playSFX(523,0.15,0.1);setTimeout(()=>playSFX(659,0.15,0.08),100);setTimeout(()=>playSFX(784,0.25,0.1),200);}
+function playTick(){playSFX(1000,0.05,0.04);}
+function toggleSound(){
+  state.soundOn = !state.soundOn;
+  document.getElementById('soundBtn').textContent = state.soundOn ? '🔊' : '🔇';
+  saveSettings({sound:state.soundOn});
+}
+
+/* ===== PARTICLES ===== */
+function initParticles(){
+  const c = document.getElementById('particles');
+  const ctx = c.getContext('2d');
+  let w, h, parts = [];
+  function resize(){w=c.width=window.innerWidth;h=c.height=window.innerHeight}
+  resize(); window.addEventListener('resize',resize);
+  for(let i=0;i<30;i++) parts.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2+0.5,dx:(Math.random()-0.5)*0.3,dy:-Math.random()*0.4-0.1,o:Math.random()*0.5+0.1});
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    for(const p of parts){
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(219,185,106,${p.o})`;ctx.fill();
+      p.x+=p.dx;p.y+=p.dy;
+      if(p.y<-10){p.y=h+10;p.x=Math.random()*w}
+      if(p.x<-10)p.x=w+10; if(p.x>w+10)p.x=-10;
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+/* ===== SHUFFLE (Fisher-Yates) ===== */
+function shuffleArray(arr){
+  const a = [...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+/* ===== INIT ===== */
+window.addEventListener('DOMContentLoaded', ()=>{
+  initParticles();
+  const settings = loadSettings();
+  state.soundOn = settings.sound !== false;
+  document.getElementById('soundBtn').textContent = state.soundOn ? '🔊' : '🔇';
+
+  const profile = loadProfile();
+  if(profile && profile.name){
+    state.player = profile;
+    updateTopBar();
+    startGame();
+  } else {
+    document.getElementById('loginScreen').classList.remove('hidden');
+  }
+});
+
+function doLogin(){
+  const name = document.getElementById('nameInput').value.trim();
+  if(!name) return;
+  initAudio();
+  let profile = loadProfile();
+  if(!profile) profile = {name:name, xp:0, joined: Date.now()};
+  else profile.name = name;
+  saveProfile(profile);
+  state.player = profile;
+  updateTopBar();
+  document.getElementById('loginScreen').classList.add('hidden');
+  startGame();
+}
+document.getElementById('nameInput').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
+
+function updateTopBar(){
+  if(!state.player) return;
+  document.getElementById('playerName').textContent = state.player.name;
+  const pct = getLevelProgress(state.player.xp || 0) * 100;
+  document.getElementById('xpMiniFill').style.width = pct + '%';
+}
+
+/* ===== GAME LOGIC ===== */
+function startGame(){
+  initAudio();
+  state.currentQ = 0;
+  state.gameOver = false;
+  state.xpEarned = 0;
+  state.lifelines = {fifty:false, phone:false, audience:false};
+
+  // Pick 15 questions: 5 easy, 5 medium, 5 hard
+  const easy = shuffleArray(QUESTIONS.easy).slice(0,5);
+  const med = shuffleArray(QUESTIONS.medium).slice(0,5);
+  const hard = shuffleArray(QUESTIONS.hard).slice(0,5);
+  state.questions = [...easy, ...med, ...hard];
+
+  // Pre-shuffle answers for each question
+  state.shuffledAnswers = state.questions.map(q => {
+    const indices = q.a.map((_,i)=>i);
+    const shuffled = shuffleArray(indices);
+    return {order: shuffled, correctIdx: shuffled.indexOf(q.c)};
+  });
+
+  document.getElementById('gameScreen').classList.remove('hidden');
+  document.getElementById('resultScreen').classList.add('hidden');
+  document.getElementById('ll5050').classList.remove('used');
+  document.getElementById('llPhone').classList.remove('used');
+  document.getElementById('llAudience').classList.remove('used');
+
+  buildLadder();
+  showQuestion();
+}
+
+function buildLadder(){
+  const el = document.getElementById('ladder');
+  el.innerHTML = '';
+  for(let i=PRIZES.length-1;i>=0;i--){
+    const step = document.createElement('div');
+    step.className = 'ladder-step' + (SAFETY_NETS.includes(i) ? ' safety' : '') + (i===state.currentQ ? ' current' : '') + (i<state.currentQ ? ' done' : '');
+    step.id = 'step-'+i;
+    step.innerHTML = `<span class="step-num">${i+1}</span><span class="step-prize">${PRIZES[i].label}</span>`;
+    el.appendChild(step);
+  }
+}
+
+function updateLadder(){
+  for(let i=0;i<PRIZES.length;i++){
+    const el = document.getElementById('step-'+i);
+    el.className = 'ladder-step' + (SAFETY_NETS.includes(i) ? ' safety' : '') + (i===state.currentQ ? ' current' : '') + (i<state.currentQ ? ' done' : '');
+  }
+}
+
+function getTimeForQuestion(idx){
+  if(idx < 5) return 30;
+  if(idx < 10) return 45;
+  return 60;
+}
+
+function showQuestion(){
+  if(state.currentQ >= 15){
+    winGame();
+    return;
+  }
+  const q = state.questions[state.currentQ];
+  const sh = state.shuffledAnswers[state.currentQ];
+
+  document.getElementById('catBadge').textContent = q.cat;
+  document.getElementById('catBadge').style.borderLeft = `3px solid ${CAT_COLORS[q.cat]||'var(--accent-primary)'}`;
+  document.getElementById('questionText').textContent = q.q;
+  document.getElementById('lifelineResult').innerHTML = '';
+
+  const grid = document.getElementById('answersGrid');
+  grid.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  sh.order.forEach((origIdx, displayIdx) => {
+    const btn = document.createElement('button');
+    btn.className = 'answer-btn';
+    btn.innerHTML = `<span class="letter">${letters[displayIdx]}</span>${q.a[origIdx]}`;
+    btn.dataset.displayIdx = displayIdx;
+    btn.onclick = () => selectAnswer(displayIdx);
+    grid.appendChild(btn);
+  });
+
+  updateLadder();
+  startTimer(getTimeForQuestion(state.currentQ));
+
+  // Animate in
+  document.getElementById('questionArea').classList.remove('fade-in');
+  void document.getElementById('questionArea').offsetWidth;
+  document.getElementById('questionArea').classList.add('fade-in');
+}
+
+/* TIMER */
+function startTimer(seconds){
+  clearInterval(state.timerInterval);
+  state.timeLeft = seconds;
+  const maxTime = seconds;
+  const circ = 2 * Math.PI * 30;
+  const circle = document.getElementById('timerCircle');
+  circle.style.strokeDasharray = circ;
+  circle.style.strokeDashoffset = 0;
+  circle.classList.remove('warn');
+  document.getElementById('timerText').textContent = seconds;
+
+  state.timerInterval = setInterval(()=>{
+    state.timeLeft--;
+    document.getElementById('timerText').textContent = state.timeLeft;
+    const pct = state.timeLeft / maxTime;
+    circle.style.strokeDashoffset = circ * (1 - pct);
+    if(pct < 0.25) circle.classList.add('warn');
+    if(state.timeLeft <= 5 && state.timeLeft > 0) playTick();
+    if(state.timeLeft <= 0){
+      clearInterval(state.timerInterval);
+      timeUp();
+    }
+  }, 1000);
+}
+
+function timeUp(){
+  state.gameOver = true;
+  disableAnswers();
+  // Show correct answer
+  const sh = state.shuffledAnswers[state.currentQ];
+  const btns = document.querySelectorAll('.answer-btn');
+  btns[sh.correctIdx].classList.add('correct-reveal');
+  playWrong();
+  setTimeout(()=>showResult(false, "Time's up!"), 2000);
+}
+
+/* ANSWER SELECTION */
+function selectAnswer(displayIdx){
+  if(state.gameOver) return;
+  clearInterval(state.timerInterval);
+  initAudio();
+
+  const sh = state.shuffledAnswers[state.currentQ];
+  const btns = document.querySelectorAll('.answer-btn');
+  const isCorrect = displayIdx === sh.correctIdx;
+
+  btns[displayIdx].classList.add('selected');
+  disableAnswers();
+
+  setTimeout(()=>{
+    if(isCorrect){
+      btns[displayIdx].classList.remove('selected');
+      btns[displayIdx].classList.add('correct-reveal');
+      playCorrect();
+
+      // XP
+      addXP(25);
+      // Milestone XP
+      if(state.currentQ === 4) { addXP(100); playMilestone(); }
+      if(state.currentQ === 9) { addXP(250); playMilestone(); }
+      if(state.currentQ === 14) { addXP(500); playMilestone(); }
+
+      setTimeout(()=>{
+        state.currentQ++;
+        if(state.currentQ >= 15){
+          winGame();
+        } else {
+          showQuestion();
+        }
+      }, 1500);
+    } else {
+      btns[displayIdx].classList.remove('selected');
+      btns[displayIdx].classList.add('wrong-reveal');
+      btns[sh.correctIdx].classList.add('correct-reveal');
+      playWrong();
+      setTimeout(()=>showResult(false, "Wrong answer!"), 2000);
+    }
+  }, 1200);
+}
+
+function disableAnswers(){
+  document.querySelectorAll('.answer-btn').forEach(b=>b.classList.add('disabled'));
+}
+
+/* LIFELINES */
+function useFiftyFifty(){
+  if(state.lifelines.fifty || state.gameOver) return;
+  initAudio();
+  state.lifelines.fifty = true;
+  document.getElementById('ll5050').classList.add('used');
+  playSFX(500,0.15,0.08);
+
+  const sh = state.shuffledAnswers[state.currentQ];
+  const btns = document.querySelectorAll('.answer-btn');
+  // Remove 2 wrong answers
+  let wrongIndices = [];
+  for(let i=0;i<4;i++){
+    if(i !== sh.correctIdx) wrongIndices.push(i);
+  }
+  const toRemove = shuffleArray(wrongIndices).slice(0,2);
+  toRemove.forEach(i=> btns[i].classList.add('fifty-out'));
+}
+
+function usePhone(){
+  if(state.lifelines.phone || state.gameOver) return;
+  initAudio();
+  state.lifelines.phone = true;
+  document.getElementById('llPhone').classList.add('used');
+  playSFX(440,0.2,0.08);
+
+  const q = state.questions[state.currentQ];
+  const sh = state.shuffledAnswers[state.currentQ];
+  const friend = PHONE_FRIENDS[Math.floor(Math.random()*PHONE_FRIENDS.length)];
+  const letters = ['A','B','C','D'];
+  // 80% chance they suggest correct answer
+  let suggestedIdx;
+  if(Math.random() < 0.8){
+    suggestedIdx = sh.correctIdx;
+  } else {
+    const wrong = [0,1,2,3].filter(i=>i!==sh.correctIdx);
+    suggestedIdx = wrong[Math.floor(Math.random()*wrong.length)];
+  }
+
+  document.getElementById('lifelineResult').innerHTML = `
+    <div class="phone-box fade-in">
+      <div class="phone-name">📞 ${friend.name}</div>
+      <p>"Hmm, I'm ${friend.confidence} the answer is <strong>${letters[suggestedIdx]}</strong>. I'd go with that!"</p>
+    </div>`;
+}
+
+function useAudience(){
+  if(state.lifelines.audience || state.gameOver) return;
+  initAudio();
+  state.lifelines.audience = true;
+  document.getElementById('llAudience').classList.add('used');
+  playSFX(350,0.2,0.08);
+
+  const sh = state.shuffledAnswers[state.currentQ];
+  const letters = ['A','B','C','D'];
+  // Generate percentages favouring correct
+  let pcts = [0,0,0,0];
+  const correctPct = 40 + Math.floor(Math.random()*35);
+  pcts[sh.correctIdx] = correctPct;
+  let remaining = 100 - correctPct;
+  for(let i=0;i<4;i++){
+    if(i===sh.correctIdx) continue;
+    const p = i<3 ? Math.floor(Math.random() * remaining * 0.6) : remaining;
+    pcts[i] = Math.max(2, p);
+    remaining -= pcts[i];
+  }
+  // Fix rounding
+  const sum = pcts.reduce((a,b)=>a+b,0);
+  pcts[sh.correctIdx] += (100 - sum);
+
+  let barsHTML = '<div class="audience-chart fade-in">';
+  for(let i=0;i<4;i++){
+    barsHTML += `<div class="audience-bar-wrap">
+      <div class="audience-pct">${pcts[i]}%</div>
+      <div class="audience-bar" style="height:${pcts[i]}px"></div>
+      <div class="audience-label">${letters[i]}</div>
+    </div>`;
+  }
+  barsHTML += '</div>';
+  document.getElementById('lifelineResult').innerHTML = barsHTML;
+}
+
+/* RESULTS */
+function getSafetyPrize(){
+  for(let i=SAFETY_NETS.length-1;i>=0;i--){
+    if(state.currentQ > SAFETY_NETS[i]) return PRIZES[SAFETY_NETS[i]].label;
+  }
+  return '0 pts';
+}
+
+function winGame(){
+  state.gameOver = true;
+  clearInterval(state.timerInterval);
+  playMilestone();
+  showResult(true, "You've scored 1,000,000 points!");
+  unlockAchievement('millionaire_winner','Millionaire!','Won Who Wants to Be a Fresha Millionaire');
+}
+
+function showResult(won, message){
+  document.getElementById('gameScreen').classList.add('hidden');
+  const rs = document.getElementById('resultScreen');
+  rs.classList.remove('hidden');
+
+  const prize = won ? '1,000,000 pts' : getSafetyPrize();
+  const answered = state.currentQ;
+
+  // Save progress
+  const progress = loadProgress();
+  if(!progress.millionaire) progress.millionaire = {};
+  const best = progress.millionaire.bestPrize || 0;
+  const prizeVal = won ? 1000000 : (answered > 0 ? PRIZES[Math.max(0,answered-1)].val : 0);
+  if(prizeVal > best) progress.millionaire.bestPrize = prizeVal;
+  progress.millionaire.gamesPlayed = (progress.millionaire.gamesPlayed||0) + 1;
+  progress.millionaire.lastPlayed = Date.now();
+  saveProgress(progress);
+
+  // Logros
+  if(answered >= 5) unlockAchievement('mill_5','Halfway There','Reached question 5 in Millionaire');
+  if(answered >= 10) unlockAchievement('mill_10','High Roller','Reached question 10 in Millionaire');
+
+  rs.innerHTML = `
+    <h2 class="fade-in">${won ? '🏆 ¡CAMPEÓN!' : '💫 Fin del Juego'}</h2>
+    <div class="prize fade-in" style="animation-delay:0.2s">${message}</div>
+    <div class="stats fade-in" style="animation-delay:0.4s">
+      <p>You walked away with: <strong>${prize}</strong></p>
+      <p>Questions answered: <strong>${answered}</strong> / 15</p>
+      <p>XP earned this game: <strong>+${state.xpEarned}</strong></p>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center" class="fade-in" style="animation-delay:0.6s">
+      <button class="btn-primary" onclick="restartGame()">Jugar de Nuevo</button>
+      <button class="btn-secondary" onclick="location.href='hub.html'">Volver al CG</button>
+    </div>`;
+}
+
+function restartGame(){
+  document.getElementById('resultScreen').classList.add('hidden');
+  startGame();
+}
+
+function unlockAchievement(id, title, desc){
+  let achs = loadLogros();
+  if(achs.find(a=>a.id===id)) return;
+  achs.push({id, title, desc, ts:Date.now()});
+  saveLogros(achs);
+}
+</script>
+</body>
+</html>
