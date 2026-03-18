@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Arcade de Formación Fresha — CG</title>
+<title>Fresha Sales Arcade — HQ</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -92,7 +92,7 @@ a{color:var(--accent-primary);text-decoration:none}
 <canvas class="particles-canvas" id="particles"></canvas>
 
 <div class="top-bar" id="topBar">
-  <div class="logo">🏛 Fresha Arcade</div>
+  <div class="logo">🏛 Arcade Fresha</div>
   <div class="top-bar-right">
     <select id="langSelect" onchange="switchLang(this.value)">
       <option value="en" selected>🇬🇧 English</option>
@@ -107,7 +107,7 @@ a{color:var(--accent-primary);text-decoration:none}
 
 <div id="loginScreen" class="login-screen hidden">
   <h1>🏛 Arcade de Formación<br>Comercial Fresha</h1>
-  <p class="subtitle">Mejora tus habilidades comerciales con juegos interactivos. Asciende de Aprendiz a Gran Maestro.</p>
+  <p class="subtitle">Mejora tus habilidades comerciales. Asciende de Aprendiz a Gran Maestro.</p>
   <input type="text" id="nameInput" placeholder="Tu nombre clave de agente…" maxlength="20" autofocus>
   <button onclick="doLogin()">Entrar al CG</button>
 </div>
@@ -247,9 +247,9 @@ function renderGames(){
   const games=[
     {id:'millionaire',icon:'💰',title:'Who Wants to Be a Fresha Millionaire?',desc:'15 preguntas, comodines y la oportunidad de ganar 1M puntos.',href:'millionaire.html',
       stat:prog.millionaire?`Played ${prog.millionaire.gamesPlayed||0} times`:'Aún no jugado'},
-    {id:'hangman',icon:'🎯',title:'Fresha Hangman',desc:'Adivina el término. ¡6 errores máximo! Multiplicador de racha hasta x3.',href:'hangman.html',
+    {id:'hangman',icon:'🎯',title:'Fresha Hangman',desc:'Guess the sales term. 6 mistakes and you\'re out! Streak multiplier up to x3.',href:'hangman.html',
       stat:prog.hangman?`Best score: ${prog.hangman.bestScore||0}`:'Aún no jugado'},
-    {id:'trivia',icon:'🎲',title:'Fresha Trivia Board',desc:'Tira el dado, responde, colecciona las 5 fichas para ganar.',href:'trivia-board.html',
+    {id:'trivia',icon:'🎲',title:'Fresha Trivia Board',desc:'Roll the dice, answer questions, collect all 5 category wedges to win.',href:'trivia-board.html',
       stat:prog.trivia?`Wins: ${prog.trivia.wins||0}`:'Aún no jugado'}
   ];
 

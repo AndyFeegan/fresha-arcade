@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>من سيربح المليون - فريشا</title>
+<title>Who Wants to Be a Fresha Millionaire?</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -116,29 +116,7 @@ a{color:var(--accent-primary);text-decoration:none}
 .fade-in{animation:fadeIn 0.4s ease both}
 .xp-float{position:fixed;pointer-events:none;font-weight:700;color:var(--accent-glow);font-size:1.1rem;z-index:999;animation:xpFloat 1.2s ease forwards}
 .hidden{display:none!important}
-
-/* RTL Arabic Overrides */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap');
-[dir="rtl"]{--font-display:'Noto Kufi Arabic','Playfair Display',serif;--font-body:'Noto Naskh Arabic','DM Sans',sans-serif}
-[dir="rtl"] .top-bar{flex-direction:row-reverse}
-[dir="rtl"] .top-bar-btns,[dir="rtl"] .top-bar-right{flex-direction:row-reverse}
-[dir="rtl"] .player-info{flex-direction:row-reverse}
-[dir="rtl"] .answer-btn{text-align:right;flex-direction:row-reverse}
-[dir="rtl"] .answer-btn .letter{margin-left:10px;margin-right:0}
-[dir="rtl"] .ladder-step{flex-direction:row-reverse}
-[dir="rtl"] .ladder-step .step-num{margin-left:8px;margin-right:0}
-[dir="rtl"] .ladder-step .step-prize{margin-right:auto;margin-left:0}
-[dir="rtl"] .lifelines{flex-direction:row-reverse}
-[dir="rtl"] .modal-ans-btn{text-align:right;flex-direction:row-reverse}
-[dir="rtl"] .key-btn{font-family:'Noto Naskh Arabic','DM Sans',sans-serif}
-[dir="rtl"] .game-card{text-align:right}
-[dir="rtl"] .game-card .play-arrow{left:16px;right:auto;transform:translateY(-50%) scaleX(-1)}
-[dir="rtl"] .profile-card{flex-direction:row-reverse}
-[dir="rtl"] .stat-box{direction:rtl}
-[dir="rtl"] .category-badge{border-left:none;border-right:3px solid var(--accent-primary)}
-[dir="rtl"] .cat-badge{border-left:none;border-right:3px solid var(--accent-primary)}
-[dir="rtl"] .lb-table th,[dir="rtl"] .lb-table td{text-align:right}
-
+@import url('https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap');[dir="rtl"]{--font-display:'Noto Kufi Arabic',serif;--font-body:'Noto Naskh Arabic',sans-serif}[dir="rtl"] .top-bar,[dir="rtl"] .top-bar-btns,[dir="rtl"] .top-bar-right,[dir="rtl"] .player-info{flex-direction:row-reverse}[dir="rtl"] .answer-btn,[dir="rtl"] .modal-ans-btn{text-align:right;flex-direction:row-reverse}[dir="rtl"] .ladder-step{flex-direction:row-reverse}[dir="rtl"] .ladder-step .step-num{margin-left:8px;margin-right:0}[dir="rtl"] .ladder-step .step-prize{margin-right:auto;margin-left:0}[dir="rtl"] .game-card{text-align:right}[dir="rtl"] .profile-card{flex-direction:row-reverse}[dir="rtl"] .category-badge,[dir="rtl"] .cat-badge{border-left:none;border-right:3px solid var(--accent-primary)}[dir="rtl"] .lb-table th,[dir="rtl"] .lb-table td{text-align:right}
 </style>
 </head>
 <body>
@@ -159,7 +137,7 @@ a{color:var(--accent-primary);text-decoration:none}
 
 <!-- LOGIN SCREEN -->
 <div id="loginScreen" class="login-screen hidden">
-  <h1>من سيربح المليون<br>فريشا؟</h1>
+  <h1>من سيربح المليون<br>فريشا ؟</h1>
   <p style="color:var(--text-secondary)">أدخل اسم العميل للبدء</p>
   <input type="text" id="nameInput" placeholder="اسم العميل…" maxlength="20" autofocus>
   <button onclick="doLogin()">اجلس على الكرسي الساخن</button>
@@ -194,55 +172,55 @@ a{color:var(--accent-primary);text-decoration:none}
 /* ===== QUESTIONS DATABASE ===== */
 const QUESTIONS = {
 easy: [
-  {q:"What is the name of Fresha's integrated payment processing system?",a:["Fresha Payments","Fresha Pay","Smart Checkout","Cash Manager"],c:0,cat:"Product Knowledge"},
-  {q:"What is the commission fee Fresha charges for new clients booked through the marketplace?",a:["20%","15%","10%","25%"],c:0,cat:"Product Knowledge"},
-  {q:"How long is Fresha's free trial?",a:["7 days","14 days","30 days","3 days"],c:0,cat:"Product Knowledge"},
-  {q:"What was Fresha's original name before rebranding?",a:["Shedul","Schedulr","BookNow","FreshBook"],c:0,cat:"Product Knowledge"},
-  {q:"How many businesses use Fresha worldwide?",a:["Over 120,000","Over 50,000","Over 200,000","Over 80,000"],c:0,cat:"Product Knowledge"},
-  {q:"What does Fresha charge for returning clients booked via the marketplace?",a:["Nothing — it's free","10% commission","5% commission","A flat fee"],c:0,cat:"Product Knowledge"},
-  {q:"In GAP selling, what does the 'gap' refer to?",a:["Gap between current and desired state","Growth opportunity analysis","General account profiling","Goal attainment process"],c:0,cat:"GAP Selling"},
-  {q:"Does Fresha require a long-term contract?",a:["No — it's month-to-month with no contract","Yes — 12 month minimum","Yes — 6 month minimum","Only for Enterprise plans"],c:0,cat:"Product Knowledge"},
-  {q:"Which Fresha feature allows businesses to send marketing messages to their clients?",a:["Blast campaigns","Smart emails","Auto messages","Marketing suite"],c:0,cat:"Product Knowledge"},
-  {q:"How many professionals use the Fresha platform?",a:["Over 450,000","Over 200,000","Over 700,000","Over 100,000"],c:0,cat:"Product Knowledge"},
-  {q:"What is the first step in GAP selling when engaging a new prospect?",a:["Understand their current state","Present pricing immediately","Demo the product","Identify their budget"],c:0,cat:"GAP Selling"},
-  {q:"Which feature does Fresha use for managing client payments in-store?",a:["Fresha POS","Fresha Pay","Smart Checkout","Cash Manager"],c:0,cat:"Product Knowledge"},
-  {q:"What type of forms does Fresha offer for gathering client details before appointments?",a:["Consultation forms","Intake surveys","Client questionnaires","Registration forms"],c:0,cat:"Product Knowledge"},
-  {q:"Approximately how many bookings have been processed through Fresha?",a:["Over 1 billion","Over 500 million","Over 2 billion","Over 250 million"],c:0,cat:"Industry Knowledge"},
-  {q:"What is the average client retention rate in the beauty and wellness industry?",a:["Around 60-70%","Around 80-90%","Around 40-50%","Around 30-40%"],c:0,cat:"Beauty & Wellness"}
+  {q:"ما اسم نظام الدفع المتكامل في فريشا؟",a:["Fresha Payments","Fresha Pay","Smart Checkout","Cash Manager"],c:0,cat:"معرفة المنتج"},
+  {q:"ما نسبة العمولة للعملاء الجدد عبر السوق؟",a:["20%","15%","10%","25%"],c:0,cat:"معرفة المنتج"},
+  {q:"كم مدة التجربة المجانية في فريشا؟",a:["7 أيام","14 يوماً","30 يوماً","3 أيام"],c:0,cat:"معرفة المنتج"},
+  {q:"ما كان اسم فريشا الأصلي؟",a:["Shedul","Schedulr","BookNow","FreshBook"],c:0,cat:"معرفة المنتج"},
+  {q:"كم عدد الشركات التي تستخدم فريشا؟",a:["أكثر من 120,000","أكثر من 50,000","أكثر من 200,000","أكثر من 80,000"],c:0,cat:"معرفة المنتج"},
+  {q:"ماذا تفرض فريشا على العملاء العائدين؟",a:["لا شيء — مجاني","عمولة 10%","عمولة 5%","رسوم ثابتة"],c:0,cat:"معرفة المنتج"},
+  {q:"ما المقصود بالفجوة في بيع GAP؟",a:["الفجوة بين الحالة الحالية والمرغوبة","تحليل فرص النمو","التنميط العام","عملية تحقيق الأهداف"],c:0,cat:"بيع GAP"},
+  {q:"هل تتطلب فريشا عقداً طويل الأجل؟",a:["لا — شهري بدون التزام","نعم — 12 شهراً","نعم — 6 أشهر","فقط Enterprise"],c:0,cat:"معرفة المنتج"},
+  {q:"ما الميزة التي ترسل رسائل تسويقية؟",a:["Blast campaigns","Smart emails","Auto messages","Marketing suite"],c:0,cat:"معرفة المنتج"},
+  {q:"كم عدد المحترفين على منصة فريشا؟",a:["أكثر من 450,000","أكثر من 200,000","أكثر من 700,000","أكثر من 100,000"],c:0,cat:"معرفة المنتج"},
+  {q:"ما الخطوة الأولى في بيع GAP؟",a:["فهم الحالة الحالية","عرض الأسعار","عمل عرض توضيحي","تحديد الميزانية"],c:0,cat:"بيع GAP"},
+  {q:"ما الميزة التي تدير المدفوعات في المتجر؟",a:["Fresha POS","Fresha Pay","Smart Checkout","Cash Manager"],c:0,cat:"معرفة المنتج"},
+  {q:"ما نوع النماذج لجمع بيانات العملاء؟",a:["Consultation forms","استبيانات القبول","استبيانات العملاء","نماذج التسجيل"],c:0,cat:"معرفة المنتج"},
+  {q:"كم عدد الحجوزات عبر فريشا تقريباً؟",a:["أكثر من مليار","أكثر من 500 مليون","أكثر من 2 مليار","أكثر من 250 مليون"],c:0,cat:"معرفة السوق"},
+  {q:"ما متوسط معدل الاحتفاظ بالعملاء في التجميل؟",a:["حوالي 60-70%","80-90%","40-50%","30-40%"],c:0,cat:"التجميل والعافية"}
 ],
 medium: [
-  {q:"Which Fresha plan is designed for solo professionals?",a:["Independent","Starter","Solo","Basic"],c:0,cat:"Product Knowledge"},
-  {q:"Which Fresha plan is designed for businesses with multiple team members?",a:["Team","Professional","Growth","Business"],c:0,cat:"Product Knowledge"},
-  {q:"In GAP selling, why is the 'current state' discovery most important?",a:["It reveals the gap that creates urgency to change","It helps with pricing negotiations","It identifies the decision maker","It builds rapport quickly"],c:0,cat:"GAP Selling"},
-  {q:"What type of pricing is available for large businesses with over 20 team members?",a:["Custom Enterprise pricing","The same Team plan rate","A volume discount","Free for large teams"],c:0,cat:"Product Knowledge"},
-  {q:"Which Fresha feature provides business loans and financial advances?",a:["Fresha Capital","Fresha Finance","Fresha Lending","Business Boost"],c:0,cat:"Product Knowledge"},
-  {q:"What does 'Smart pricing' in Fresha allow businesses to do?",a:["Adjust prices based on demand and time slots","Automatically match competitor prices","Offer loyalty discounts","Set seasonal pricing schedules"],c:0,cat:"Product Knowledge"},
-  {q:"A salon owner says 'We already use paper diaries and it works fine.' What GAP selling approach works best?",a:["Explore the hidden costs and time lost with manual systems","Immediately show Fresha's features","Offer a discount to switch","Tell them paper systems are outdated"],c:0,cat:"Objection Handling"},
-  {q:"What percentage of beauty clients typically book their next appointment before leaving the salon?",a:["Less than 30%","Over 60%","About 50%","Over 80%"],c:0,cat:"Beauty & Wellness"},
-  {q:"Which Fresha feature lets clients store payment details for faster checkout?",a:["Wallets","Quick Pay","Saved Cards","Express Checkout"],c:0,cat:"Product Knowledge"},
-  {q:"In GAP selling, what is the 'Technical Impact' of a problem?",a:["How the problem affects day-to-day operations","The cost of new technology","IT infrastructure requirements","Software compatibility issues"],c:0,cat:"GAP Selling"},
-  {q:"What is a common reason salons struggle with no-shows?",a:["No automated reminders or deposit requirements","Clients forget because they're too busy","Salons don't confirm bookings","Weather-related cancellations"],c:0,cat:"Beauty & Wellness"},
-  {q:"What does Fresha's 'Reports and Insights' feature primarily help with?",a:["Tracking business performance and analytics","Filing tax returns","Managing social media","Designing marketing materials"],c:0,cat:"Product Knowledge"},
-  {q:"When handling the objection 'I need to think about it,' what is the best approach?",a:["Identify what specific concerns remain unaddressed","Give them a deadline for the offer","Follow up in a week","Repeat the key features again"],c:0,cat:"Objection Handling"},
-  {q:"What channels can clients use to book through Fresha for free?",a:["Instagram, Facebook, Google, and direct links","Only the Fresha marketplace","Only the business website","Only phone and walk-ins"],c:0,cat:"Product Knowledge"},
-  {q:"Which Fresha features help reduce no-shows?",a:["Automated reminders, deposits, and cancellation policies","Social media integration only","Staff scheduling alerts","Loyalty point deductions"],c:0,cat:"Product Knowledge"}
+  {q:"ما خطة فريشا للمحترفين المستقلين؟",a:["Independent","Starter","Solo","Basic"],c:0,cat:"معرفة المنتج"},
+  {q:"ما خطة فريشا للفرق متعددة الأعضاء؟",a:["Team","Professional","Growth","Business"],c:0,cat:"معرفة المنتج"},
+  {q:"لماذا اكتشاف الحالة الحالية مهم في بيع GAP؟",a:["يكشف الفجوة التي تخلق الإلحاح","يساعد في التفاوض","يحدد صانع القرار","يبني علاقة سريعة"],c:0,cat:"بيع GAP"},
+  {q:"ما نوع التسعير لأكثر من 20 عضواً؟",a:["Enterprise مخصص","نفس سعر Team","خصم كمية","مجاني"],c:0,cat:"معرفة المنتج"},
+  {q:"ما الميزة التي توفر القروض والسلف؟",a:["Fresha Capital","Fresha Finance","Fresha Lending","Business Boost"],c:0,cat:"معرفة المنتج"},
+  {q:"ماذا يتيح Smart pricing؟",a:["تعديل الأسعار حسب الطلب","مطابقة المنافسين","خصومات ولاء","أسعار موسمية فقط"],c:0,cat:"معرفة المنتج"},
+  {q:"'نستخدم دفتراً ورقياً.' أفضل نهج GAP؟",a:["استكشاف التكاليف الخفية","عرض الميزات فوراً","تقديم خصم","إخبارهم أن الورق قديم"],c:0,cat:"التعامل مع الاعتراضات"},
+  {q:"كم % من العملاء يحجزون قبل المغادرة؟",a:["أقل من 30%","أكثر من 60%","حوالي 50%","أكثر من 80%"],c:0,cat:"التجميل والعافية"},
+  {q:"ما الميزة التي تخزن بيانات الدفع؟",a:["Wallets","Quick Pay","Saved Cards","Express Checkout"],c:0,cat:"معرفة المنتج"},
+  {q:"ما التأثير التقني في بيع GAP؟",a:["كيف تؤثر المشكلة على العمليات","تكلفة التكنولوجيا","متطلبات البنية التحتية","توافق البرامج"],c:0,cat:"بيع GAP"},
+  {q:"سبب شائع لعدم الحضور في الصالونات؟",a:["لا تذكيرات آلية ولا إيداعات","العملاء مشغولون","لا تأكيد","الطقس"],c:0,cat:"التجميل والعافية"},
+  {q:"ما الغرض من Reports and Insights؟",a:["تتبع أداء العمل","الإقرارات الضريبية","وسائل التواصل","المواد التسويقية"],c:0,cat:"معرفة المنتج"},
+  {q:"'أحتاج للتفكير' — أفضل نهج؟",a:["تحديد المخاوف غير المعالجة","موعد نهائي","متابعة بعد أسبوع","تكرار الميزات"],c:0,cat:"التعامل مع الاعتراضات"},
+  {q:"قنوات الحجز المجانية عبر فريشا؟",a:["Instagram وFacebook وGoogle وروابط مباشرة","فقط السوق","فقط الموقع","فقط الهاتف"],c:0,cat:"معرفة المنتج"},
+  {q:"ما الميزات التي تقلل عدم الحضور؟",a:["تذكيرات وإيداعات وسياسات إلغاء","تواصل اجتماعي فقط","تنبيهات جدولة","نقاط ولاء"],c:0,cat:"معرفة المنتج"}
 ],
 hard: [
-  {q:"A prospect says 'Your marketplace takes 20% — that's too expensive.' What's the strongest rebuttal?",a:["The 20% only applies to new clients you wouldn't have had otherwise — returning clients are free","Offer to reduce the commission rate","Explain that competitors charge more","Suggest they opt out of the marketplace"],c:0,cat:"Objection Handling"},
-  {q:"In GAP selling, what's the difference between 'Technical Impact' and 'Business Impact'?",a:["Technical affects daily operations; Business affects revenue, growth, or strategic goals","Technical is about IT; Business is about finance","They are interchangeable terms","Technical is short-term; Business is long-term"],c:0,cat:"GAP Selling"},
-  {q:"What makes Fresha's Enterprise plan different from the Team plan?",a:["Custom rates and solutions for high-volume businesses with 20+ team members","It includes free hardware","It removes marketplace commission","It offers unlimited free messages"],c:0,cat:"Product Knowledge"},
-  {q:"What is a key advantage of Fresha's integrated payment processing for salons?",a:["No monthly terminal rental fees and competitive transaction rates","Zero commission on all transactions","Free hardware with every signup","Volume-based discounts that reduce to zero"],c:0,cat:"Product Knowledge"},
-  {q:"A salon owner says 'My clients don't book online.' What's the best GAP selling response?",a:["Explore how much revenue they might be losing from after-hours booking demand","Show them statistics about online booking","Tell them online booking is the future","Offer a free trial to test it"],c:0,cat:"GAP Selling"},
-  {q:"How does Fresha's marketplace model create a sustainable growth flywheel for businesses?",a:["New clients acquired through marketplace become free returning clients, compounding growth","Marketplace advertising drives traffic to the business website","Social media integration creates viral referrals","Loyalty programs keep clients engaged"],c:0,cat:"Product Knowledge"},
-  {q:"A prospect says 'We tried software before and it didn't work.' How should you handle this?",a:["Ask what specifically didn't work to understand their concerns and position Fresha's differences","Guarantee Fresha is better than what they used","Offer extended free trial","Show testimonials from similar businesses"],c:0,cat:"Objection Handling"},
-  {q:"What is the estimated global beauty and wellness market size?",a:["Over $500 billion annually","Over $100 billion annually","Over $1 trillion annually","Over $250 billion annually"],c:0,cat:"Industry Knowledge"},
-  {q:"In GAP selling, why should you quantify the 'cost of inaction' for a prospect?",a:["It makes the problem tangible and creates urgency by showing the financial impact of not changing","It's a scare tactic that pressures them to buy","It demonstrates product value","It helps calculate ROI for the proposal"],c:0,cat:"GAP Selling"},
-  {q:"How do Fresha Memberships benefit both the business and the client?",a:["Recurring revenue for the business and discounted rates for loyal clients","Free services for VIP clients","Unlimited bookings per month","Priority scheduling and free products"],c:0,cat:"Product Knowledge"},
-  {q:"A prospect is concerned about staff resistance to new technology. What approach works best?",a:["Acknowledge the concern, highlight Fresha's intuitive design and offer onboarding support","Tell them staff will adapt quickly","Skip the concern and focus on business benefits","Offer to train each staff member individually"],c:0,cat:"Objection Handling"},
-  {q:"What key trend is driving digital transformation in the beauty and wellness industry?",a:["Consumer demand for online booking, contactless payments, and personalised experiences","Government regulations requiring digital records","Decreasing cost of salon rent","Social media influencer marketing"],c:0,cat:"Industry Knowledge"},
-  {q:"How should you position Fresha's 'no contract' model against locked-in competitors?",a:["As a sign of confidence — Fresha earns your business monthly rather than trapping you","As a temporary promotion","As standard in the industry","As a benefit only for small businesses"],c:0,cat:"Objection Handling"},
-  {q:"What is the primary revenue impact of reducing no-shows by just 10% for an average salon?",a:["Thousands in recovered revenue annually","Minimal impact on the bottom line","Only affects scheduling efficiency","Primarily saves time, not money"],c:0,cat:"Industry Knowledge"},
-  {q:"How does Fresha's gift card feature create a dual revenue advantage?",a:["Upfront payment plus high redemption rates that drive new or repeat visits","Gift cards are pure profit","They replace the need for marketing","They allow dynamic pricing"],c:0,cat:"Product Knowledge"}
+  {q:"'السوق يأخذ 20%' — أفضل رد؟",a:["فقط للعملاء الجدد — العائدون مجانيون","تخفيض العمولة","المنافسون يتقاضون أكثر","الخروج من السوق"],c:0,cat:"التعامل مع الاعتراضات"},
+  {q:"الفرق بين التأثير التقني وتأثير الأعمال؟",a:["تقني = عمليات؛ أعمال = إيرادات ونمو","تقني = IT؛ أعمال = مالية","مصطلحات متبادلة","تقني = قصير؛ أعمال = طويل المدى"],c:0,cat:"بيع GAP"},
+  {q:"ما يميز Enterprise عن Team؟",a:["أسعار مخصصة لأكثر من 20 عضواً","أجهزة مجانية","لا عمولة سوق","رسائل مجانية غير محدودة"],c:0,cat:"معرفة المنتج"},
+  {q:"ميزة رئيسية للدفع المتكامل؟",a:["لا رسوم شهرية للجهاز ومعدلات تنافسية","صفر عمولة","أجهزة مجانية","خصومات حجم"],c:0,cat:"معرفة المنتج"},
+  {q:"'عملائي لا يحجزون إلكترونياً.' أفضل رد GAP؟",a:["استكشاف الإيرادات المفقودة خارج ساعات العمل","إحصائيات الحجز","قول إنه المستقبل","تجربة مجانية"],c:0,cat:"بيع GAP"},
+  {q:"كيف يخلق السوق دورة نمو مستدامة؟",a:["العملاء الجدد يصبحون عائدين مجانيين","الإعلانات تجلب حركة مرور","التواصل يخلق إحالات","الولاء يحافظ على العملاء"],c:0,cat:"معرفة المنتج"},
+  {q:"'جربنا برنامجاً ولم ينجح.' كيف تتعامل؟",a:["اسأل ما لم ينجح لتوضيح اختلافات فريشا","ضمان أن فريشا أفضل","تجربة ممتدة","شهادات"],c:0,cat:"التعامل مع الاعتراضات"},
+  {q:"حجم سوق التجميل العالمي؟",a:["أكثر من 500 مليار $/سنة","أكثر من 100 مليار","أكثر من تريليون","أكثر من 250 مليار"],c:0,cat:"معرفة السوق"},
+  {q:"لماذا نحسب تكلفة عدم التصرف؟",a:["يجعل المشكلة ملموسة ويخلق إلحاحاً","تكتيك ضغط","يُظهر القيمة","يحسب العائد"],c:0,cat:"بيع GAP"},
+  {q:"كيف تفيد العضويات الجميع؟",a:["إيرادات متكررة + أسعار مخفضة للمخلصين","خدمات مجانية VIP","حجوزات غير محدودة","جدولة أولوية"],c:0,cat:"معرفة المنتج"},
+  {q:"مقاومة الموظفين للتكنولوجيا — النهج؟",a:["الاعتراف وإبراز التصميم البسيط والدعم","سيتكيفون بسرعة","تجاهل والتركيز على الفوائد","تدريب فردي"],c:0,cat:"التعامل مع الاعتراضات"},
+  {q:"اتجاه التحول الرقمي في التجميل؟",a:["حجز إلكتروني ودفع بدون تلامس وتجارب شخصية","لوائح حكومية","انخفاض الإيجارات","تسويق المؤثرين"],c:0,cat:"معرفة السوق"},
+  {q:"كيف تضع نموذج بدون عقد؟",a:["علامة ثقة — فريشا تكسب ولاءك كل شهر","عرض مؤقت","معيار الصناعة","للشركات الصغيرة فقط"],c:0,cat:"التعامل مع الاعتراضات"},
+  {q:"تأثير تقليل عدم الحضور بنسبة 10%؟",a:["آلاف مستردة سنوياً","تأثير ضئيل","كفاءة الجدولة فقط","يوفر الوقت"],c:0,cat:"معرفة السوق"},
+  {q:"الميزة المزدوجة لبطاقات الهدايا؟",a:["دفع فوري + زيارات جديدة","ربح صافٍ","تحل محل التسويق","تسعير ديناميكي"],c:0,cat:"معرفة المنتج"}
 ]
 };
 
@@ -260,7 +238,7 @@ const PHONE_FRIENDS = [
   {name:"Marco — Beauty Industry Analyst",confidence:"I think"}
 ];
 
-const CAT_COLORS = {"Product Knowledge":"var(--cat-product)","GAP Selling":"var(--cat-gap)","Beauty & Wellness":"var(--cat-beauty)","Objection Handling":"var(--cat-objection)","Industry Knowledge":"var(--cat-competitor)"};
+const CAT_COLORS = {"معرفة المنتج":"var(--cat-product)","بيع GAP":"var(--cat-gap)","التجميل والعافية":"var(--cat-beauty)","التعامل مع الاعتراضات":"var(--cat-objection)","معرفة السوق":"var(--cat-competitor)"};
 
 /* ===== STATE ===== */
 let state = {
@@ -736,7 +714,7 @@ function showResult(won, message){
   if(answered >= 10) unlockAchievement('mill_10','High Roller','Reached question 10 in Millionaire');
 
   rs.innerHTML = `
-    <h2 class="fade-in">${won ? '🏆 بطل!' : '💫 انتهت اللعبة'}</h2>
+    <h2 class="fade-in">${won ? '🏆 CHAMPION!' : '💫 Game Over'}</h2>
     <div class="prize fade-in" style="animation-delay:0.2s">${message}</div>
     <div class="stats fade-in" style="animation-delay:0.4s">
       <p>You walked away with: <strong>${prize}</strong></p>

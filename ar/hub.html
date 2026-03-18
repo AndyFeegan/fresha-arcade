@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>أركيد فريشا للتدريب — المقر</title>
+<title>Fresha Sales Arcade — HQ</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -86,29 +86,7 @@ a{color:var(--accent-primary);text-decoration:none}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .fade-in{animation:fadeIn 0.4s ease both}
 .hidden{display:none!important}
-
-/* RTL Arabic Overrides */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap');
-[dir="rtl"]{--font-display:'Noto Kufi Arabic','Playfair Display',serif;--font-body:'Noto Naskh Arabic','DM Sans',sans-serif}
-[dir="rtl"] .top-bar{flex-direction:row-reverse}
-[dir="rtl"] .top-bar-btns,[dir="rtl"] .top-bar-right{flex-direction:row-reverse}
-[dir="rtl"] .player-info{flex-direction:row-reverse}
-[dir="rtl"] .answer-btn{text-align:right;flex-direction:row-reverse}
-[dir="rtl"] .answer-btn .letter{margin-left:10px;margin-right:0}
-[dir="rtl"] .ladder-step{flex-direction:row-reverse}
-[dir="rtl"] .ladder-step .step-num{margin-left:8px;margin-right:0}
-[dir="rtl"] .ladder-step .step-prize{margin-right:auto;margin-left:0}
-[dir="rtl"] .lifelines{flex-direction:row-reverse}
-[dir="rtl"] .modal-ans-btn{text-align:right;flex-direction:row-reverse}
-[dir="rtl"] .key-btn{font-family:'Noto Naskh Arabic','DM Sans',sans-serif}
-[dir="rtl"] .game-card{text-align:right}
-[dir="rtl"] .game-card .play-arrow{left:16px;right:auto;transform:translateY(-50%) scaleX(-1)}
-[dir="rtl"] .profile-card{flex-direction:row-reverse}
-[dir="rtl"] .stat-box{direction:rtl}
-[dir="rtl"] .category-badge{border-left:none;border-right:3px solid var(--accent-primary)}
-[dir="rtl"] .cat-badge{border-left:none;border-right:3px solid var(--accent-primary)}
-[dir="rtl"] .lb-table th,[dir="rtl"] .lb-table td{text-align:right}
-
+@import url('https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap');[dir="rtl"]{--font-display:'Noto Kufi Arabic',serif;--font-body:'Noto Naskh Arabic',sans-serif}[dir="rtl"] .top-bar,[dir="rtl"] .top-bar-btns,[dir="rtl"] .top-bar-right,[dir="rtl"] .player-info{flex-direction:row-reverse}[dir="rtl"] .answer-btn,[dir="rtl"] .modal-ans-btn{text-align:right;flex-direction:row-reverse}[dir="rtl"] .ladder-step{flex-direction:row-reverse}[dir="rtl"] .ladder-step .step-num{margin-left:8px;margin-right:0}[dir="rtl"] .ladder-step .step-prize{margin-right:auto;margin-left:0}[dir="rtl"] .game-card{text-align:right}[dir="rtl"] .profile-card{flex-direction:row-reverse}[dir="rtl"] .category-badge,[dir="rtl"] .cat-badge{border-left:none;border-right:3px solid var(--accent-primary)}[dir="rtl"] .lb-table th,[dir="rtl"] .lb-table td{text-align:right}
 </style>
 </head>
 <body>
@@ -268,11 +246,11 @@ function renderProfile(p){
 function renderGames(){
   const prog=loadProgress();
   const games=[
-    {id:'millionaire',icon:'💰',title:'Who Wants to Be a Fresha Millionaire?',desc:'15 سؤال، مساعدات، وفرصة للفوز بمليون جنيه افتراضي.',href:'millionaire.html',
+    {id:'millionaire',icon:'💰',title:'Who Wants to Be a Fresha Millionaire?',desc:'15 سؤال، مساعدات، وفرصة للفوز بمليون نقطة.',href:'millionaire.html',
       stat:prog.millionaire?`Played ${prog.millionaire.gamesPlayed||0} times`:'لم تُلعب بعد'},
     {id:'hangman',icon:'🎯',title:'Fresha Hangman',desc:'Guess the sales term. 6 mistakes and you\'re out! Streak multiplier up to x3.',href:'hangman.html',
       stat:prog.hangman?`Best score: ${prog.hangman.bestScore||0}`:'لم تُلعب بعد'},
-    {id:'trivia',icon:'🎲',title:'Fresha Trivia Board',desc:'ارمِ النرد، أجب على الأسئلة، اجمع 5 قطع للفوز.',href:'trivia-board.html',
+    {id:'trivia',icon:'🎲',title:'Fresha Trivia Board',desc:'Roll the dice, answer questions, collect all 5 category wedges to win.',href:'trivia-board.html',
       stat:prog.trivia?`Wins: ${prog.trivia.wins||0}`:'لم تُلعب بعد'}
   ];
 

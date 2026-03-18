@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>لعبة الكلمات - فريشا</title>
+<title>Fresha Hangman</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -82,29 +82,7 @@ a{color:var(--accent-primary);text-decoration:none}
 @keyframes xpFloat{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-40px)}}
 .xp-float{position:fixed;pointer-events:none;font-weight:700;color:var(--accent-glow);font-size:1.1rem;z-index:999;animation:xpFloat 1.2s ease forwards}
 .hidden{display:none!important}
-
-/* RTL Arabic Overrides */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap');
-[dir="rtl"]{--font-display:'Noto Kufi Arabic','Playfair Display',serif;--font-body:'Noto Naskh Arabic','DM Sans',sans-serif}
-[dir="rtl"] .top-bar{flex-direction:row-reverse}
-[dir="rtl"] .top-bar-btns,[dir="rtl"] .top-bar-right{flex-direction:row-reverse}
-[dir="rtl"] .player-info{flex-direction:row-reverse}
-[dir="rtl"] .answer-btn{text-align:right;flex-direction:row-reverse}
-[dir="rtl"] .answer-btn .letter{margin-left:10px;margin-right:0}
-[dir="rtl"] .ladder-step{flex-direction:row-reverse}
-[dir="rtl"] .ladder-step .step-num{margin-left:8px;margin-right:0}
-[dir="rtl"] .ladder-step .step-prize{margin-right:auto;margin-left:0}
-[dir="rtl"] .lifelines{flex-direction:row-reverse}
-[dir="rtl"] .modal-ans-btn{text-align:right;flex-direction:row-reverse}
-[dir="rtl"] .key-btn{font-family:'Noto Naskh Arabic','DM Sans',sans-serif}
-[dir="rtl"] .game-card{text-align:right}
-[dir="rtl"] .game-card .play-arrow{left:16px;right:auto;transform:translateY(-50%) scaleX(-1)}
-[dir="rtl"] .profile-card{flex-direction:row-reverse}
-[dir="rtl"] .stat-box{direction:rtl}
-[dir="rtl"] .category-badge{border-left:none;border-right:3px solid var(--accent-primary)}
-[dir="rtl"] .cat-badge{border-left:none;border-right:3px solid var(--accent-primary)}
-[dir="rtl"] .lb-table th,[dir="rtl"] .lb-table td{text-align:right}
-
+@import url('https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap');[dir="rtl"]{--font-display:'Noto Kufi Arabic',serif;--font-body:'Noto Naskh Arabic',sans-serif}[dir="rtl"] .top-bar,[dir="rtl"] .top-bar-btns,[dir="rtl"] .top-bar-right,[dir="rtl"] .player-info{flex-direction:row-reverse}[dir="rtl"] .answer-btn,[dir="rtl"] .modal-ans-btn{text-align:right;flex-direction:row-reverse}[dir="rtl"] .ladder-step{flex-direction:row-reverse}[dir="rtl"] .ladder-step .step-num{margin-left:8px;margin-right:0}[dir="rtl"] .ladder-step .step-prize{margin-right:auto;margin-left:0}[dir="rtl"] .game-card{text-align:right}[dir="rtl"] .profile-card{flex-direction:row-reverse}[dir="rtl"] .category-badge,[dir="rtl"] .cat-badge{border-left:none;border-right:3px solid var(--accent-primary)}[dir="rtl"] .lb-table th,[dir="rtl"] .lb-table td{text-align:right}
 </style>
 </head>
 <body>
@@ -135,36 +113,36 @@ a{color:var(--accent-primary);text-decoration:none}
 
 <script>
 const WORDS = [
-  {word:"BLAST CAMPAIGNS",clue:"Fresha's marketing message feature for reaching clients"},
-  {word:"SMART PRICING",clue:"Adjust prices based on demand and time slots"},
-  {word:"CONSULTATION FORMS",clue:"Gather client details before their appointment"},
-  {word:"FRESHA PAYMENTS",clue:"Integrated payment processing system"},
-  {word:"FRESHA POS",clue:"In-store point of sale terminal"},
-  {word:"FRESHA CAPITAL",clue:"Business loans and financial advances for partners"},
-  {word:"WALLETS",clue:"Clients store payment details for faster checkout"},
-  {word:"MEMBERSHIPS",clue:"Recurring revenue model with discounted rates for loyal clients"},
-  {word:"GIFT CARDS",clue:"Prepaid cards that drive new and repeat visits"},
-  {word:"REPORTS AND INSIGHTS",clue:"Track business performance and analytics"},
-  {word:"MARKETPLACE",clue:"Where new clients discover and book your services"},
-  {word:"NO SHOW",clue:"A missed appointment that costs revenue"},
-  {word:"GAP SELLING",clue:"Sales methodology focused on the gap between current and future state"},
-  {word:"ONLINE BOOKING",clue:"Clients schedule appointments through the web"},
-  {word:"DEPOSIT",clue:"Upfront payment to reduce no-shows"},
-  {word:"RETENTION",clue:"Keeping existing clients coming back"},
-  {word:"UPSELLING",clue:"Recommending additional services to increase revenue"},
-  {word:"CLIENT JOURNEY",clue:"The complete experience from booking to follow-up"},
-  {word:"COMMISSION",clue:"Percentage fee charged on marketplace bookings"},
-  {word:"FREE TRIAL",clue:"Seven days to try Fresha at no cost"},
-  {word:"TEAM PLAN",clue:"Fresha subscription tier for businesses with staff"},
-  {word:"ENTERPRISE",clue:"Custom Fresha plan for large organisations"},
-  {word:"INDEPENDENT",clue:"Fresha plan for solo professionals"},
-  {word:"CANCELLATION POLICY",clue:"Rules that protect businesses from last-minute changes"},
-  {word:"AUTOMATED REMINDERS",clue:"Messages sent automatically to reduce missed appointments"},
-  {word:"CURRENT STATE",clue:"In GAP selling where the prospect is right now"},
-  {word:"BUSINESS IMPACT",clue:"How a problem affects revenue and growth"},
-  {word:"OBJECTION HANDLING",clue:"Technique for addressing prospect concerns"},
-  {word:"COST OF INACTION",clue:"The price of not making a change in GAP selling"},
-  {word:"WAITLIST",clue:"Feature that fills cancelled slots automatically"}
+  {word:"BLAST CAMPAIGNS",clue:"ميزة التسويق في فريشا للوصول إلى العملاء"},
+  {word:"SMART PRICING",clue:"تعديل الأسعار بناءً على الطلب والأوقات"},
+  {word:"CONSULTATION FORMS",clue:"جمع بيانات العميل قبل الموعد"},
+  {word:"FRESHA PAYMENTS",clue:"نظام معالجة المدفوعات المتكامل"},
+  {word:"FRESHA POS",clue:"محطة نقطة البيع في المتجر"},
+  {word:"FRESHA CAPITAL",clue:"قروض وسلف مالية للشركاء"},
+  {word:"WALLETS",clue:"يخزن العملاء بيانات الدفع للدفع السريع"},
+  {word:"MEMBERSHIPS",clue:"نموذج إيرادات متكررة بأسعار مخفضة للعملاء المخلصين"},
+  {word:"GIFT CARDS",clue:"بطاقات مسبقة الدفع تولد زيارات جديدة"},
+  {word:"REPORTS AND INSIGHTS",clue:"تتبع أداء العمل والتحليلات"},
+  {word:"MARKETPLACE",clue:"حيث يكتشف العملاء الجدد خدماتك ويحجزونها"},
+  {word:"NO SHOW",clue:"موعد فائت يكلف الإيرادات"},
+  {word:"GAP SELLING",clue:"منهجية بيع تركز على الفجوة بين الحالة الحالية والمستقبلية"},
+  {word:"ONLINE BOOKING",clue:"يحجز العملاء المواعيد عبر الإنترنت"},
+  {word:"DEPOSIT",clue:"دفعة مقدمة لتقليل عدم الحضور"},
+  {word:"RETENTION",clue:"الحفاظ على عودة العملاء الحاليين"},
+  {word:"UPSELLING",clue:"التوصية بخدمات إضافية لزيادة الإيرادات"},
+  {word:"CLIENT JOURNEY",clue:"التجربة الكاملة من الحجز إلى المتابعة"},
+  {word:"COMMISSION",clue:"نسبة مئوية تُفرض على حجوزات السوق"},
+  {word:"FREE TRIAL",clue:"سبعة أيام لتجربة فريشا مجاناً"},
+  {word:"TEAM PLAN",clue:"خطة اشتراك فريشا للشركات التي لديها موظفون"},
+  {word:"ENTERPRISE",clue:"خطة فريشا مخصصة للمؤسسات الكبيرة"},
+  {word:"INDEPENDENT",clue:"خطة فريشا للمحترفين المستقلين"},
+  {word:"CANCELLATION POLICY",clue:"قواعد تحمي الشركات من التغييرات في اللحظة الأخيرة"},
+  {word:"AUTOMATED REMINDERS",clue:"رسائل ترسل تلقائياً لتقليل المواعيد الفائتة"},
+  {word:"CURRENT STATE",clue:"في بيع GAP أين يقف العميل المحتمل حالياً"},
+  {word:"BUSINESS IMPACT",clue:"كيف تؤثر المشكلة على الإيرادات والنمو"},
+  {word:"OBJECTION HANDLING",clue:"تقنية للتعامل مع مخاوف العملاء المحتملين"},
+  {word:"COST OF INACTION",clue:"ثمن عدم التغيير — مفهوم أساسي في بيع GAP"},
+  {word:"WAITLIST",clue:"ميزة تملأ المواعيد الملغاة تلقائياً"}
 ];
 
 const HANGMAN_PARTS = [
@@ -339,7 +317,7 @@ function roundWon(){
     <div class="round-result"><h3 style="color:var(--correct)">✓ Correct!</h3>
     ${perfect?'<p style="color:var(--accent-glow)">⭐ PERFECT — No mistakes!</p>':''}
     <p>+${pts} XP (x${mult.toFixed(1)} streak)</p>
-    <button class="btn-primary" onclick="advanceRound()" style="margin-top:12px">← الكلمة التالية</button></div>`;
+    <button class="btn-primary" onclick="advanceRound()" style="margin-top:12px">Next Word →</button></div>`;
 }
 
 function roundLost(){
@@ -356,7 +334,7 @@ function roundLost(){
   document.getElementById('roundResult').innerHTML=`
     <div class="round-result"><h3 style="color:var(--wrong)">✗ Not this time</h3>
     <div class="word-reveal">The word was: ${state.currentWord.word}</div>
-    <button class="btn-primary" onclick="advanceRound()" style="margin-top:12px">← الكلمة التالية</button></div>`;
+    <button class="btn-primary" onclick="advanceRound()" style="margin-top:12px">Next Word →</button></div>`;
 }
 
 function advanceRound(){state.round++;nextRound()}

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Tablero Trivia Fresha</title>
+<title>Fresha Trivia Board</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -81,7 +81,7 @@ a{color:var(--accent-primary);text-decoration:none}
 <body>
 <canvas class="particles-canvas" id="particles"></canvas>
 <div class="top-bar">
-  <a href="hub.html" class="logo">🏛 Fresha Arcade</a>
+  <a href="hub.html" class="logo">🏛 Arcade Fresha</a>
   <div class="player-info"><span id="playerName">—</span><div class="xp-mini"><div class="xp-mini-fill" id="xpMiniFill" style="width:0%"></div></div></div>
   <div class="top-bar-btns"><button onclick="toggleSound()" id="soundBtn">🔊</button><button onclick="location.href='hub.html'">CG</button></div>
 </div>
@@ -100,7 +100,7 @@ a{color:var(--accent-primary);text-decoration:none}
     <button class="dice-btn" id="diceBtn" onclick="rollDice()">🎲 Tirar Dado</button>
     <div class="dice-display" id="diceDisplay">—</div>
   </div>
-  <div class="info-text" id="infoText">¡Tira el dado para comenzar tu aventura!</div>
+  <div class="info-text" id="infoText">¡Tira el dado para comenzar!</div>
 </div>
 
 <div id="questionModal" class="modal-overlay hidden"></div>
@@ -109,32 +109,32 @@ a{color:var(--accent-primary);text-decoration:none}
 <script>
 /* ===== CATEGORIES & QUESTIONS ===== */
 const CATEGORIES = [
-  {name:"Product Knowledge",color:"#6db4ff",short:"PK"},
-  {name:"GAP Selling",color:"#7eddaa",short:"GAP"},
-  {name:"Beauty & Wellness",color:"#e098cc",short:"B&W"},
-  {name:"Objection Handling",color:"#f0c86a",short:"OBJ"},
-  {name:"Industry Knowledge",color:"#b49af0",short:"IND"}
+  {name:"Conocimiento del Producto",color:"#6db4ff",short:"PK"},
+  {name:"Venta GAP",color:"#7eddaa",short:"GAP"},
+  {name:"Belleza y Bienestar",color:"#e098cc",short:"B&W"},
+  {name:"Manejo de Objeciones",color:"#f0c86a",short:"OBJ"},
+  {name:"Conocimiento del Mercado",color:"#b49af0",short:"IND"}
 ];
 
 const QUESTIONS = {
-"Product Knowledge":[
-  {q:"What is the name of Fresha's integrated payment system?",a:["Fresha Payments","Fresha Pay","Smart Checkout","PayFresha"],c:0},
-  {q:"What commission does Fresha charge on new marketplace clients?",a:["20%","15%","10%","25%"],c:0},
-  {q:"Does Fresha require a long-term contract?",a:["No — month-to-month","Yes — 12 months","Yes — 6 months","Only for Enterprise"],c:0},
-  {q:"What does Fresha charge for returning marketplace clients?",a:["Nothing","10%","5%","A flat fee"],c:0},
-  {q:"Which Fresha plan is for solo professionals?",a:["Independent","Starter","Solo","Basic"],c:0},
-  {q:"Which Fresha plan is for multi-member teams?",a:["Team","Professional","Growth","Business"],c:0},
-  {q:"How long is Fresha's free trial?",a:["7 days","14 days","30 days","3 days"],c:0},
-  {q:"What was Fresha originally called?",a:["Shedul","Schedulr","BookNow","FreshBook"],c:0},
-  {q:"What feature sends marketing messages to clients?",a:["Blast campaigns","Smart emails","Auto messages","Marketing suite"],c:0},
-  {q:"Which feature provides business loans?",a:["Fresha Capital","Fresha Finance","Fresha Lending","Business Boost"],c:0},
-  {q:"What is Fresha POS used for?",a:["In-store payments","Online bookings","Staff scheduling","Marketing"],c:0},
-  {q:"What do Consultation forms help with?",a:["Gathering client info before appointments","Processing payments","Marketing automation","Staff training"],c:0},
-  {q:"How many businesses use Fresha?",a:["Over 120,000","Over 50,000","Over 200,000","Over 80,000"],c:0},
-  {q:"What does Smart pricing allow?",a:["Adjusting prices by demand and time","Matching competitor prices","Auto-applying discounts","Seasonal pricing only"],c:0},
-  {q:"What does Wallets let clients do?",a:["Store payment details for fast checkout","Save appointment history","Track loyalty points","View receipts"],c:0}
+"Conocimiento del Producto":[
+  {q:"¿Cómo se llama el sistema de pago integrado de Fresha?",a:["Fresha Payments","Fresha Pay","Smart Checkout","PayFresha"],c:0},
+  {q:"¿Cuál es la comisión para nuevos clientes del marketplace?",a:["20%","15%","10%","25%"],c:0},
+  {q:"¿Fresha requiere un contrato a largo plazo?",a:["No — mensual sin compromiso","Sí — 12 meses","Sí — 6 meses","Solo para Enterprise"],c:0},
+  {q:"¿Qué cobra Fresha por los clientes que regresan?",a:["Nada","10%","5%","Una tarifa fija"],c:0},
+  {q:"¿Qué plan es para profesionales independientes?",a:["Independent","Starter","Solo","Basic"],c:0},
+  {q:"¿Qué plan es para equipos multi-miembro?",a:["Team","Professional","Growth","Business"],c:0},
+  {q:"¿Cuánto dura la prueba gratuita?",a:["7 días","14 días","30 días","3 días"],c:0},
+  {q:"¿Cuál era el nombre original de Fresha?",a:["Shedul","Schedulr","BookNow","FreshBook"],c:0},
+  {q:"¿Qué función envía mensajes de marketing?",a:["Blast campaigns","Smart emails","Auto messages","Marketing suite"],c:0},
+  {q:"¿Qué función ofrece préstamos?",a:["Fresha Capital","Fresha Finance","Fresha Lending","Business Boost"],c:0},
+  {q:"¿Para qué sirve Fresha POS?",a:["Pagos en tienda","Reservas en línea","Programación del personal","Marketing"],c:0},
+  {q:"¿Para qué sirven los Consultation forms?",a:["Gathering client info before appointments","Processing payments","Marketing automation","Staff training"],c:0},
+  {q:"¿Cuántos negocios usan Fresha?",a:["Over 120,000","Over 50,000","Over 200,000","Over 80,000"],c:0},
+  {q:"¿Qué permite Smart pricing?",a:["Adjusting prices by demand and time","Matching competitor prices","Auto-applying discounts","Seasonal pricing only"],c:0},
+  {q:"¿Qué permite Wallets a los clientes?",a:["Store payment details for fast checkout","Save appointment history","Track loyalty points","View receipts"],c:0}
 ],
-"GAP Selling":[
+"Venta GAP":[
   {q:"What does the 'gap' in GAP selling refer to?",a:["Gap between current and desired state","Growth and profitability","General account profiling","Goal attainment process"],c:0},
   {q:"What is the first step in GAP selling?",a:["Understand the current state","Present pricing","Demo the product","Identify the budget"],c:0},
   {q:"Why is discovering the 'current state' so important?",a:["It reveals the gap that creates urgency","It helps with pricing","It identifies the decision maker","It builds rapport"],c:0},
@@ -151,7 +151,7 @@ const QUESTIONS = {
   {q:"What is a 'decision criteria' in GAP selling?",a:["What the buyer uses to evaluate solutions","The price point","The contract terms","The implementation timeline"],c:0},
   {q:"What should you never do in a GAP selling discovery?",a:["Jump to your solution before understanding the gap","Ask too many questions","Take notes","Discuss timelines"],c:0}
 ],
-"Beauty & Wellness":[
+"Belleza y Bienestar":[
   {q:"What percentage of clients typically rebook before leaving?",a:["Less than 30%","Over 60%","About 50%","Over 80%"],c:0},
   {q:"What is the average client retention rate in beauty?",a:["60-70%","80-90%","40-50%","30-40%"],c:0},
   {q:"What is the most common reason for client churn in salons?",a:["Forgetting to rebook","Poor service quality","Price increases","Relocation"],c:0},
@@ -168,7 +168,7 @@ const QUESTIONS = {
   {q:"How do cancellation policies protect businesses?",a:["Compensate for lost appointment time","Punish all clients","Increase revenue directly","Replace marketing"],c:0},
   {q:"What is the trend in salon appointment length?",a:["Shorter, more frequent visits","Longer sessions only","No change","Less frequent, longer visits"],c:0}
 ],
-"Objection Handling":[
+"Manejo de Objeciones":[
   {q:"'Your marketplace takes 20%' — best response?",a:["It only applies to new clients you'd never have had","Offer to reduce it","Explain competitors charge more","Suggest opting out"],c:0},
   {q:"'I need to think about it' — best approach?",a:["Identify what concerns remain","Give them a deadline","Follow up next week","Repeat key features"],c:0},
   {q:"'We tried software before and it didn't work' — best response?",a:["Ask what specifically didn't work","Guarantee Fresha is better","Offer extended trial","Show testimonials"],c:0},
@@ -185,7 +185,7 @@ const QUESTIONS = {
   {q:"'Payments processing is too expensive' — response?",a:["Compare rates to their current provider — often Fresha is cheaper","Offer free processing","Skip this topic","Agree it's expensive"],c:0},
   {q:"What's the key principle in all objection handling?",a:["Listen, acknowledge, then address with evidence","Overcome objections quickly","Avoid objections entirely","Change the subject"],c:0}
 ],
-"Industry Knowledge":[
+"Conocimiento del Mercado":[
   {q:"What is the estimated global beauty market size?",a:["Over $500 billion","Over $100 billion","Over $1 trillion","Over $250 billion"],c:0},
   {q:"How many bookings has Fresha processed?",a:["Over 1 billion","Over 500 million","Over 2 billion","Over 250 million"],c:0},
   {q:"What is a top revenue concern for beauty businesses?",a:["No-shows and cancellations","Rent increases","Product costs","Staff turnover"],c:0},
@@ -280,7 +280,7 @@ function startGame(){
   document.getElementById('resultScreen').classList.add('hidden');
   updateWedgesUI();drawBoard();
   document.getElementById('diceBtn').disabled=false;
-  document.getElementById('infoText').textContent='¡Tira el dado para comenzar tu aventura!';
+  document.getElementById('infoText').textContent='¡Tira el dado para comenzar!';
 }
 
 function updateWedgesUI(){
@@ -439,7 +439,7 @@ function showQuestion(catName, isWedge){
       <span class="letter">${letters[displayIdx]}</span>${q.a[origIdx]}</button>`;
   });
   html+=`</div><div class="modal-result" id="modalResult"></div><div class="modal-continue hidden" id="modalContinue">
-    <button onclick="closeModal()">Continuar →</button></div></div>`;
+    <button onclick="closeModal()">Continue →</button></div></div>`;
 
   modal.innerHTML=html;
   modal.classList.remove('hidden');

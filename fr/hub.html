@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Arcade Commerciale Fresha — QG</title>
+<title>Fresha Sales Arcade — HQ</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -92,7 +92,7 @@ a{color:var(--accent-primary);text-decoration:none}
 <canvas class="particles-canvas" id="particles"></canvas>
 
 <div class="top-bar" id="topBar">
-  <div class="logo">🏛 Fresha Arcade</div>
+  <div class="logo">🏛 Arcade Fresha</div>
   <div class="top-bar-right">
     <select id="langSelect" onchange="switchLang(this.value)">
       <option value="en" selected>🇬🇧 English</option>
@@ -107,7 +107,7 @@ a{color:var(--accent-primary);text-decoration:none}
 
 <div id="loginScreen" class="login-screen hidden">
   <h1>🏛 Arcade de Formation<br>Commerciale Fresha</h1>
-  <p class="subtitle">Aiguisez vos compétences commerciales avec des jeux interactifs. Grimpez les rangs de Stagiaire à Grand Maître.</p>
+  <p class="subtitle">Aiguisez vos compétences commerciales. Grimpez de Stagiaire à Grand Maître.</p>
   <input type="text" id="nameInput" placeholder="Votre nom de code agent…" maxlength="20" autofocus>
   <button onclick="doLogin()">Entrer au QG</button>
 </div>
@@ -245,11 +245,11 @@ function renderProfile(p){
 function renderGames(){
   const prog=loadProgress();
   const games=[
-    {id:'millionaire',icon:'💰',title:'Who Wants to Be a Fresha Millionaire?',desc:'15 questions, jokers et une chance de gagner 1M points.',href:'millionaire.html',
+    {id:'millionaire',icon:'💰',title:'Who Wants to Be a Fresha Millionaire?',desc:'15 questions, jokers et la chance de gagner 1M points.',href:'millionaire.html',
       stat:prog.millionaire?`Played ${prog.millionaire.gamesPlayed||0} times`:'Pas encore joué'},
-    {id:'hangman',icon:'🎯',title:'Fresha Hangman',desc:'Devinez le terme. 6 erreurs max ! Multiplicateur de série jusqu\'à x3.',href:'hangman.html',
+    {id:'hangman',icon:'🎯',title:'Fresha Hangman',desc:'Guess the sales term. 6 mistakes and you\'re out! Streak multiplier up to x3.',href:'hangman.html',
       stat:prog.hangman?`Best score: ${prog.hangman.bestScore||0}`:'Pas encore joué'},
-    {id:'trivia',icon:'🎲',title:'Fresha Trivia Board',desc:'Lancez le dé, répondez, collectez les 5 jetons pour gagner.',href:'trivia-board.html',
+    {id:'trivia',icon:'🎲',title:'Fresha Trivia Board',desc:'Roll the dice, answer questions, collect all 5 category wedges to win.',href:'trivia-board.html',
       stat:prog.trivia?`Wins: ${prog.trivia.wins||0}`:'Pas encore joué'}
   ];
 

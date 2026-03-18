@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ahorcado Fresha</title>
+<title>Fresha Hangman</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -87,7 +87,7 @@ a{color:var(--accent-primary);text-decoration:none}
 <body>
 <canvas class="particles-canvas" id="particles"></canvas>
 <div class="top-bar">
-  <a href="hub.html" class="logo">🏛 Fresha Arcade</a>
+  <a href="hub.html" class="logo">🏛 Arcade Fresha</a>
   <div class="player-info"><span id="playerName">—</span><div class="xp-mini"><div class="xp-mini-fill" id="xpMiniFill" style="width:0%"></div></div></div>
   <div class="top-bar-btns"><button onclick="toggleSound()" id="soundBtn">🔊</button><button onclick="location.href='hub.html'">CG</button></div>
 </div>
@@ -112,36 +112,36 @@ a{color:var(--accent-primary);text-decoration:none}
 
 <script>
 const WORDS = [
-  {word:"BLAST CAMPAIGNS",clue:"Fresha's marketing message feature for reaching clients"},
-  {word:"SMART PRICING",clue:"Adjust prices based on demand and time slots"},
-  {word:"CONSULTATION FORMS",clue:"Gather client details before their appointment"},
-  {word:"FRESHA PAYMENTS",clue:"Integrated payment processing system"},
-  {word:"FRESHA POS",clue:"In-store point of sale terminal"},
-  {word:"FRESHA CAPITAL",clue:"Business loans and financial advances for partners"},
-  {word:"WALLETS",clue:"Clients store payment details for faster checkout"},
-  {word:"MEMBERSHIPS",clue:"Recurring revenue model with discounted rates for loyal clients"},
-  {word:"GIFT CARDS",clue:"Prepaid cards that drive new and repeat visits"},
-  {word:"REPORTS AND INSIGHTS",clue:"Track business performance and analytics"},
-  {word:"MARKETPLACE",clue:"Where new clients discover and book your services"},
-  {word:"NO SHOW",clue:"A missed appointment that costs revenue"},
-  {word:"GAP SELLING",clue:"Sales methodology focused on the gap between current and future state"},
-  {word:"ONLINE BOOKING",clue:"Clients schedule appointments through the web"},
-  {word:"DEPOSIT",clue:"Upfront payment to reduce no-shows"},
-  {word:"RETENTION",clue:"Keeping existing clients coming back"},
-  {word:"UPSELLING",clue:"Recommending additional services to increase revenue"},
-  {word:"CLIENT JOURNEY",clue:"The complete experience from booking to follow-up"},
-  {word:"COMMISSION",clue:"Percentage fee charged on marketplace bookings"},
-  {word:"FREE TRIAL",clue:"Seven days to try Fresha at no cost"},
-  {word:"TEAM PLAN",clue:"Fresha subscription tier for businesses with staff"},
-  {word:"ENTERPRISE",clue:"Custom Fresha plan for large organisations"},
-  {word:"INDEPENDENT",clue:"Fresha plan for solo professionals"},
-  {word:"CANCELLATION POLICY",clue:"Rules that protect businesses from last-minute changes"},
-  {word:"AUTOMATED REMINDERS",clue:"Messages sent automatically to reduce missed appointments"},
-  {word:"CURRENT STATE",clue:"In GAP selling where the prospect is right now"},
-  {word:"BUSINESS IMPACT",clue:"How a problem affects revenue and growth"},
-  {word:"OBJECTION HANDLING",clue:"Technique for addressing prospect concerns"},
-  {word:"COST OF INACTION",clue:"The price of not making a change in GAP selling"},
-  {word:"WAITLIST",clue:"Feature that fills cancelled slots automatically"}
+  {word:"BLAST CAMPAIGNS",clue:"Función de marketing de Fresha para llegar a los clientes"},
+  {word:"SMART PRICING",clue:"Ajustar precios según demanda y horarios"},
+  {word:"CONSULTATION FORMS",clue:"Recopilar datos del cliente antes de la cita"},
+  {word:"FRESHA PAYMENTS",clue:"Sistema de procesamiento de pagos integrado"},
+  {word:"FRESHA POS",clue:"Terminal de punto de venta en tienda"},
+  {word:"FRESHA CAPITAL",clue:"Préstamos y anticipos financieros para socios"},
+  {word:"WALLETS",clue:"Los clientes guardan datos de pago para checkout rápido"},
+  {word:"MEMBERSHIPS",clue:"Modelo de ingresos recurrentes con tarifas para fieles"},
+  {word:"GIFT CARDS",clue:"Tarjetas prepago que generan visitas nuevas y repetidas"},
+  {word:"REPORTS AND INSIGHTS",clue:"Seguir el rendimiento y análisis del negocio"},
+  {word:"MARKETPLACE",clue:"Donde nuevos clientes descubren y reservan tus servicios"},
+  {word:"NO SHOW",clue:"Una cita perdida que cuesta ingresos"},
+  {word:"GAP SELLING",clue:"Metodología de venta enfocada en la brecha entre estado actual y futuro"},
+  {word:"ONLINE BOOKING",clue:"Los clientes programan citas por Internet"},
+  {word:"DEPOSIT",clue:"Pago anticipado para reducir inasistencias"},
+  {word:"RETENTION",clue:"Mantener a los clientes existentes regresando"},
+  {word:"UPSELLING",clue:"Recomendar servicios adicionales para aumentar ingresos"},
+  {word:"CLIENT JOURNEY",clue:"La experiencia completa desde la reserva hasta el seguimiento"},
+  {word:"COMMISSION",clue:"Porcentaje cobrado en las reservas del marketplace"},
+  {word:"FREE TRIAL",clue:"Siete días para probar Fresha sin costo"},
+  {word:"TEAM PLAN",clue:"Plan de suscripción Fresha para negocios con personal"},
+  {word:"ENTERPRISE",clue:"Plan Fresha personalizado para grandes organizaciones"},
+  {word:"INDEPENDENT",clue:"Plan Fresha para profesionales independientes"},
+  {word:"CANCELLATION POLICY",clue:"Reglas que protegen de cambios de último momento"},
+  {word:"AUTOMATED REMINDERS",clue:"Mensajes enviados automáticamente para reducir inasistencias"},
+  {word:"CURRENT STATE",clue:"En venta GAP donde el prospecto se encuentra ahora"},
+  {word:"BUSINESS IMPACT",clue:"Cómo un problema afecta los ingresos y el crecimiento"},
+  {word:"OBJECTION HANDLING",clue:"Técnica para abordar las preocupaciones del prospecto"},
+  {word:"COST OF INACTION",clue:"El precio de no hacer un cambio — concepto clave de venta GAP"},
+  {word:"WAITLIST",clue:"Función que llena automáticamente las citas canceladas"}
 ];
 
 const HANGMAN_PARTS = [
@@ -316,7 +316,7 @@ function roundWon(){
     <div class="round-result"><h3 style="color:var(--correct)">✓ Correct!</h3>
     ${perfect?'<p style="color:var(--accent-glow)">⭐ PERFECT — No mistakes!</p>':''}
     <p>+${pts} XP (x${mult.toFixed(1)} streak)</p>
-    <button class="btn-primary" onclick="advanceRound()" style="margin-top:12px">Siguiente →</button></div>`;
+    <button class="btn-primary" onclick="advanceRound()" style="margin-top:12px">Next Word →</button></div>`;
 }
 
 function roundLost(){
@@ -333,7 +333,7 @@ function roundLost(){
   document.getElementById('roundResult').innerHTML=`
     <div class="round-result"><h3 style="color:var(--wrong)">✗ Not this time</h3>
     <div class="word-reveal">The word was: ${state.currentWord.word}</div>
-    <button class="btn-primary" onclick="advanceRound()" style="margin-top:12px">Siguiente →</button></div>`;
+    <button class="btn-primary" onclick="advanceRound()" style="margin-top:12px">Next Word →</button></div>`;
 }
 
 function advanceRound(){state.round++;nextRound()}

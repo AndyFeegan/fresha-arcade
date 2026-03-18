@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>لوحة المعلومات - فريشا</title>
+<title>Fresha Trivia Board</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -76,29 +76,7 @@ a{color:var(--accent-primary);text-decoration:none}
 @keyframes xpFloat{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-40px)}}
 .xp-float{position:fixed;pointer-events:none;font-weight:700;color:var(--accent-glow);font-size:1.1rem;z-index:999;animation:xpFloat 1.2s ease forwards}
 .hidden{display:none!important}
-
-/* RTL Arabic Overrides */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap');
-[dir="rtl"]{--font-display:'Noto Kufi Arabic','Playfair Display',serif;--font-body:'Noto Naskh Arabic','DM Sans',sans-serif}
-[dir="rtl"] .top-bar{flex-direction:row-reverse}
-[dir="rtl"] .top-bar-btns,[dir="rtl"] .top-bar-right{flex-direction:row-reverse}
-[dir="rtl"] .player-info{flex-direction:row-reverse}
-[dir="rtl"] .answer-btn{text-align:right;flex-direction:row-reverse}
-[dir="rtl"] .answer-btn .letter{margin-left:10px;margin-right:0}
-[dir="rtl"] .ladder-step{flex-direction:row-reverse}
-[dir="rtl"] .ladder-step .step-num{margin-left:8px;margin-right:0}
-[dir="rtl"] .ladder-step .step-prize{margin-right:auto;margin-left:0}
-[dir="rtl"] .lifelines{flex-direction:row-reverse}
-[dir="rtl"] .modal-ans-btn{text-align:right;flex-direction:row-reverse}
-[dir="rtl"] .key-btn{font-family:'Noto Naskh Arabic','DM Sans',sans-serif}
-[dir="rtl"] .game-card{text-align:right}
-[dir="rtl"] .game-card .play-arrow{left:16px;right:auto;transform:translateY(-50%) scaleX(-1)}
-[dir="rtl"] .profile-card{flex-direction:row-reverse}
-[dir="rtl"] .stat-box{direction:rtl}
-[dir="rtl"] .category-badge{border-left:none;border-right:3px solid var(--accent-primary)}
-[dir="rtl"] .cat-badge{border-left:none;border-right:3px solid var(--accent-primary)}
-[dir="rtl"] .lb-table th,[dir="rtl"] .lb-table td{text-align:right}
-
+@import url('https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap');[dir="rtl"]{--font-display:'Noto Kufi Arabic',serif;--font-body:'Noto Naskh Arabic',sans-serif}[dir="rtl"] .top-bar,[dir="rtl"] .top-bar-btns,[dir="rtl"] .top-bar-right,[dir="rtl"] .player-info{flex-direction:row-reverse}[dir="rtl"] .answer-btn,[dir="rtl"] .modal-ans-btn{text-align:right;flex-direction:row-reverse}[dir="rtl"] .ladder-step{flex-direction:row-reverse}[dir="rtl"] .ladder-step .step-num{margin-left:8px;margin-right:0}[dir="rtl"] .ladder-step .step-prize{margin-right:auto;margin-left:0}[dir="rtl"] .game-card{text-align:right}[dir="rtl"] .profile-card{flex-direction:row-reverse}[dir="rtl"] .category-badge,[dir="rtl"] .cat-badge{border-left:none;border-right:3px solid var(--accent-primary)}[dir="rtl"] .lb-table th,[dir="rtl"] .lb-table td{text-align:right}
 </style>
 </head>
 <body>
@@ -132,32 +110,32 @@ a{color:var(--accent-primary);text-decoration:none}
 <script>
 /* ===== CATEGORIES & QUESTIONS ===== */
 const CATEGORIES = [
-  {name:"Product Knowledge",color:"#6db4ff",short:"PK"},
-  {name:"GAP Selling",color:"#7eddaa",short:"GAP"},
-  {name:"Beauty & Wellness",color:"#e098cc",short:"B&W"},
-  {name:"Objection Handling",color:"#f0c86a",short:"OBJ"},
-  {name:"Industry Knowledge",color:"#b49af0",short:"IND"}
+  {name:"معرفة المنتج",color:"#6db4ff",short:"PK"},
+  {name:"بيع GAP",color:"#7eddaa",short:"GAP"},
+  {name:"التجميل والعافية",color:"#e098cc",short:"B&W"},
+  {name:"التعامل مع الاعتراضات",color:"#f0c86a",short:"OBJ"},
+  {name:"معرفة السوق",color:"#b49af0",short:"IND"}
 ];
 
 const QUESTIONS = {
-"Product Knowledge":[
-  {q:"What is the name of Fresha's integrated payment system?",a:["Fresha Payments","Fresha Pay","Smart Checkout","PayFresha"],c:0},
-  {q:"What commission does Fresha charge on new marketplace clients?",a:["20%","15%","10%","25%"],c:0},
-  {q:"Does Fresha require a long-term contract?",a:["No — month-to-month","Yes — 12 months","Yes — 6 months","Only for Enterprise"],c:0},
-  {q:"What does Fresha charge for returning marketplace clients?",a:["Nothing","10%","5%","A flat fee"],c:0},
-  {q:"Which Fresha plan is for solo professionals?",a:["Independent","Starter","Solo","Basic"],c:0},
-  {q:"Which Fresha plan is for multi-member teams?",a:["Team","Professional","Growth","Business"],c:0},
-  {q:"How long is Fresha's free trial?",a:["7 days","14 days","30 days","3 days"],c:0},
-  {q:"What was Fresha originally called?",a:["Shedul","Schedulr","BookNow","FreshBook"],c:0},
-  {q:"What feature sends marketing messages to clients?",a:["Blast campaigns","Smart emails","Auto messages","Marketing suite"],c:0},
-  {q:"Which feature provides business loans?",a:["Fresha Capital","Fresha Finance","Fresha Lending","Business Boost"],c:0},
-  {q:"What is Fresha POS used for?",a:["In-store payments","Online bookings","Staff scheduling","Marketing"],c:0},
-  {q:"What do Consultation forms help with?",a:["Gathering client info before appointments","Processing payments","Marketing automation","Staff training"],c:0},
-  {q:"How many businesses use Fresha?",a:["Over 120,000","Over 50,000","Over 200,000","Over 80,000"],c:0},
-  {q:"What does Smart pricing allow?",a:["Adjusting prices by demand and time","Matching competitor prices","Auto-applying discounts","Seasonal pricing only"],c:0},
-  {q:"What does Wallets let clients do?",a:["Store payment details for fast checkout","Save appointment history","Track loyalty points","View receipts"],c:0}
+"معرفة المنتج":[
+  {q:"ما اسم نظام الدفع المتكامل في فريشا؟",a:["Fresha Payments","Fresha Pay","Smart Checkout","PayFresha"],c:0},
+  {q:"ما هي عمولة فريشا على العملاء الجدد عبر السوق؟",a:["20%","15%","10%","25%"],c:0},
+  {q:"هل تتطلب فريشا عقداً طويل الأجل؟",a:["لا — شهري بدون التزام","نعم — 12 شهراً","نعم — 6 أشهر","فقط لخطة Enterprise"],c:0},
+  {q:"ماذا تفرض فريشا على العملاء العائدين؟",a:["لا شيء","10%","5%","رسوم ثابتة"],c:0},
+  {q:"ما هي خطة فريشا للمحترفين المستقلين؟",a:["Independent","Starter","Solo","Basic"],c:0},
+  {q:"ما هي خطة فريشا للفرق متعددة الأعضاء؟",a:["Team","Professional","Growth","Business"],c:0},
+  {q:"كم مدة الفترة التجريبية المجانية؟",a:["7 أيام","14 يوماً","30 يوماً","3 أيام"],c:0},
+  {q:"ما كان اسم فريشا الأصلي؟",a:["Shedul","Schedulr","BookNow","FreshBook"],c:0},
+  {q:"ما الميزة التي ترسل رسائل تسويقية؟",a:["Blast campaigns","Smart emails","Auto messages","Marketing suite"],c:0},
+  {q:"ما الميزة التي توفر القروض؟",a:["Fresha Capital","Fresha Finance","Fresha Lending","Business Boost"],c:0},
+  {q:"ما هو استخدام Fresha POS؟",a:["مدفوعات في المتجر","حجوزات إلكترونية","جدولة الموظفين","Marketing"],c:0},
+  {q:"ما هو دور نماذج الاستشارة؟",a:["Gathering client info before appointments","Processing payments","Marketing automation","Staff training"],c:0},
+  {q:"كم عدد الشركات التي تستخدم فريشا؟",a:["Over 120,000","Over 50,000","Over 200,000","Over 80,000"],c:0},
+  {q:"ماذا يتيح Smart pricing؟",a:["Adjusting prices by demand and time","Matching competitor prices","Auto-applying discounts","Seasonal pricing only"],c:0},
+  {q:"ماذا تتيح Wallets للعملاء؟",a:["Store payment details for fast checkout","Save appointment history","Track loyalty points","View receipts"],c:0}
 ],
-"GAP Selling":[
+"بيع GAP":[
   {q:"What does the 'gap' in GAP selling refer to?",a:["Gap between current and desired state","Growth and profitability","General account profiling","Goal attainment process"],c:0},
   {q:"What is the first step in GAP selling?",a:["Understand the current state","Present pricing","Demo the product","Identify the budget"],c:0},
   {q:"Why is discovering the 'current state' so important?",a:["It reveals the gap that creates urgency","It helps with pricing","It identifies the decision maker","It builds rapport"],c:0},
@@ -174,7 +152,7 @@ const QUESTIONS = {
   {q:"What is a 'decision criteria' in GAP selling?",a:["What the buyer uses to evaluate solutions","The price point","The contract terms","The implementation timeline"],c:0},
   {q:"What should you never do in a GAP selling discovery?",a:["Jump to your solution before understanding the gap","Ask too many questions","Take notes","Discuss timelines"],c:0}
 ],
-"Beauty & Wellness":[
+"التجميل والعافية":[
   {q:"What percentage of clients typically rebook before leaving?",a:["Less than 30%","Over 60%","About 50%","Over 80%"],c:0},
   {q:"What is the average client retention rate in beauty?",a:["60-70%","80-90%","40-50%","30-40%"],c:0},
   {q:"What is the most common reason for client churn in salons?",a:["Forgetting to rebook","Poor service quality","Price increases","Relocation"],c:0},
@@ -191,7 +169,7 @@ const QUESTIONS = {
   {q:"How do cancellation policies protect businesses?",a:["Compensate for lost appointment time","Punish all clients","Increase revenue directly","Replace marketing"],c:0},
   {q:"What is the trend in salon appointment length?",a:["Shorter, more frequent visits","Longer sessions only","No change","Less frequent, longer visits"],c:0}
 ],
-"Objection Handling":[
+"التعامل مع الاعتراضات":[
   {q:"'Your marketplace takes 20%' — best response?",a:["It only applies to new clients you'd never have had","Offer to reduce it","Explain competitors charge more","Suggest opting out"],c:0},
   {q:"'I need to think about it' — best approach?",a:["Identify what concerns remain","Give them a deadline","Follow up next week","Repeat key features"],c:0},
   {q:"'We tried software before and it didn't work' — best response?",a:["Ask what specifically didn't work","Guarantee Fresha is better","Offer extended trial","Show testimonials"],c:0},
@@ -208,7 +186,7 @@ const QUESTIONS = {
   {q:"'Payments processing is too expensive' — response?",a:["Compare rates to their current provider — often Fresha is cheaper","Offer free processing","Skip this topic","Agree it's expensive"],c:0},
   {q:"What's the key principle in all objection handling?",a:["Listen, acknowledge, then address with evidence","Overcome objections quickly","Avoid objections entirely","Change the subject"],c:0}
 ],
-"Industry Knowledge":[
+"معرفة السوق":[
   {q:"What is the estimated global beauty market size?",a:["Over $500 billion","Over $100 billion","Over $1 trillion","Over $250 billion"],c:0},
   {q:"How many bookings has Fresha processed?",a:["Over 1 billion","Over 500 million","Over 2 billion","Over 250 million"],c:0},
   {q:"What is a top revenue concern for beauty businesses?",a:["No-shows and cancellations","Rent increases","Product costs","Staff turnover"],c:0},
@@ -462,7 +440,7 @@ function showQuestion(catName, isWedge){
       <span class="letter">${letters[displayIdx]}</span>${q.a[origIdx]}</button>`;
   });
   html+=`</div><div class="modal-result" id="modalResult"></div><div class="modal-continue hidden" id="modalContinue">
-    <button onclick="closeModal()">← متابعة</button></div></div>`;
+    <button onclick="closeModal()">Continue →</button></div></div>`;
 
   modal.innerHTML=html;
   modal.classList.remove('hidden');

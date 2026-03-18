@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Qui Veut Gagner des Millions Fresha?</title>
+<title>Who Wants to Be a Fresha Millionaire?</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -123,7 +123,7 @@ a{color:var(--accent-primary);text-decoration:none}
 
 <!-- TOP BAR -->
 <div class="top-bar" id="topBar">
-  <a href="hub.html" class="logo">🏛 Fresha Arcade</a>
+  <a href="hub.html" class="logo">🏛 Arcade Fresha</a>
   <div class="player-info" id="playerInfo">
     <span id="playerName">—</span>
     <div class="xp-mini"><div class="xp-mini-fill" id="xpMiniFill" style="width:0%"></div></div>
@@ -171,55 +171,55 @@ a{color:var(--accent-primary);text-decoration:none}
 /* ===== QUESTIONS DATABASE ===== */
 const QUESTIONS = {
 easy: [
-  {q:"What is the name of Fresha's integrated payment processing system?",a:["Fresha Payments","Fresha Pay","Smart Checkout","Cash Manager"],c:0,cat:"Product Knowledge"},
-  {q:"What is the commission fee Fresha charges for new clients booked through the marketplace?",a:["20%","15%","10%","25%"],c:0,cat:"Product Knowledge"},
-  {q:"How long is Fresha's free trial?",a:["7 days","14 days","30 days","3 days"],c:0,cat:"Product Knowledge"},
-  {q:"What was Fresha's original name before rebranding?",a:["Shedul","Schedulr","BookNow","FreshBook"],c:0,cat:"Product Knowledge"},
-  {q:"How many businesses use Fresha worldwide?",a:["Over 120,000","Over 50,000","Over 200,000","Over 80,000"],c:0,cat:"Product Knowledge"},
-  {q:"What does Fresha charge for returning clients booked via the marketplace?",a:["Nothing — it's free","10% commission","5% commission","A flat fee"],c:0,cat:"Product Knowledge"},
-  {q:"In GAP selling, what does the 'gap' refer to?",a:["Gap between current and desired state","Growth opportunity analysis","General account profiling","Goal attainment process"],c:0,cat:"GAP Selling"},
-  {q:"Does Fresha require a long-term contract?",a:["No — it's month-to-month with no contract","Yes — 12 month minimum","Yes — 6 month minimum","Only for Enterprise plans"],c:0,cat:"Product Knowledge"},
-  {q:"Which Fresha feature allows businesses to send marketing messages to their clients?",a:["Blast campaigns","Smart emails","Auto messages","Marketing suite"],c:0,cat:"Product Knowledge"},
-  {q:"How many professionals use the Fresha platform?",a:["Over 450,000","Over 200,000","Over 700,000","Over 100,000"],c:0,cat:"Product Knowledge"},
-  {q:"What is the first step in GAP selling when engaging a new prospect?",a:["Understand their current state","Present pricing immediately","Demo the product","Identify their budget"],c:0,cat:"GAP Selling"},
-  {q:"Which feature does Fresha use for managing client payments in-store?",a:["Fresha POS","Fresha Pay","Smart Checkout","Cash Manager"],c:0,cat:"Product Knowledge"},
-  {q:"What type of forms does Fresha offer for gathering client details before appointments?",a:["Consultation forms","Intake surveys","Client questionnaires","Registration forms"],c:0,cat:"Product Knowledge"},
-  {q:"Approximately how many bookings have been processed through Fresha?",a:["Over 1 billion","Over 500 million","Over 2 billion","Over 250 million"],c:0,cat:"Industry Knowledge"},
-  {q:"What is the average client retention rate in the beauty and wellness industry?",a:["Around 60-70%","Around 80-90%","Around 40-50%","Around 30-40%"],c:0,cat:"Beauty & Wellness"}
+  {q:"Comment s'appelle le système de paiement intégré de Fresha ?",a:["Fresha Payments","Fresha Pay","Smart Checkout","Cash Manager"],c:0,cat:"Connaissance Produit"},
+  {q:"Quel est le taux de commission pour les nouveaux clients du marketplace ?",a:["20%","15%","10%","25%"],c:0,cat:"Connaissance Produit"},
+  {q:"Quelle est la durée de l'essai gratuit Fresha ?",a:["7 jours","14 jours","30 jours","3 jours"],c:0,cat:"Connaissance Produit"},
+  {q:"Quel était le nom original de Fresha ?",a:["Shedul","Schedulr","BookNow","FreshBook"],c:0,cat:"Connaissance Produit"},
+  {q:"Combien d'entreprises utilisent Fresha ?",a:["Plus de 120 000","Plus de 50 000","Plus de 200 000","Plus de 80 000"],c:0,cat:"Connaissance Produit"},
+  {q:"Que facture Fresha pour les clients qui reviennent via le marketplace ?",a:["Rien — c'est gratuit","10% de commission","5% de commission","Un forfait fixe"],c:0,cat:"Connaissance Produit"},
+  {q:"Dans la vente GAP, que signifie la 'faille' ?",a:["L'écart entre l'état actuel et souhaité","Analyse des opportunités de croissance","Profilage général du compte","Processus d'atteinte des objectifs"],c:0,cat:"Vente GAP"},
+  {q:"Fresha exige-t-il un contrat à long terme ?",a:["Non — mensuel sans engagement","Oui — 12 mois minimum","Oui — 6 mois minimum","Uniquement pour Enterprise"],c:0,cat:"Connaissance Produit"},
+  {q:"Quelle fonctionnalité permet d'envoyer des messages marketing ?",a:["Blast campaigns","Smart emails","Auto messages","Marketing suite"],c:0,cat:"Connaissance Produit"},
+  {q:"Combien de professionnels utilisent Fresha ?",a:["Plus de 450 000","Plus de 200 000","Plus de 700 000","Plus de 100 000"],c:0,cat:"Connaissance Produit"},
+  {q:"Quelle est la première étape de la vente GAP ?",a:["Comprendre l'état actuel","Présenter les prix","Faire une démo","Identifier le budget"],c:0,cat:"Vente GAP"},
+  {q:"Quelle fonctionnalité gère les paiements en magasin ?",a:["Fresha POS","Fresha Pay","Smart Checkout","Cash Manager"],c:0,cat:"Connaissance Produit"},
+  {q:"Quel type de formulaires Fresha propose pour les clients ?",a:["Consultation forms","Formulaires d'accueil","Questionnaires","Formulaires d'inscription"],c:0,cat:"Connaissance Produit"},
+  {q:"Combien de réservations ont été traitées via Fresha ?",a:["Plus d'1 milliard","Plus de 500 millions","Plus de 2 milliards","Plus de 250 millions"],c:0,cat:"Connaissance du Marché"},
+  {q:"Quel est le taux moyen de fidélisation en beauté ?",a:["Environ 60-70%","Environ 80-90%","Environ 40-50%","Environ 30-40%"],c:0,cat:"Beauté et Bien-être"}
 ],
 medium: [
-  {q:"Which Fresha plan is designed for solo professionals?",a:["Independent","Starter","Solo","Basic"],c:0,cat:"Product Knowledge"},
-  {q:"Which Fresha plan is designed for businesses with multiple team members?",a:["Team","Professional","Growth","Business"],c:0,cat:"Product Knowledge"},
-  {q:"In GAP selling, why is the 'current state' discovery most important?",a:["It reveals the gap that creates urgency to change","It helps with pricing negotiations","It identifies the decision maker","It builds rapport quickly"],c:0,cat:"GAP Selling"},
-  {q:"What type of pricing is available for large businesses with over 20 team members?",a:["Custom Enterprise pricing","The same Team plan rate","A volume discount","Free for large teams"],c:0,cat:"Product Knowledge"},
-  {q:"Which Fresha feature provides business loans and financial advances?",a:["Fresha Capital","Fresha Finance","Fresha Lending","Business Boost"],c:0,cat:"Product Knowledge"},
-  {q:"What does 'Smart pricing' in Fresha allow businesses to do?",a:["Adjust prices based on demand and time slots","Automatically match competitor prices","Offer loyalty discounts","Set seasonal pricing schedules"],c:0,cat:"Product Knowledge"},
-  {q:"A salon owner says 'We already use paper diaries and it works fine.' What GAP selling approach works best?",a:["Explore the hidden costs and time lost with manual systems","Immediately show Fresha's features","Offer a discount to switch","Tell them paper systems are outdated"],c:0,cat:"Objection Handling"},
-  {q:"What percentage of beauty clients typically book their next appointment before leaving the salon?",a:["Less than 30%","Over 60%","About 50%","Over 80%"],c:0,cat:"Beauty & Wellness"},
-  {q:"Which Fresha feature lets clients store payment details for faster checkout?",a:["Wallets","Quick Pay","Saved Cards","Express Checkout"],c:0,cat:"Product Knowledge"},
-  {q:"In GAP selling, what is the 'Technical Impact' of a problem?",a:["How the problem affects day-to-day operations","The cost of new technology","IT infrastructure requirements","Software compatibility issues"],c:0,cat:"GAP Selling"},
-  {q:"What is a common reason salons struggle with no-shows?",a:["No automated reminders or deposit requirements","Clients forget because they're too busy","Salons don't confirm bookings","Weather-related cancellations"],c:0,cat:"Beauty & Wellness"},
-  {q:"What does Fresha's 'Reports and Insights' feature primarily help with?",a:["Tracking business performance and analytics","Filing tax returns","Managing social media","Designing marketing materials"],c:0,cat:"Product Knowledge"},
-  {q:"When handling the objection 'I need to think about it,' what is the best approach?",a:["Identify what specific concerns remain unaddressed","Give them a deadline for the offer","Follow up in a week","Repeat the key features again"],c:0,cat:"Objection Handling"},
-  {q:"What channels can clients use to book through Fresha for free?",a:["Instagram, Facebook, Google, and direct links","Only the Fresha marketplace","Only the business website","Only phone and walk-ins"],c:0,cat:"Product Knowledge"},
-  {q:"Which Fresha features help reduce no-shows?",a:["Automated reminders, deposits, and cancellation policies","Social media integration only","Staff scheduling alerts","Loyalty point deductions"],c:0,cat:"Product Knowledge"}
+  {q:"Quel plan est pour les professionnels indépendants ?",a:["Independent","Starter","Solo","Basic"],c:0,cat:"Connaissance Produit"},
+  {q:"Quel plan est pour les équipes multi-membres ?",a:["Team","Professional","Growth","Business"],c:0,cat:"Connaissance Produit"},
+  {q:"Pourquoi découvrir l'état actuel est si important en vente GAP ?",a:["Révèle l'écart qui crée l'urgence","Aide à la négociation","Identifie le décideur","Crée un lien rapide"],c:0,cat:"Vente GAP"},
+  {q:"Quel type de tarif pour les entreprises de plus de 20 membres ?",a:["Enterprise personnalisé","Le même tarif Team","Remise volume","Gratuit"],c:0,cat:"Connaissance Produit"},
+  {q:"Quelle fonctionnalité offre des prêts et avances ?",a:["Fresha Capital","Fresha Finance","Fresha Lending","Business Boost"],c:0,cat:"Connaissance Produit"},
+  {q:"Que permet Smart pricing ?",a:["Ajuster les prix selon la demande","Aligner sur les concurrents","Remises fidélité","Prix saisonniers uniquement"],c:0,cat:"Connaissance Produit"},
+  {q:"'On utilise un agenda papier.' Meilleure approche GAP ?",a:["Explorer les coûts cachés des systèmes manuels","Montrer les fonctionnalités","Offrir une remise","Dire que le papier est dépassé"],c:0,cat:"Gestion des Objections"},
+  {q:"Quel % de clients reprennent RDV avant de partir ?",a:["Moins de 30%","Plus de 60%","Environ 50%","Plus de 80%"],c:0,cat:"Beauté et Bien-être"},
+  {q:"Quelle fonctionnalité stocke les moyens de paiement des clients ?",a:["Wallets","Quick Pay","Saved Cards","Express Checkout"],c:0,cat:"Connaissance Produit"},
+  {q:"Qu'est-ce que l'Impact Technique en vente GAP ?",a:["Comment le problème affecte les opérations","Le coût de la technologie","Les besoins IT","La compatibilité logicielle"],c:0,cat:"Vente GAP"},
+  {q:"Pourquoi les salons ont des absences ?",a:["Pas de rappels automatisés ni dépôts","Clients trop occupés","Pas de confirmation","Annulations météo"],c:0,cat:"Beauté et Bien-être"},
+  {q:"À quoi sert Reports and Insights ?",a:["Suivre les performances de l'entreprise","Déclarations fiscales","Gérer les réseaux sociaux","Supports marketing"],c:0,cat:"Connaissance Produit"},
+  {q:"Face à 'J'ai besoin d'y réfléchir', meilleur approche ?",a:["Identifier les préoccupations non résolues","Date limite","Relancer dans une semaine","Répéter les fonctionnalités"],c:0,cat:"Gestion des Objections"},
+  {q:"Quels canaux de réservation gratuits via Fresha ?",a:["Instagram, Facebook, Google et liens directs","Uniquement marketplace","Uniquement le site web","Uniquement téléphone"],c:0,cat:"Connaissance Produit"},
+  {q:"Quelles fonctionnalités réduisent les absences ?",a:["Rappels, dépôts et politiques d'annulation","Réseaux sociaux uniquement","Alertes planning","Points fidélité"],c:0,cat:"Connaissance Produit"}
 ],
 hard: [
-  {q:"A prospect says 'Your marketplace takes 20% — that's too expensive.' What's the strongest rebuttal?",a:["The 20% only applies to new clients you wouldn't have had otherwise — returning clients are free","Offer to reduce the commission rate","Explain that competitors charge more","Suggest they opt out of the marketplace"],c:0,cat:"Objection Handling"},
-  {q:"In GAP selling, what's the difference between 'Technical Impact' and 'Business Impact'?",a:["Technical affects daily operations; Business affects revenue, growth, or strategic goals","Technical is about IT; Business is about finance","They are interchangeable terms","Technical is short-term; Business is long-term"],c:0,cat:"GAP Selling"},
-  {q:"What makes Fresha's Enterprise plan different from the Team plan?",a:["Custom rates and solutions for high-volume businesses with 20+ team members","It includes free hardware","It removes marketplace commission","It offers unlimited free messages"],c:0,cat:"Product Knowledge"},
-  {q:"What is a key advantage of Fresha's integrated payment processing for salons?",a:["No monthly terminal rental fees and competitive transaction rates","Zero commission on all transactions","Free hardware with every signup","Volume-based discounts that reduce to zero"],c:0,cat:"Product Knowledge"},
-  {q:"A salon owner says 'My clients don't book online.' What's the best GAP selling response?",a:["Explore how much revenue they might be losing from after-hours booking demand","Show them statistics about online booking","Tell them online booking is the future","Offer a free trial to test it"],c:0,cat:"GAP Selling"},
-  {q:"How does Fresha's marketplace model create a sustainable growth flywheel for businesses?",a:["New clients acquired through marketplace become free returning clients, compounding growth","Marketplace advertising drives traffic to the business website","Social media integration creates viral referrals","Loyalty programs keep clients engaged"],c:0,cat:"Product Knowledge"},
-  {q:"A prospect says 'We tried software before and it didn't work.' How should you handle this?",a:["Ask what specifically didn't work to understand their concerns and position Fresha's differences","Guarantee Fresha is better than what they used","Offer extended free trial","Show testimonials from similar businesses"],c:0,cat:"Objection Handling"},
-  {q:"What is the estimated global beauty and wellness market size?",a:["Over $500 billion annually","Over $100 billion annually","Over $1 trillion annually","Over $250 billion annually"],c:0,cat:"Industry Knowledge"},
-  {q:"In GAP selling, why should you quantify the 'cost of inaction' for a prospect?",a:["It makes the problem tangible and creates urgency by showing the financial impact of not changing","It's a scare tactic that pressures them to buy","It demonstrates product value","It helps calculate ROI for the proposal"],c:0,cat:"GAP Selling"},
-  {q:"How do Fresha Memberships benefit both the business and the client?",a:["Recurring revenue for the business and discounted rates for loyal clients","Free services for VIP clients","Unlimited bookings per month","Priority scheduling and free products"],c:0,cat:"Product Knowledge"},
-  {q:"A prospect is concerned about staff resistance to new technology. What approach works best?",a:["Acknowledge the concern, highlight Fresha's intuitive design and offer onboarding support","Tell them staff will adapt quickly","Skip the concern and focus on business benefits","Offer to train each staff member individually"],c:0,cat:"Objection Handling"},
-  {q:"What key trend is driving digital transformation in the beauty and wellness industry?",a:["Consumer demand for online booking, contactless payments, and personalised experiences","Government regulations requiring digital records","Decreasing cost of salon rent","Social media influencer marketing"],c:0,cat:"Industry Knowledge"},
-  {q:"How should you position Fresha's 'no contract' model against locked-in competitors?",a:["As a sign of confidence — Fresha earns your business monthly rather than trapping you","As a temporary promotion","As standard in the industry","As a benefit only for small businesses"],c:0,cat:"Objection Handling"},
-  {q:"What is the primary revenue impact of reducing no-shows by just 10% for an average salon?",a:["Thousands in recovered revenue annually","Minimal impact on the bottom line","Only affects scheduling efficiency","Primarily saves time, not money"],c:0,cat:"Industry Knowledge"},
-  {q:"How does Fresha's gift card feature create a dual revenue advantage?",a:["Upfront payment plus high redemption rates that drive new or repeat visits","Gift cards are pure profit","They replace the need for marketing","They allow dynamic pricing"],c:0,cat:"Product Knowledge"}
+  {q:"'Votre marketplace prend 20%' — meilleure réponse ?",a:["Ne s'applique qu'aux nouveaux clients — les récurrents sont gratuits","Réduire la commission","Les concurrents facturent plus","Quitter le marketplace"],c:0,cat:"Gestion des Objections"},
+  {q:"Différence entre Impact Technique et Impact Business ?",a:["Technique = opérations ; Business = CA et croissance","Technique = IT ; Business = finance","Termes interchangeables","Technique = court terme ; Business = long terme"],c:0,cat:"Vente GAP"},
+  {q:"Qu'est-ce qui différencie Enterprise de Team ?",a:["Tarifs personnalisés pour plus de 20 membres","Matériel gratuit inclus","Pas de commission marketplace","Messages illimités gratuits"],c:0,cat:"Connaissance Produit"},
+  {q:"Avantage clé du paiement intégré Fresha ?",a:["Pas de frais mensuels de terminal et taux compétitifs","Zéro commission","Matériel gratuit","Remises volume à zéro"],c:0,cat:"Connaissance Produit"},
+  {q:"'Mes clients ne réservent pas en ligne.' Meilleure réponse GAP ?",a:["Explorer les revenus perdus hors heures d'ouverture","Statistiques de réservation en ligne","Dire que c'est l'avenir","Proposer un essai gratuit"],c:0,cat:"Vente GAP"},
+  {q:"Comment le marketplace crée un cercle vertueux ?",a:["Nouveaux clients deviennent des récurrents gratuits","Publicité génère du trafic","Réseaux sociaux créent des parrainages","Fidélité garde les clients"],c:0,cat:"Connaissance Produit"},
+  {q:"'On a déjà essayé un logiciel.' Comment répondre ?",a:["Demander ce qui n'a pas fonctionné pour positionner Fresha","Garantir que Fresha est meilleur","Essai prolongé","Témoignages"],c:0,cat:"Gestion des Objections"},
+  {q:"Taille du marché mondial beauté et bien-être ?",a:["Plus de 500 milliards $ par an","Plus de 100 milliards","Plus de 1 000 milliards","Plus de 250 milliards"],c:0,cat:"Connaissance du Marché"},
+  {q:"Pourquoi quantifier le coût de l'inaction en vente GAP ?",a:["Rend le problème concret et crée l'urgence","Tactique d'intimidation","Démontre la valeur","Calcule le ROI"],c:0,cat:"Vente GAP"},
+  {q:"Comment les Memberships profitent à tous ?",a:["Revenus récurrents + tarifs réduits pour fidèles","Services gratuits VIP","Réservations illimitées","Planning prioritaire"],c:0,cat:"Connaissance Produit"},
+  {q:"Résistance du personnel à la technologie — approche ?",a:["Reconnaître, mettre en avant le design intuitif et le support","Dire qu'ils s'adapteront","Ignorer et focus sur bénéfices","Former individuellement"],c:0,cat:"Gestion des Objections"},
+  {q:"Tendance clé de la transformation digitale en beauté ?",a:["Réservation en ligne, paiement sans contact, personnalisation","Réglementations","Baisse des loyers","Marketing d'influence"],c:0,cat:"Connaissance du Marché"},
+  {q:"Comment positionner le modèle sans contrat ?",a:["Signe de confiance — Fresha mérite votre fidélité chaque mois","Promotion temporaire","Standard du secteur","Pour petites entreprises uniquement"],c:0,cat:"Gestion des Objections"},
+  {q:"Impact de la réduction de 10% des absences ?",a:["Des milliers récupérés par an","Impact minimal","Efficacité du planning uniquement","Économise du temps"],c:0,cat:"Connaissance du Marché"},
+  {q:"Double avantage des cartes cadeaux Fresha ?",a:["Paiement immédiat + visites générées","Pur profit","Remplace le marketing","Tarification dynamique"],c:0,cat:"Connaissance Produit"}
 ]
 };
 
@@ -237,7 +237,7 @@ const PHONE_FRIENDS = [
   {name:"Marco — Beauty Industry Analyst",confidence:"I think"}
 ];
 
-const CAT_COLORS = {"Product Knowledge":"var(--cat-product)","GAP Selling":"var(--cat-gap)","Beauty & Wellness":"var(--cat-beauty)","Objection Handling":"var(--cat-objection)","Industry Knowledge":"var(--cat-competitor)"};
+const CAT_COLORS = {"Connaissance Produit":"var(--cat-product)","Vente GAP":"var(--cat-gap)","Beauté et Bien-être":"var(--cat-beauty)","Gestion des Objections":"var(--cat-objection)","Connaissance du Marché":"var(--cat-competitor)"};
 
 /* ===== STATE ===== */
 let state = {
@@ -713,7 +713,7 @@ function showResult(won, message){
   if(answered >= 10) unlockAchievement('mill_10','High Roller','Reached question 10 in Millionaire');
 
   rs.innerHTML = `
-    <h2 class="fade-in">${won ? '🏆 CHAMPION !' : '💫 Partie Terminée'}</h2>
+    <h2 class="fade-in">${won ? '🏆 CHAMPION!' : '💫 Game Over'}</h2>
     <div class="prize fade-in" style="animation-delay:0.2s">${message}</div>
     <div class="stats fade-in" style="animation-delay:0.4s">
       <p>You walked away with: <strong>${prize}</strong></p>
